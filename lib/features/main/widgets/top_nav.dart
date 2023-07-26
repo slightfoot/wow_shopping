@@ -5,6 +5,8 @@ import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/models/category_item.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
+export 'package:wow_shopping/models/category_item.dart';
+
 @immutable
 class TopNavBar extends StatelessWidget {
   const TopNavBar({

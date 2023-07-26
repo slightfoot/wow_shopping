@@ -29,41 +29,14 @@ class BottomNavBar extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                child: BottomNavButton(
-                  onPressed: onNavItemPressed,
-                  item: NavItem.home,
-                  selected: selected,
+              for (final item in NavItem.values) //
+                Expanded(
+                  child: BottomNavButton(
+                    onPressed: onNavItemPressed,
+                    item: item,
+                    selected: selected,
+                  ),
                 ),
-              ),
-              Expanded(
-                child: BottomNavButton(
-                  onPressed: onNavItemPressed,
-                  item: NavItem.categories,
-                  selected: selected,
-                ),
-              ),
-              Expanded(
-                child: BottomNavButton(
-                  onPressed: onNavItemPressed,
-                  item: NavItem.cart,
-                  selected: selected,
-                ),
-              ),
-              Expanded(
-                child: BottomNavButton(
-                  onPressed: onNavItemPressed,
-                  item: NavItem.wishlist,
-                  selected: selected,
-                ),
-              ),
-              Expanded(
-                child: BottomNavButton(
-                  onPressed: onNavItemPressed,
-                  item: NavItem.account,
-                  selected: selected,
-                ),
-              ),
             ],
           ),
         ),
