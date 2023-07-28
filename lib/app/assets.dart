@@ -1,7 +1,8 @@
 class Assets {
   const Assets._();
+  static const _assets = 'assets';
 
-  static const _images = 'assets/images';
+  static const _images = '$_assets/images';
   static const _categories = '$_images/categories';
   static const _icons = '$_images/icons';
   static const _nav = '$_images/nav';
@@ -51,4 +52,7 @@ class Assets {
   // Example Promos (should be on server)
   static const promo1 = '$_images/promos/promo_1.png';
   static const promo2 = '$_images/promos/promo_2.png';
+
+  // Example Products
+  static const productsData = '$_assets/products/products.json';
 }

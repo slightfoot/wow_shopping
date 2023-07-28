@@ -1,8 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart' hide TextDirection;
 import 'package:wow_shopping/app/theme.dart';
+import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
 import 'package:wow_shopping/features/splash/splash_screen.dart';
+
+const _appTitle = 'Shop Wow';
 
 class ShowWowApp extends StatefulWidget {
   const ShowWowApp({super.key});
@@ -16,30 +22,43 @@ class _ShowWowAppState extends State<ShowWowApp> {
 
   NavigatorState get navigatorState => _navigatorKey.currentState!;
 
+  late Future<Backend> _appLoader;
+
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-    Future.delayed(const Duration(milliseconds: 2000), () {
-      if (mounted) {
-        navigatorState.pushReplacementNamed('/main');
-      }
-    });
+    Intl.defaultLocale = PlatformDispatcher.instance.locale.toLanguageTag();
+    _appLoader = Backend.init();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: appOverlayDarkIcons,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        navigatorKey: _navigatorKey,
-        title: 'Shop Wow',
-        theme: generateLightTheme(),
-        initialRoute: '/',
-        routes: {
-          '/': (_) => const SplashScreen(),
-          '/main': (_) => const MainScreen(),
+      child: FutureBuilder<Backend>(
+        future: _appLoader,
+        builder: (BuildContext context, AsyncSnapshot<Backend> snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return Theme(
+              data: generateLightTheme(),
+              child: const Directionality(
+                textDirection: TextDirection.ltr,
+                child: SplashScreen(),
+              ),
+            );
+          } else {
+            return BackendInheritedWidget(
+              backend: snapshot.requireData,
+              child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                navigatorKey: _navigatorKey,
+                title: _appTitle,
+                theme: generateLightTheme(),
+                home: const MainScreen(),
+              ),
+            );
+          }
         },
       ),
     );
