@@ -20,7 +20,7 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
-      borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+      borderRadius: appButtonRadius,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
         onTap: () => onPressed(item),
@@ -35,6 +35,7 @@ class ProductCard extends StatelessWidget {
                   Positioned.fill(
                     child: Ink.image(
                       image: AssetImage(item.photo),
+                      fit: BoxFit.cover,
                     ),
                   ),
                   WishlistButton(item: item),

@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:wow_shopping/app/assets.dart';
+import 'package:wow_shopping/app/theme.dart';
+import 'package:wow_shopping/backend/backend.dart';
+import 'package:wow_shopping/features/wishlist/widgets/wishlist_item.dart';
+import 'package:wow_shopping/models/product_item.dart';
+import 'package:wow_shopping/widgets/app_button.dart';
+import 'package:wow_shopping/widgets/common.dart';
+import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
 @immutable
 class WishlistPage extends StatefulWidget {
@@ -9,16 +17,136 @@ class WishlistPage extends StatefulWidget {
 }
 
 class _WishlistPageState extends State<WishlistPage> {
+  var _wishlistItems = <ProductItem>[];
+  final _selectedItems = <String>{};
+
+  bool isSelected(ProductItem item) {
+    return _selectedItems.contains(item.id);
+  }
+
+  void setSelected(ProductItem item, bool selected) {
+    setState(() {
+      if (selected) {
+        _selectedItems.add(item.id);
+      } else {
+        _selectedItems.remove(item.id);
+      }
+    });
+  }
+
+  void toggleSelectAll() {
+    final allIds = _wishlistItems.map((el) => el.id).toList();
+    setState(() {
+      if (_selectedItems.containsAll(allIds)) {
+        _selectedItems.clear();
+      } else {
+        _selectedItems.addAll(allIds);
+      }
+    });
+  }
+
+  void _removeSelected() {
+    setState(() {
+      for (final selected in _selectedItems) {
+        wishlistRepo.removeToWishlist(selected);
+      }
+      _selectedItems.clear();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const SizedBox.expand(
+    return SizedBox.expand(
       child: Material(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text('Wishlist'),
-          ],
+        child: StreamBuilder<List<ProductItem>>(
+          initialData: wishlistRepo.currentWishlistItems,
+          stream: wishlistRepo.streamWishlistItems,
+          builder: (BuildContext context, AsyncSnapshot<List<ProductItem>> snapshot) {
+            _wishlistItems = snapshot.requireData.toList();
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TopNavBar(
+                  title: const Text('Wishlist'),
+                  actions: [
+                    TextButton(
+                      onPressed: toggleSelectAll,
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.white,
+                      ),
+                      child: const Text('Select All'),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: MediaQuery.removeViewPadding(
+                    context: context,
+                    removeTop: true,
+                    child: ListView.builder(
+                      padding: verticalPadding12,
+                      itemCount: _wishlistItems.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        final item = _wishlistItems[index];
+                        return Padding(
+                          padding: verticalPadding12,
+                          child: WishlistItem(
+                            item: item,
+                            onPressed: (item) {
+                              // FIXME:
+                            },
+                            selected: isSelected(item),
+                            onToggleSelection: setSelected,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                AnimatedSize(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.fastOutSlowIn,
+                  alignment: Alignment.topCenter,
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    heightFactor: _selectedItems.isEmpty ? 0.0 : 1.0,
+                    child: DecoratedBox(
+                      decoration: const BoxDecoration(
+                        color: appLightGreyColor,
+                        border: Border(
+                          top: BorderSide(color: appDividerColor, width: 2.0),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: allPadding24,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: AppButton(
+                                onPressed: _removeSelected,
+                                label: 'Remove',
+                                iconAsset: Assets.iconRemove,
+                              ),
+                            ),
+                            horizontalMargin16,
+                            Expanded(
+                              child: AppButton(
+                                onPressed: () {
+                                  // FIXME: implement Buy Now button
+                                },
+                                label: 'Buy now',
+                                iconAsset: Assets.iconBuy,
+                                style: AppButtonStyle.highlighted,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );

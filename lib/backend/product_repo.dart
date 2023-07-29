@@ -5,9 +5,9 @@ import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/models/product_item.dart';
 
 class ProductsRepo {
-  ProductsRepo(this.products);
+  ProductsRepo(this._products);
 
-  late List<ProductItem> products;
+  final List<ProductItem> _products;
 
   // TODO: Cache products
 
@@ -30,6 +30,16 @@ class ProductsRepo {
 
   Future<List<ProductItem>> fetchTopSelling() async {
     //await Future.delayed(const Duration(seconds: 3));
-    return products; // TODO: filter to top-selling only
+    return List.unmodifiable(_products); // TODO: filter to top-selling only
+  }
+
+  /// Find product from the top level products cache
+  ///
+  /// [id] for the product to fetch.
+  ProductItem findProduct(String id) {
+    return _products.firstWhere(
+      (product) => product.id == id,
+      orElse: () => ProductItem.none,
+    );
   }
 }

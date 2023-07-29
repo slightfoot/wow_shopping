@@ -6,6 +6,12 @@ extension BackendBuildContext on BuildContext {
   Backend get backend => BackendInheritedWidget.of(this, listen: false);
 }
 
+extension BackendState<T extends StatefulWidget> on State<T> {
+  ProductsRepo get productsRepo => context.backend.productsRepo;
+
+  WishlistRepo get wishlistRepo => context.backend.wishlistRepo;
+}
+
 class Backend {
   Backend._(
     this.productsRepo,
@@ -17,7 +23,7 @@ class Backend {
 
   static Future<Backend> init() async {
     final productsRepo = await ProductsRepo.create();
-    final wishlistRepo = await WishlistRepo.create();
+    final wishlistRepo = await WishlistRepo.create(productsRepo);
     return Backend._(
       productsRepo,
       wishlistRepo,

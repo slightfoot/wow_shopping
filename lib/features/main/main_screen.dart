@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wow_shopping/features/main/widgets/bottom_nav.dart';
+import 'package:wow_shopping/features/connection_monitor/connection_monitor.dart';
+import 'package:wow_shopping/features/main/widgets/bottom_nav_bar.dart';
 
 export 'package:wow_shopping/models/nav_item.dart';
 
@@ -27,14 +28,17 @@ class MainScreenState extends State<MainScreen> {
     return SizedBox.expand(
       child: Material(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(
-              child: IndexedStack(
-                index: _selected.index,
-                children: [
-                  for (final item in NavItem.values) //
-                    item.builder(),
-                ],
+              child: ConnectionMonitor(
+                child: IndexedStack(
+                  index: _selected.index,
+                  children: [
+                    for (final item in NavItem.values) //
+                      item.builder(),
+                  ],
+                ),
               ),
             ),
             BottomNavBar(

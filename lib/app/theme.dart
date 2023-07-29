@@ -3,7 +3,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 
-const _appOrangeColor = Color(0xFFEB670A);
+const _appOrangeColor = Color(0xFFEC722A);
+const _appLightOrangeColor = Color(0xFFF39A24);
+const _appAppBarColor = Color(0xFF242529);
+const appLightGreyColor = Color(0xFFF6F6F6);
+
+const appDividerColor = Color(0xFFE6E6E6);
+
+const appButtonRadius = BorderRadius.all(Radius.circular(6.0));
+
+const appHorizontalGradientHighlight = LinearGradient(
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+  colors: [
+    _appOrangeColor,
+    _appLightOrangeColor,
+  ],
+);
+
+const appVerticalGradientHighlight = LinearGradient(
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+  colors: [
+    _appOrangeColor,
+    _appLightOrangeColor,
+  ],
+);
 
 const appOverlayDarkIcons = SystemUiOverlayStyle(
   statusBarColor: Colors.transparent,
@@ -31,8 +56,8 @@ ThemeData generateLightTheme() {
     extensions: const [
       AppTheme(
         appColor: _appOrangeColor,
-        appColorLight: Color(0xFFF6751D),
-        appBarColor: Color(0xFF242529),
+        appColorLight: _appLightOrangeColor,
+        appBarColor: _appAppBarColor,
         whiteIcon: ColorFilter.mode(Colors.white, BlendMode.srcIn),
       ),
     ],

@@ -55,7 +55,6 @@ class _PromoCarouselState extends State<PromoCarousel> {
 @immutable
 class _PromoCarouselItem extends StatelessWidget {
   const _PromoCarouselItem({
-    super.key,
     required this.onPressed,
     required this.asset,
   });

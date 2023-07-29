@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/assets.dart';
-import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/home/widgets/promo_carousel.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
-import 'package:wow_shopping/features/main/widgets/top_nav.dart';
 import 'package:wow_shopping/models/product_item.dart';
-import 'package:wow_shopping/utils/formatting.dart';
+import 'package:wow_shopping/widgets/category_nav_list.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/product_card.dart';
+import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
 @immutable
 class HomePage extends StatefulWidget {
@@ -39,13 +39,27 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             TopNavBar(
-              onCategoryItemPressed: _onCategoryItemPressed,
-              onFilterPressed: () {
-                //
-              },
-              onSearchPressed: () {
-                //
-              },
+              title: Padding(
+                padding: verticalPadding8,
+                child: SvgPicture.asset(Assets.logo),
+              ),
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    // FIXME: implement filter
+                  },
+                  icon: SvgPicture.asset(Assets.iconFilter),
+                ),
+                IconButton(
+                  onPressed: () {
+                    // FIXME: implement search
+                  },
+                  icon: SvgPicture.asset(Assets.iconSearch),
+                ),
+              ],
+              bottom: CategoryNavList(
+                onCategoryItemPressed: _onCategoryItemPressed,
+              ),
             ),
             Expanded(
               child: CustomScrollView(
@@ -95,7 +109,7 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
   @override
   void initState() {
     super.initState();
-    _futureTopSelling = context.backend.productsRepo.fetchTopSelling();
+    _futureTopSelling = productsRepo.fetchTopSelling();
   }
 
   @override

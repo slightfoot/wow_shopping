@@ -19,13 +19,11 @@ class WishlistButton extends StatefulWidget {
 }
 
 class _WishlistButtonState extends State<WishlistButton> {
-  late final wishlistRepo = context.backend.wishlistRepo;
-
   void _onTogglePressed(bool value) {
     if (value) {
-      wishlistRepo.addToWishlist(widget.item);
+      wishlistRepo.addToWishlist(widget.item.id);
     } else {
-      wishlistRepo.removeToWishlist(widget.item);
+      wishlistRepo.removeToWishlist(widget.item.id);
     }
   }
 

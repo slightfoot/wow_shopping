@@ -23,6 +23,16 @@ class ProductItem {
   final double priceWithTax;
   final String photo;
 
+  static const none = ProductItem(
+    id: 'invalid',
+    category: '',
+    title: '',
+    subTitle: '',
+    price: 0.0,
+    priceWithTax: 0.0,
+    photo: '',
+  );
+
   factory ProductItem.fromJson(Map json) => _$ProductItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductItemToJson(this);

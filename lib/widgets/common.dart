@@ -3,6 +3,7 @@ import 'package:flutter/material.dart'
 
 const emptyWidget = SizedBox();
 const emptyWidgetWide = SizedBox(width: double.infinity);
+const emptySliver = SliverToBoxAdapter(child: emptyWidget);
 
 // Margins
 

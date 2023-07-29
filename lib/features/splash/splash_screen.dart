@@ -14,13 +14,13 @@ class SplashScreen extends StatelessWidget {
     return Material(
       type: MaterialType.transparency,
       child: Ink(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: const Alignment(0.0, 0.5),
-            end: const Alignment(-1.25, 0.0),
+            begin: Alignment(0.0, 0.5),
+            end: Alignment(-1.25, 0.0),
             colors: [
-              appTheme.appColor,
-              appTheme.appColorLight,
+              Color(0xFFEB670A),
+              Color(0xFFF6751D),
             ],
           ),
         ),
