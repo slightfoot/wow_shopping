@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/theme.dart';
+import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
 enum AppButtonStyle {
@@ -57,7 +57,7 @@ class AppButton extends StatelessWidget {
                 ),
                 if (iconAsset case String iconAsset) ...[
                   const Spacer(),
-                  SvgPicture.asset(iconAsset),
+                  AppIcon(iconAsset: iconAsset),
                 ],
               ],
             ),

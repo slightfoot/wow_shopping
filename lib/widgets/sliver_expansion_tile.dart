@@ -102,8 +102,8 @@ class SliverExpansionTileHeader extends StatelessWidget {
                 ),
                 Padding(
                   padding: rightPadding,
-                  child: SvgPicture.asset(
-                    expanded //
+                  child: AppIcon(
+                    iconAsset: expanded //
                         ? Assets.iconChevronUp
                         : Assets.iconChevronDown,
                   ),

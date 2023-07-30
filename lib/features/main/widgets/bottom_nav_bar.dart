@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/models/nav_item.dart';
+import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
 export 'package:wow_shopping/models/nav_item.dart';
@@ -60,16 +60,13 @@ class BottomNavButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appTheme = AppTheme.of(context);
     return InkWell(
       onTap: () => onPressed(item),
       child: Padding(
         padding: verticalPadding12 + bottomPadding4,
-        child: SvgPicture.asset(
-          item.navIconAsset,
-          colorFilter: (item != selected) //
-              ? appTheme.whiteIcon
-              : null,
+        child: AppIcon(
+          iconAsset: item.navIconAsset,
+          highlighted: (item == selected),
         ),
       ),
     );

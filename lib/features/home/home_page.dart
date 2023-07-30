@@ -5,6 +5,7 @@ import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/home/widgets/promo_carousel.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
 import 'package:wow_shopping/models/product_item.dart';
+import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/category_nav_list.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/product_card.dart';
@@ -48,13 +49,13 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     // FIXME: implement filter
                   },
-                  icon: SvgPicture.asset(Assets.iconFilter),
+                  icon: const AppIcon(iconAsset: Assets.iconFilter),
                 ),
                 IconButton(
                   onPressed: () {
                     // FIXME: implement search
                   },
-                  icon: SvgPicture.asset(Assets.iconSearch),
+                  icon: const AppIcon(iconAsset: Assets.iconSearch),
                 ),
               ],
               bottom: CategoryNavList(

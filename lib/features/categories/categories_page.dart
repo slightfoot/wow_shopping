@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/assets.dart';
+import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/category_nav_list.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/sliver_expansion_tile.dart';
@@ -38,7 +38,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                   onPressed: () {
                     // FIXME: perform search
                   },
-                  icon: SvgPicture.asset(Assets.iconSearch),
+                  icon: const AppIcon(iconAsset: Assets.iconSearch),
                 ),
               ],
               bottom: CategoryNavList(
@@ -81,7 +81,7 @@ class SliverCategoryHeader extends StatelessWidget {
       padding: horizontalPadding24 + verticalPadding16,
       child: Row(
         children: [
-          SvgPicture.asset(item.iconAsset),
+          AppIcon(iconAsset: item.iconAsset),
           horizontalMargin16,
           Text(item.title),
         ],

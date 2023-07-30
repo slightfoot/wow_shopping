@@ -19,7 +19,7 @@ class AppIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     final icon = SvgPicture.asset(
       iconAsset,
-      colorFilter: color != null //
+      colorFilter: color != null && !highlighted //
           ? ColorFilter.mode(color!, BlendMode.srcIn)
           : null,
     );

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/models/category_item.dart';
-import 'package:wow_shopping/widgets/app_icon.svg.dart';
+import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
 @immutable
@@ -73,7 +72,7 @@ class _CategoryItemView extends StatelessWidget {
                 item.title,
                 style: TextStyle(
                   color: selected //
-                      ? AppTheme.of(context).appColor
+                      ? AppTheme.of(context).appColorLight
                       : Colors.white,
                   fontSize: 10.0,
                 ),

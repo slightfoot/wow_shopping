@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/utils/formatting.dart';
+import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
 @immutable
@@ -99,8 +99,8 @@ class WishlistItem extends StatelessWidget {
                       : null,
                   child: Padding(
                     padding: allPadding24,
-                    child: SvgPicture.asset(
-                      selected //
+                    child: AppIcon(
+                      iconAsset: selected //
                           ? Assets.iconCheckFilled
                           : Assets.iconCheckEmpty,
                     ),
