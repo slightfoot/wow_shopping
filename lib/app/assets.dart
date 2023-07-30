@@ -15,6 +15,8 @@ class Assets {
   static const iconBuy = '$_icons/icon_buy.svg';
   static const iconCheckEmpty = '$_icons/icon_check_empty.svg';
   static const iconCheckFilled = '$_icons/icon_check_filled.svg';
+  static const iconChevronUp = '$_icons/icon_chevron_up.svg';
+  static const iconChevronDown = '$_icons/icon_chevron_down.svg';
   static const iconContinue = '$_icons/icon_continue.svg';
   static const iconEdit = '$_icons/icon_edit.svg';
   static const iconFilter = '$_icons/icon_filter.svg';
