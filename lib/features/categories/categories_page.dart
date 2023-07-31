@@ -78,14 +78,21 @@ class SliverCategoryHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverExpansionTileHeader(
       section: item.name,
-      padding: horizontalPadding24 + verticalPadding16,
-      child: Row(
-        children: [
-          AppIcon(iconAsset: item.iconAsset),
-          horizontalMargin16,
-          Text(item.title),
-        ],
-      ),
+      builder: (BuildContext context, String section, bool expanded) {
+        return Padding(
+          padding: horizontalPadding24 + verticalPadding16,
+          child: Row(
+            children: [
+              AppIcon(iconAsset: item.iconAsset),
+              horizontalMargin16,
+              Text(item.title),
+              horizontalMargin16,
+              const Spacer(),
+              SliverExpansionTileChevron(section: item.name),
+            ],
+          ),
+        );
+      },
     );
   }
 }
