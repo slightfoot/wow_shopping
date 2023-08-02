@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:wow_shopping/utils/formatting.dart';
 
 part 'product_item.g.dart';
 
@@ -12,7 +13,8 @@ class ProductItem {
     required this.subTitle,
     required this.price,
     required this.priceWithTax,
-    required this.photo,
+    required this.photos,
+    required this.description,
   });
 
   final String id;
@@ -21,7 +23,8 @@ class ProductItem {
   final String subTitle;
   final double price;
   final double priceWithTax;
-  final String photo;
+  final List<String> photos;
+  final String description;
 
   static const none = ProductItem(
     id: 'invalid',
@@ -30,8 +33,15 @@ class ProductItem {
     subTitle: '',
     price: 0.0,
     priceWithTax: 0.0,
-    photo: '',
+    photos: [],
+    description: '',
   );
+
+  String get primaryPhoto => photos[0];
+
+  String get formattedPrice => formatCurrency(price);
+
+  String get formattedPriceWithTax => formatCurrency(priceWithTax);
 
   factory ProductItem.fromJson(Map json) => _$ProductItemFromJson(json);
 

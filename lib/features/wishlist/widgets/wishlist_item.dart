@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/models/product_item.dart';
-import 'package:wow_shopping/utils/formatting.dart';
 import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
@@ -43,7 +42,7 @@ class WishlistItem extends StatelessWidget {
                   child: AspectRatio(
                     aspectRatio: 1.0,
                     child: Ink.image(
-                      image: AssetImage(item.photo),
+                      image: AssetImage(item.primaryPhoto),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -74,7 +73,7 @@ class WishlistItem extends StatelessWidget {
                     ),
                     verticalMargin8,
                     Text(
-                      formatCurrency(item.price),
+                      item.formattedPrice,
                       style: const TextStyle(
                         fontSize: 16.0,
                         fontWeight: FontWeight.w500,
@@ -82,7 +81,7 @@ class WishlistItem extends StatelessWidget {
                       maxLines: 1,
                     ),
                     Text(
-                      formatCurrency(item.priceWithTax),
+                      item.formattedPriceWithTax,
                       style: const TextStyle(
                         fontWeight: FontWeight.w300,
                       ),

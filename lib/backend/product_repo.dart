@@ -11,6 +11,8 @@ class ProductsRepo {
 
   // TODO: Cache products
 
+  List<ProductItem> get cachedItems => List.of(_products);
+
   static Future<ProductsRepo> create() async {
     try {
       final data = json.decode(

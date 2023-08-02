@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/theme.dart';
+import 'package:wow_shopping/features/product_details/product_page.dart';
 import 'package:wow_shopping/models/product_item.dart';
-import 'package:wow_shopping/utils/formatting.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/wishlist_button.dart';
 
@@ -10,11 +10,15 @@ class ProductCard extends StatelessWidget {
   const ProductCard({
     super.key,
     required this.item,
-    required this.onPressed,
+    this.onPressed,
   });
 
   final ProductItem item;
-  final ValueChanged<ProductItem> onPressed;
+  final ValueChanged<ProductItem>? onPressed;
+
+  void _defaultOnPressed(BuildContext context) {
+    Navigator.of(context).push(ProductPage.route(item));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,9 @@ class ProductCard extends StatelessWidget {
       borderRadius: appButtonRadius,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => onPressed(item),
+        onTap: onPressed != null //
+            ? () => onPressed!(item)
+            : () => _defaultOnPressed(context),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -34,7 +40,7 @@ class ProductCard extends StatelessWidget {
                 children: [
                   Positioned.fill(
                     child: Ink.image(
-                      image: AssetImage(item.photo),
+                      image: AssetImage(item.primaryPhoto),
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -64,13 +70,14 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
             ),
+            const Spacer(),
             Padding(
               padding: allPadding4,
               child: Row(
                 children: [
                   Expanded(
                     child: Text(
-                      formatCurrency(item.price),
+                      item.formattedPrice,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
@@ -78,7 +85,7 @@ class ProductCard extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      formatCurrency(item.priceWithTax),
+                      item.formattedPriceWithTax,
                       style: const TextStyle(
                         fontWeight: FontWeight.w300,
                       ),

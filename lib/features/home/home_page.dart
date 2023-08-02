@@ -8,6 +8,7 @@ import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/category_nav_list.dart';
 import 'package:wow_shopping/widgets/common.dart';
+import 'package:wow_shopping/widgets/content_heading.dart';
 import 'package:wow_shopping/widgets/product_card.dart';
 import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
@@ -76,11 +77,7 @@ class _HomePageState extends State<HomePage> {
                       onPromoPressed: _onPromoPressed,
                     ),
                   ),
-                  SliverTopSelling(
-                    onItemPressed: (ProductItem item) {
-                      print('Top Selling Item: $item');
-                    },
-                  ),
+                  const SliverTopSelling(),
                 ],
               ),
             ),
@@ -93,12 +90,7 @@ class _HomePageState extends State<HomePage> {
 
 @immutable
 class SliverTopSelling extends StatefulWidget {
-  const SliverTopSelling({
-    super.key,
-    required this.onItemPressed,
-  });
-
-  final ValueChanged<ProductItem> onItemPressed;
+  const SliverTopSelling({super.key});
 
   @override
   State<SliverTopSelling> createState() => _SliverTopSellingState();
@@ -130,25 +122,15 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Row(
-                  children: [
-                    horizontalMargin16,
-                    const Expanded(
-                      child: Text(
-                        'Top Selling Items',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        // FIXME: show all top selling items
-                      },
-                      child: const Text('Show All'),
-                    ),
-                  ],
+                Padding(
+                  padding: horizontalPadding8,
+                  child: ContentHeading(
+                    title: 'Top Selling Items',
+                    buttonLabel: 'Show All',
+                    onButtonPressed: () {
+                      // FIXME: show all top selling items
+                    },
+                  ),
                 ),
                 verticalMargin8,
                 for (int index = 0; index < data.length; index += 2) ...[
@@ -157,26 +139,27 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
                       final item1 = data[index + 0];
                       if (index + 1 < data.length) {
                         final item2 = data[index + 1];
-                        return Row(
-                          children: [
-                            horizontalMargin12,
-                            Expanded(
-                              child: ProductCard(
-                                key: Key('top-selling-${item1.id}'),
-                                item: item1,
-                                onPressed: widget.onItemPressed,
+                        return IntrinsicHeight(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              horizontalMargin12,
+                              Expanded(
+                                child: ProductCard(
+                                  key: Key('top-selling-${item1.id}'),
+                                  item: item1,
+                                ),
                               ),
-                            ),
-                            horizontalMargin12,
-                            Expanded(
-                              child: ProductCard(
-                                key: Key('top-selling-${item2.id}'),
-                                item: item2,
-                                onPressed: widget.onItemPressed,
+                              horizontalMargin12,
+                              Expanded(
+                                child: ProductCard(
+                                  key: Key('top-selling-${item2.id}'),
+                                  item: item2,
+                                ),
                               ),
-                            ),
-                            horizontalMargin12,
-                          ],
+                              horizontalMargin12,
+                            ],
+                          ),
                         );
                       } else {
                         return Row(
@@ -186,7 +169,6 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
                               child: ProductCard(
                                 key: Key('top-selling-${item1.id}'),
                                 item: item1,
-                                onPressed: widget.onItemPressed,
                               ),
                             ),
                             horizontalMargin12,

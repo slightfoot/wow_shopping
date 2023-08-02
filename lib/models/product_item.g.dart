@@ -13,7 +13,9 @@ ProductItem _$ProductItemFromJson(Map json) => ProductItem(
       subTitle: json['sub_title'] as String,
       price: (json['price'] as num).toDouble(),
       priceWithTax: (json['price_with_tax'] as num).toDouble(),
-      photo: json['photo'] as String,
+      photos:
+          (json['photos'] as List<dynamic>).map((e) => e as String).toList(),
+      description: json['description'] as String,
     );
 
 Map<String, dynamic> _$ProductItemToJson(ProductItem instance) =>
@@ -24,5 +26,6 @@ Map<String, dynamic> _$ProductItemToJson(ProductItem instance) =>
       'sub_title': instance.subTitle,
       'price': instance.price,
       'price_with_tax': instance.priceWithTax,
-      'photo': instance.photo,
+      'photos': instance.photos,
+      'description': instance.description,
     };

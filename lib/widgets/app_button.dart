@@ -47,18 +47,21 @@ class AppButton extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                Expanded(
+                  child: Text(
+                    label,
+                    textAlign: iconAsset != null //
+                        ? TextAlign.start
+                        : TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-                if (iconAsset case String iconAsset) ...[
-                  const Spacer(),
+                if (iconAsset case String iconAsset) //
                   AppIcon(iconAsset: iconAsset),
-                ],
               ],
             ),
           ),

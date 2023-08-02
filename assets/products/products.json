@@ -3,11 +3,17 @@
     {
       "id": "shoe_001",
       "category": "fashion",
-      "title": "Ultraboost S&L Star",
+      "title": "Ultraboost S&L Star Wars",
       "sub_title": "Running Shoes",
       "price": 480.00,
       "price_with_tax": 500.00,
-      "photo": "assets/products/shoe_001.png"
+      "photos": [
+        "assets/products/shoe_001_001.png",
+        "assets/products/shoe_001_002.png",
+        "assets/products/shoe_001_003.png",
+        "assets/products/shoe_001_004.png"
+      ],
+      "description": "Inspired by Star Wars™, built for comfort and performance. Designed for everyday running, these shoes have a soft leather upper with suede overlays. Responsive cushioning works with a flexible outsole to return energy to your stride.\n\n•   Regular fit\n•   Lace closure\n•   Leather upper\n•   Textile lining; Stretchweb outsole flexes naturally for an energised ride; Continental™ Rubber gives you superior traction."
     },
     {
       "id": "hoodie_001",
@@ -16,7 +22,10 @@
       "sub_title": "Hoodies",
       "price": 67.45,
       "price_with_tax": 80.00,
-      "photo": "assets/products/hoodie_001.png"
+      "photos": [
+        "assets/products/hoodie_001.png"
+      ],
+      "description": ""
     },
     {
       "id": "tshirt_001",
@@ -25,7 +34,10 @@
       "sub_title": "T-Shirts ",
       "price": 35.99,
       "price_with_tax": 62.00,
-      "photo": "assets/products/tshirt_001.png"
+      "photos": [
+        "assets/products/tshirt_001.png"
+      ],
+      "description": ""
     },
     {
       "id": "shorts_001",
@@ -34,7 +46,10 @@
       "sub_title": "Shorts",
       "price": 52.50,
       "price_with_tax": 78.90,
-      "photo": "assets/products/shorts_001.png"
+      "photos": [
+        "assets/products/shorts_001.png"
+      ],
+      "description": ""
     }
   ]
 }

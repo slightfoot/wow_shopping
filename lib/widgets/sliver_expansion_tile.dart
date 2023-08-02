@@ -5,6 +5,12 @@ import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
 class SliverExpansionTileController extends ChangeNotifier {
+  SliverExpansionTileController(List<String>? expandedSections) {
+    if (expandedSections != null) {
+      _expandedSections.addAll(expandedSections);
+    }
+  }
+
   final _expandedSections = <String>[];
 
   bool isExpanded(String section) => _expandedSections.contains(section);
@@ -31,9 +37,11 @@ class SliverExpansionTileController extends ChangeNotifier {
 class SliverExpansionTileHost extends StatefulWidget {
   const SliverExpansionTileHost({
     super.key,
+    this.initialExpanded,
     required this.child,
   });
 
+  final List<String>? initialExpanded;
   final Widget child;
 
   @override
@@ -41,7 +49,9 @@ class SliverExpansionTileHost extends StatefulWidget {
 }
 
 class _SliverExpansionTileHostState extends State<SliverExpansionTileHost> {
-  final _controller = SliverExpansionTileController();
+  late final _controller = SliverExpansionTileController(
+    widget.initialExpanded,
+  );
   var _sections = <String>{};
 
   @override
@@ -127,8 +137,8 @@ class SliverExpansionTileHeader extends StatelessWidget {
 }
 
 @immutable
-class SliverExpansionTileChevron extends StatelessWidget {
-  const SliverExpansionTileChevron({
+class ExpansionTileChevron extends StatelessWidget {
+  const ExpansionTileChevron({
     super.key,
     required this.section,
   });

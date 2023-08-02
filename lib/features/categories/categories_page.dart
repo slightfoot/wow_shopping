@@ -88,7 +88,7 @@ class SliverCategoryHeader extends StatelessWidget {
               Text(item.title),
               horizontalMargin16,
               const Spacer(),
-              SliverExpansionTileChevron(section: item.name),
+              ExpansionTileChevron(section: item.name),
             ],
           ),
         );
@@ -119,7 +119,7 @@ class SliverCategoryContent extends StatelessWidget {
               childAspectRatio: 3 / 2,
             ),
             delegate: SliverChildBuilderDelegate(
-              childCount: 6,
+              childCount: 30,
               (BuildContext context, int index) {
                 return const Padding(
                   padding: allPadding8,
