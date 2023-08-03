@@ -3,21 +3,29 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+import 'package:wow_shopping/app/config.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
 import 'package:wow_shopping/features/splash/splash_screen.dart';
 
+export 'package:wow_shopping/app/config.dart';
+
 const _appTitle = 'Shop Wow';
 
-class ShowWowApp extends StatefulWidget {
-  const ShowWowApp({super.key});
+class ShopWowApp extends StatefulWidget {
+  const ShopWowApp({
+    super.key,
+    required this.config,
+  });
+
+  final AppConfig config;
 
   @override
-  State<ShowWowApp> createState() => _ShowWowAppState();
+  State<ShopWowApp> createState() => _ShopWowAppState();
 }
 
-class _ShowWowAppState extends State<ShowWowApp> {
+class _ShopWowAppState extends State<ShopWowApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
   NavigatorState get navigatorState => _navigatorKey.currentState!;
