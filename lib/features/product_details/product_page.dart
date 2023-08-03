@@ -19,6 +19,7 @@ class ProductPage extends StatelessWidget {
 
   static Route<void> route(ProductItem item) {
     return PageRouteBuilder(
+      settings: RouteSettings(name: '/products/${item.id}'),
       transitionDuration: const Duration(milliseconds: 300),
       reverseTransitionDuration: const Duration(milliseconds: 250),
       pageBuilder: (BuildContext context, Animation<double> animation,

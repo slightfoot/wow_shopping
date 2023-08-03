@@ -1,5 +1,6 @@
-class Assets {
+final class Assets {
   const Assets._();
+
   static const _assets = 'assets';
 
   static const _images = '$_assets/images';
