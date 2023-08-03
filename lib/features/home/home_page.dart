@@ -34,51 +34,85 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  final _link = LayerLink();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox.expand(
       child: Material(
-        child: Column(
+        child: Stack(
           children: [
-            TopNavBar(
-              title: Padding(
-                padding: verticalPadding8,
-                child: SvgPicture.asset(Assets.logo),
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    // FIXME: implement filter
-                  },
-                  icon: const AppIcon(iconAsset: Assets.iconFilter),
+            Column(
+              children: [
+                TopNavBar(
+                  title: Padding(
+                    padding: verticalPadding8,
+                    child: SvgPicture.asset(Assets.logo),
+                  ),
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        // FIXME: implement filter
+                      },
+                      icon: const AppIcon(iconAsset: Assets.iconFilter),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        // FIXME: implement search
+                      },
+                      icon: const AppIcon(iconAsset: Assets.iconSearch),
+                    ),
+                  ],
+                  bottom: CategoryNavList(
+                    onCategoryItemPressed: _onCategoryItemPressed,
+                  ),
                 ),
-                IconButton(
-                  onPressed: () {
-                    // FIXME: implement search
-                  },
-                  icon: const AppIcon(iconAsset: Assets.iconSearch),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: CompositedTransformTarget(
+                    link: _link,
+                  ),
+                ),
+                Expanded(
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverToBoxAdapter(
+                        child: PromoCarousel(
+                          promos: const [
+                            PromoModel(asset: Assets.promo1),
+                            PromoModel(asset: Assets.promo2),
+                            PromoModel(asset: Assets.promo1),
+                            PromoModel(asset: Assets.promo2),
+                          ],
+                          onPromoPressed: _onPromoPressed,
+                        ),
+                      ),
+                      const SliverTopSelling(),
+                    ],
+                  ),
                 ),
               ],
-              bottom: CategoryNavList(
-                onCategoryItemPressed: _onCategoryItemPressed,
-              ),
             ),
-            Expanded(
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: PromoCarousel(
-                      promos: const [
-                        PromoModel(asset: Assets.promo1),
-                        PromoModel(asset: Assets.promo2),
-                        PromoModel(asset: Assets.promo1),
-                        PromoModel(asset: Assets.promo2),
-                      ],
-                      onPromoPressed: _onPromoPressed,
+            CompositedTransformFollower(
+              link: _link,
+              followerAnchor: Alignment.centerRight,
+              targetAnchor: Alignment.centerRight,
+              child: Padding(
+                padding: allPadding16,
+                child: Material(
+                  shape: const StadiumBorder(),
+                  elevation: 8.0,
+                  child: InkWell(
+                    onTap: () {
+                      //
+                    },
+                    customBorder: const StadiumBorder(),
+                    child: Padding(
+                      padding: verticalPadding8 + horizontalPadding16,
+                      child: const Text('BUY NOW!'),
                     ),
                   ),
-                  const SliverTopSelling(),
-                ],
+                ),
               ),
             ),
           ],

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:wow_shopping/app/assets.dart';
+import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/models/product_item.dart';
 
 class ProductsRepo {
@@ -13,7 +14,7 @@ class ProductsRepo {
 
   List<ProductItem> get cachedItems => List.of(_products);
 
-  static Future<ProductsRepo> create() async {
+  static Future<ProductsRepo> create(AuthRepo authRepo) async {
     try {
       final data = json.decode(
         await rootBundle.loadString(Assets.productsData),

@@ -19,6 +19,19 @@ extension BackendState<T extends StatefulWidget> on State<T> {
   WishlistRepo get wishlistRepo => context.wishlistRepo;
 }
 
+typedef ProductsRepoGetter = ProductsRepo Function();
+
+class AuthRepo {
+  AuthRepo(this._productsRepoGetter);
+
+  final ProductsRepoGetter _productsRepoGetter;
+  late final productsRepo = _productsRepoGetter();
+
+  void blah() {
+    productsRepo.cachedItems;
+  }
+}
+
 class Backend {
   Backend._(
     this.productsRepo,
@@ -29,7 +42,9 @@ class Backend {
   final WishlistRepo wishlistRepo;
 
   static Future<Backend> init() async {
-    final productsRepo = await ProductsRepo.create();
+    late ProductsRepo productsRepo;
+    final authRepo = AuthRepo(() => productsRepo);
+    productsRepo = await ProductsRepo.create(authRepo);
     final wishlistRepo = await WishlistRepo.create(productsRepo);
     return Backend._(
       productsRepo,
