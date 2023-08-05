@@ -31,7 +31,7 @@ class ProductsRepo {
   }
 
   Future<List<ProductItem>> fetchTopSelling() async {
-    //await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
     return List.unmodifiable(_products); // TODO: filter to top-selling only
   }
 
