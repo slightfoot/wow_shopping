@@ -8,7 +8,7 @@ import 'package:path/path.dart' as path;
 import 'package:wow_shopping/models/wishlist_storage.dart';
 
 class WishlistRepo {
-  WishlistRepo(this._productsRepo, this._file, this._wishlist);
+  WishlistRepo._(this._productsRepo, this._file, this._wishlist);
 
   final ProductsRepo _productsRepo;
   final File _file;
@@ -22,11 +22,13 @@ class WishlistRepo {
       final dir = await path_provider.getApplicationDocumentsDirectory();
       final file = File(path.join(dir.path, 'wishlist.json'));
       if (await file.exists()) {
-        wishlist = WishlistStorage.fromJson(json.decode(await file.readAsString()));
+        wishlist = WishlistStorage.fromJson(
+          json.decode(await file.readAsString()),
+        );
       } else {
         wishlist = WishlistStorage.empty;
       }
-      return WishlistRepo(productsRepo, file, wishlist)..init();
+      return WishlistRepo._(productsRepo, file, wishlist)..init();
     } catch (error, stackTrace) {
       print('$error\n$stackTrace'); // Send to server?
       rethrow;

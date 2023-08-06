@@ -2,5 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/app.dart';
 
 void main() {
-  runApp(const ShowWowApp());
+  runApp(const ShopWowApp(
+    config: AppConfig(
+      env: AppEnv.prod,
+    ),
+  ));
 }

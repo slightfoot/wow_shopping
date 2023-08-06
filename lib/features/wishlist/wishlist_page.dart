@@ -58,11 +58,9 @@ class _WishlistPageState extends State<WishlistPage> {
   Widget build(BuildContext context) {
     return SizedBox.expand(
       child: Material(
-        child: StreamBuilder<List<ProductItem>>(
-          initialData: wishlistRepo.currentWishlistItems,
-          stream: wishlistRepo.streamWishlistItems,
-          builder: (BuildContext context, AsyncSnapshot<List<ProductItem>> snapshot) {
-            _wishlistItems = snapshot.requireData.toList();
+        child: WishlistConsumer(
+          builder: (BuildContext context, List<ProductItem> wishlist) {
+            _wishlistItems = wishlist;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -92,7 +90,7 @@ class _WishlistPageState extends State<WishlistPage> {
                           child: WishlistItem(
                             item: item,
                             onPressed: (item) {
-                              // FIXME:
+                              // FIXME: navigate to product details
                             },
                             selected: isSelected(item),
                             onToggleSelection: setSelected,
@@ -149,6 +147,27 @@ class _WishlistPageState extends State<WishlistPage> {
           },
         ),
       ),
+    );
+  }
+}
+
+@immutable
+class WishlistConsumer extends StatelessWidget {
+  const WishlistConsumer({
+    super.key,
+    required this.builder,
+  });
+
+  final Widget Function(BuildContext context, List<ProductItem> wishlist) builder;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<List<ProductItem>>(
+      initialData: context.wishlistRepo.currentWishlistItems,
+      stream: context.wishlistRepo.streamWishlistItems,
+      builder: (BuildContext context, AsyncSnapshot<List<ProductItem>> snapshot) {
+        return builder(context, snapshot.requireData);
+      },
     );
   }
 }
