@@ -46,22 +46,17 @@ class _ConnectionMonitorState extends State<ConnectionMonitor> {
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.fastOutSlowIn,
                     alignment: Alignment.topCenter,
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      heightFactor:
-                          result != ConnectivityResult.none ? 0.0 : 1.0,
-                      child: IntrinsicHeight(
-                        child: SizedBox.expand(
-                          child: Material(
-                            color: Colors.red,
-                            child: Padding(
-                              padding: verticalPadding4 + horizontalPadding12,
-                              child: const Text(
-                                'Please check your internet connection',
-                                style: TextStyle(color: Colors.white),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: result != ConnectivityResult.none ? 0.0 : null,
+                      child: Material(
+                        color: Colors.red,
+                        child: Padding(
+                          padding: verticalPadding4 + horizontalPadding12,
+                          child: const Text(
+                            'Please check your internet connection',
+                            style: TextStyle(color: Colors.white),
+                            textAlign: TextAlign.center,
                           ),
                         ),
                       ),
