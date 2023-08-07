@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/assets.dart';
-import 'package:wow_shopping/backend/backend.dart';
+import 'package:wow_shopping/features/home/top_selling/top_selling.dart';
 import 'package:wow_shopping/features/home/widgets/promo_carousel.dart';
+import 'package:wow_shopping/features/main/mainCubit/main_cubit.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
-import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/category_nav_list.dart';
 import 'package:wow_shopping/widgets/common.dart';
-import 'package:wow_shopping/widgets/content_heading.dart';
-import 'package:wow_shopping/widgets/product_card.dart';
 import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
 @immutable
@@ -28,9 +27,9 @@ class _HomePageState extends State<HomePage> {
   void _onPromoPressed(PromoModel promo) {
     // FIXME: demo of gotoSection
     if (promo.asset == Assets.promo1) {
-      MainScreen.of(context).gotoSection(NavItem.wishlist);
+      context.read<MainCubit>().gotoSelection(NavItem.wishlist);
     } else if (promo.asset == Assets.promo2) {
-      MainScreen.of(context).gotoSection(NavItem.cart);
+      context.read<MainCubit>().gotoSelection(NavItem.cart);
     }
   }
 
@@ -88,7 +87,7 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-@immutable
+/*@immutable
 class SliverTopSelling extends StatefulWidget {
   const SliverTopSelling({super.key});
 
@@ -189,4 +188,4 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
       },
     );
   }
-}
+}*/
