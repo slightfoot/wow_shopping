@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:wow_shopping/backend/product_repo.dart';
-import 'package:wow_shopping/models/product_item.dart';
+import 'package:wow_shopping/backend/models/product_item.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:path/path.dart' as path;
-import 'package:wow_shopping/models/wishlist_storage.dart';
+import 'package:wow_shopping/backend/models/wishlist_storage.dart';
 
 class WishlistRepo {
   WishlistRepo._(this._productsRepo, this._file, this._wishlist);
@@ -48,7 +48,8 @@ class WishlistRepo {
   List<ProductItem> get currentWishlistItems =>
       _wishlist.items.map(_productsRepo.findProduct).toList();
 
-  Stream<List<ProductItem>> get streamWishlistItems => _wishlistController.stream;
+  Stream<List<ProductItem>> get streamWishlistItems =>
+      _wishlistController.stream;
 
   bool isInWishlist(ProductItem item) {
     return _wishlist.items.contains(item.id);

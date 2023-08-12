@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/app/theme.dart';
-import 'package:wow_shopping/models/product_item.dart';
-import 'package:wow_shopping/widgets/app_icon.dart';
-import 'package:wow_shopping/widgets/common.dart';
+import 'package:wow_shopping/backend/models/product_item.dart';
+import 'package:wow_shopping/shared/widgets/app_icon.dart';
+import 'package:wow_shopping/shared/widgets/common.dart';
 
 @immutable
 class WishlistItem extends StatelessWidget {

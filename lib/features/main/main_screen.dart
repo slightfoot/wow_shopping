@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wow_shopping/features/connection_monitor/connection_monitor.dart';
 import 'package:wow_shopping/features/main/widgets/bottom_nav_bar.dart';
 
-export 'package:wow_shopping/models/nav_item.dart';
+export 'package:wow_shopping/features/main/nav_item.dart';
 
 @immutable
 class MainScreen extends StatefulWidget {

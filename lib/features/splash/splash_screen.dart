@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wow_shopping/widgets/common.dart';
+import 'package:wow_shopping/shared/widgets/common.dart';
 
 @immutable
 class SplashScreen extends StatelessWidget {

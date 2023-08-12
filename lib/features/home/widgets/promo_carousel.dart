@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wow_shopping/widgets/common.dart';
+import 'package:wow_shopping/shared/widgets/common.dart';
 
 class PromoModel {
   const PromoModel({required this.asset});

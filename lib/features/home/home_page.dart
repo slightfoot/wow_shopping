@@ -4,13 +4,13 @@ import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/home/widgets/promo_carousel.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
-import 'package:wow_shopping/models/product_item.dart';
-import 'package:wow_shopping/widgets/app_icon.dart';
-import 'package:wow_shopping/widgets/category_nav_list.dart';
-import 'package:wow_shopping/widgets/common.dart';
-import 'package:wow_shopping/widgets/content_heading.dart';
-import 'package:wow_shopping/widgets/product_card.dart';
-import 'package:wow_shopping/widgets/top_nav_bar.dart';
+import 'package:wow_shopping/backend/models/product_item.dart';
+import 'package:wow_shopping/shared/widgets/app_icon.dart';
+import 'package:wow_shopping/features/products/widgets/category_nav_list.dart';
+import 'package:wow_shopping/shared/widgets/common.dart';
+import 'package:wow_shopping/shared/widgets/content_heading.dart';
+import 'package:wow_shopping/features/products/widgets/product_card.dart';
+import 'package:wow_shopping/shared/widgets/top_nav_bar.dart';
 
 @immutable
 class HomePage extends StatefulWidget {
@@ -109,7 +109,8 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
   Widget build(BuildContext context) {
     return FutureBuilder<List<ProductItem>>(
       future: _futureTopSelling,
-      builder: (BuildContext context, AsyncSnapshot<List<ProductItem>> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<List<ProductItem>> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const SliverFillRemaining(
             child: Center(

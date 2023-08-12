@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wow_shopping/widgets/common.dart';
+import 'package:wow_shopping/shared/widgets/common.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
 @immutable
@@ -24,14 +24,16 @@ class _ConnectionMonitorState extends State<ConnectionMonitor> {
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: checkConnectivity,
-      builder: (BuildContext context, AsyncSnapshot<ConnectivityResult> snapshot) {
+      builder:
+          (BuildContext context, AsyncSnapshot<ConnectivityResult> snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return emptyWidget;
         }
         return StreamBuilder(
           initialData: snapshot.requireData,
           stream: onConnectivityChanged,
-          builder: (BuildContext context, AsyncSnapshot<ConnectivityResult> snapshot) {
+          builder: (BuildContext context,
+              AsyncSnapshot<ConnectivityResult> snapshot) {
             final result = snapshot.requireData;
             return Stack(
               children: [
@@ -46,7 +48,8 @@ class _ConnectionMonitorState extends State<ConnectionMonitor> {
                     alignment: Alignment.topCenter,
                     child: Align(
                       alignment: Alignment.topCenter,
-                      heightFactor: result != ConnectivityResult.none ? 0.0 : 1.0,
+                      heightFactor:
+                          result != ConnectivityResult.none ? 0.0 : 1.0,
                       child: Material(
                         color: Colors.red,
                         child: Padding(
