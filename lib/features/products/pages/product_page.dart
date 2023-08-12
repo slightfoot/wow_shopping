@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/theme.dart';
+import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/backend/models/product_item.dart';
+import 'package:wow_shopping/features/products/models/product_proxy.dart';
+import 'package:wow_shopping/features/products/widgets/product_card.dart';
+import 'package:wow_shopping/features/products/widgets/wishlist_button.dart';
 import 'package:wow_shopping/shared/widgets/app_button.dart';
 import 'package:wow_shopping/shared/widgets/common.dart';
 import 'package:wow_shopping/shared/widgets/content_heading.dart';
-import 'package:wow_shopping/features/products/widgets/product_card.dart';
 import 'package:wow_shopping/shared/widgets/sliver_expansion_tile.dart';
-import 'package:wow_shopping/features/products/widgets/wishlist_button.dart';
-import 'package:wow_shopping/backend/backend.dart';
 
 @immutable
 class ProductPage extends StatelessWidget {
@@ -15,9 +16,9 @@ class ProductPage extends StatelessWidget {
     required this.item,
   });
 
-  final ProductItem item;
+  final ProductProxy item;
 
-  static Route<void> route(ProductItem item) {
+  static Route<void> route(ProductProxy item) {
     return PageRouteBuilder(
       settings: RouteSettings(name: '/products/${item.id}'),
       transitionDuration: const Duration(milliseconds: 300),
@@ -118,7 +119,7 @@ class _SliverProductHeader extends StatelessWidget {
     required this.item,
   });
 
-  final ProductItem item;
+  final ProductProxy item;
 
   @override
   Widget build(BuildContext context) {
@@ -142,7 +143,7 @@ class _AppBarDelegate extends SliverPersistentHeaderDelegate {
     this.onShare,
   });
 
-  final ProductItem item;
+  final ProductProxy item;
   final EdgeInsets padding;
   final VoidCallback? onShare;
 
@@ -201,7 +202,7 @@ class _SliverProductTitle extends StatelessWidget {
     required this.item,
   });
 
-  final ProductItem item;
+  final ProductProxy item;
 
   @override
   Widget build(BuildContext context) {
@@ -275,7 +276,7 @@ class _SmallProductRating extends StatelessWidget {
     required this.item,
   });
 
-  final ProductItem item;
+  final ProductProxy item;
 
   @override
   Widget build(BuildContext context) {
@@ -310,7 +311,7 @@ class _SliverProductPhotoGallery extends StatefulWidget {
     required this.item,
   });
 
-  final ProductItem item;
+  final ProductProxy item;
 
   @override
   State<_SliverProductPhotoGallery> createState() =>
@@ -421,7 +422,7 @@ class _SliverProductSizeSelector extends StatelessWidget {
     required this.item,
   });
 
-  final ProductItem item;
+  final ProductProxy item;
 
   static const _sizes = [6, 7, 8, 9, 10, 11, 12, 13];
 
@@ -596,7 +597,7 @@ class _SliverSimilarItems extends StatelessWidget {
     required this.similarItems,
   });
 
-  final List<ProductItem> similarItems;
+  final List<ProductProxy> similarItems;
 
   @override
   Widget build(BuildContext context) {

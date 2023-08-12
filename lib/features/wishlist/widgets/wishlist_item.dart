@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/app/theme.dart';
-import 'package:wow_shopping/backend/models/product_item.dart';
+import 'package:wow_shopping/features/products/models/product_proxy.dart';
 import 'package:wow_shopping/shared/widgets/app_icon.dart';
 import 'package:wow_shopping/shared/widgets/common.dart';
 
@@ -15,9 +15,9 @@ class WishlistItem extends StatelessWidget {
     this.selected,
   });
 
-  final ProductItem item;
-  final ValueChanged<ProductItem> onPressed;
-  final void Function(ProductItem item, bool value)? onToggleSelection;
+  final ProductProxy item;
+  final ValueChanged<ProductProxy> onPressed;
+  final void Function(ProductProxy item, bool value)? onToggleSelection;
   final bool? selected;
 
   @override

@@ -37,12 +37,6 @@ class ProductItem {
     description: '',
   );
 
-  String get primaryPhoto => photos[0];
-
-  String get formattedPrice => formatCurrency(price);
-
-  String get formattedPriceWithTax => formatCurrency(priceWithTax);
-
   factory ProductItem.fromJson(Map json) => _$ProductItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductItemToJson(this);

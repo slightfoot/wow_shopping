@@ -10,6 +10,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.7
+  watch_it: ^0.9.3
+  flutter_command: ^5.0.0+10
   json_annotation: ^4.8.1
   intl: ^0.18.1
   path_provider: ^2.0.15

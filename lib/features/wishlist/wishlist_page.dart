@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/backend/backend.dart';
-import 'package:wow_shopping/features/wishlist/widgets/wishlist_item.dart';
 import 'package:wow_shopping/backend/models/product_item.dart';
+import 'package:wow_shopping/features/wishlist/widgets/wishlist_item.dart';
 import 'package:wow_shopping/shared/widgets/app_button.dart';
 import 'package:wow_shopping/shared/widgets/common.dart';
 import 'package:wow_shopping/shared/widgets/top_nav_bar.dart';
+
+import '../products/models/product_proxy.dart';
 
 @immutable
 class WishlistPage extends StatefulWidget {
@@ -17,14 +19,14 @@ class WishlistPage extends StatefulWidget {
 }
 
 class _WishlistPageState extends State<WishlistPage> {
-  var _wishlistItems = <ProductItem>[];
+  var _wishlistItems = <ProductProxy>[];
   final _selectedItems = <String>{};
 
-  bool isSelected(ProductItem item) {
+  bool isSelected(ProductProxy item) {
     return _selectedItems.contains(item.id);
   }
 
-  void setSelected(ProductItem item, bool selected) {
+  void setSelected(ProductProxy item, bool selected) {
     setState(() {
       if (selected) {
         _selectedItems.add(item.id);
@@ -59,7 +61,7 @@ class _WishlistPageState extends State<WishlistPage> {
     return SizedBox.expand(
       child: Material(
         child: WishlistConsumer(
-          builder: (BuildContext context, List<ProductItem> wishlist) {
+          builder: (BuildContext context, List<ProductProxy> wishlist) {
             _wishlistItems = wishlist;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -158,16 +160,16 @@ class WishlistConsumer extends StatelessWidget {
     required this.builder,
   });
 
-  final Widget Function(BuildContext context, List<ProductItem> wishlist)
+  final Widget Function(BuildContext context, List<ProductProxy> wishlist)
       builder;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<ProductItem>>(
+    return StreamBuilder<List<ProductProxy>>(
       initialData: context.wishlistRepo.currentWishlistItems,
       stream: context.wishlistRepo.streamWishlistItems,
       builder:
-          (BuildContext context, AsyncSnapshot<List<ProductItem>> snapshot) {
+          (BuildContext context, AsyncSnapshot<List<ProductProxy>> snapshot) {
         return builder(context, snapshot.requireData);
       },
     );

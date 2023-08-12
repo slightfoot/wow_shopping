@@ -254,6 +254,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_command:
+    dependency: "direct main"
+    description:
+      name: flutter_command
+      sha256: afe42688d3ab94e001352fe5ea13a7d962bad280d528494768194b6a1481ee6b
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0+10"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -296,6 +304,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.0"
+  functional_listener:
+    dependency: transitive
+    description:
+      name: functional_listener
+      sha256: "026d1bd4f66367f11d9ec9f1f1ddb42b89e4484b356972c76d983266cf82f33f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.1"
+  get_it:
+    dependency: transitive
+    description:
+      name: get_it
+      sha256: "529de303c739fca98cd7ece5fca500d8ff89649f1bb4b4e94fb20954abcd7468"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.6.0"
   glob:
     dependency: transitive
     description:
@@ -560,6 +584,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  quiver:
+    dependency: transitive
+    description:
+      name: quiver
+      sha256: b1c1ac5ce6688d77f65f3375a9abb9319b3cb32486bdc7a1e0fdf004d7ba4e47
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.1"
   shelf:
     dependency: transitive
     description:
@@ -701,6 +733,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  watch_it:
+    dependency: "direct main"
+    description:
+      name: watch_it
+      sha256: cb0376445f024d0a3444ded93f5f21c347724486fa5b1ea199297028578d97ce
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.9.3"
   watcher:
     dependency: transitive
     description:

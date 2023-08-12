@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'package:wow_shopping/backend/product_repo.dart';
-import 'package:wow_shopping/backend/models/product_item.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
+
 import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart' as path_provider;
+import 'package:wow_shopping/backend/models/product_item.dart';
 import 'package:wow_shopping/backend/models/wishlist_storage.dart';
+import 'package:wow_shopping/backend/product_repo.dart';
+import 'package:wow_shopping/features/products/models/product_proxy.dart';
 
 class WishlistRepo {
   WishlistRepo._(this._productsRepo, this._file, this._wishlist);
@@ -13,7 +15,7 @@ class WishlistRepo {
   final ProductsRepo _productsRepo;
   final File _file;
   WishlistStorage _wishlist;
-  late StreamController<List<ProductItem>> _wishlistController;
+  late StreamController<List<ProductProxy>> _wishlistController;
   Timer? _saveTimer;
 
   static Future<WishlistRepo> create(ProductsRepo productsRepo) async {
@@ -36,7 +38,7 @@ class WishlistRepo {
   }
 
   void init() {
-    _wishlistController = StreamController<List<ProductItem>>.broadcast(
+    _wishlistController = StreamController<List<ProductProxy>>.broadcast(
       onListen: () => _emitWishlist(),
     );
   }
@@ -45,17 +47,17 @@ class WishlistRepo {
     _wishlistController.add(currentWishlistItems);
   }
 
-  List<ProductItem> get currentWishlistItems =>
+  List<ProductProxy> get currentWishlistItems =>
       _wishlist.items.map(_productsRepo.findProduct).toList();
 
-  Stream<List<ProductItem>> get streamWishlistItems =>
+  Stream<List<ProductProxy>> get streamWishlistItems =>
       _wishlistController.stream;
 
-  bool isInWishlist(ProductItem item) {
+  bool isInWishlist(ProductProxy item) {
     return _wishlist.items.contains(item.id);
   }
 
-  Stream<bool> streamIsInWishlist(ProductItem item) async* {
+  Stream<bool> streamIsInWishlist(ProductProxy item) async* {
     bool last = isInWishlist(item);
     yield last;
     await for (final list in streamWishlistItems) {

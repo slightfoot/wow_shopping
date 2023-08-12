@@ -3,6 +3,7 @@ import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/backend/models/product_item.dart';
+import 'package:wow_shopping/features/products/models/product_proxy.dart';
 import 'package:wow_shopping/shared/widgets/app_icon.dart';
 
 @immutable
@@ -12,7 +13,7 @@ class WishlistButton extends StatefulWidget {
     required this.item,
   });
 
-  final ProductItem item;
+  final ProductProxy item;
 
   @override
   State<WishlistButton> createState() => _WishlistButtonState();
