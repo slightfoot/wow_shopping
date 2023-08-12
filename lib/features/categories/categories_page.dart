@@ -119,7 +119,7 @@ class SliverCategoryContent extends StatelessWidget {
               childAspectRatio: 3 / 2,
             ),
             delegate: SliverChildBuilderDelegate(
-              childCount: 30,
+              childCount: 4,
               (BuildContext context, int index) {
                 return const Padding(
                   padding: allPadding8,
