@@ -5,8 +5,8 @@
       "category": "fashion",
       "title": "Ultraboost S&L Star Wars",
       "sub_title": "Running Shoes",
-      "price": 480.00,
-      "price_with_tax": 500.00,
+      "price": "480.00",
+      "price_with_tax": "500.00",
       "photos": [
         "assets/products/shoe_001_001.png",
         "assets/products/shoe_001_002.png",
@@ -20,8 +20,8 @@
       "category": "fashion",
       "title": "Essentials Linear",
       "sub_title": "Hoodies",
-      "price": 67.45,
-      "price_with_tax": 80.00,
+      "price": "67.45",
+      "price_with_tax": "80.00",
       "photos": [
         "assets/products/hoodie_001.png"
       ],
@@ -32,8 +32,8 @@
       "category": "fashion",
       "title": "Own The Run Tee",
       "sub_title": "T-Shirts ",
-      "price": 35.99,
-      "price_with_tax": 62.00,
+      "price": "35.99",
+      "price_with_tax": "62.00",
       "photos": [
         "assets/products/tshirt_001.png"
       ],
@@ -44,8 +44,8 @@
       "category": "fashion",
       "title": "Ultimate 365",
       "sub_title": "Shorts",
-      "price": 52.50,
-      "price_with_tax": 78.90,
+      "price": "52.50",
+      "price_with_tax": "78.90",
       "photos": [
         "assets/products/shorts_001.png"
       ],

@@ -37,36 +37,39 @@ class TopNavBar extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    if (canPop) //
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: useCloseButton ? const CloseButton() : const BackButton(),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: 48.0),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      if (canPop) //
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: useCloseButton ? const CloseButton() : const BackButton(),
+                        ),
+                      DefaultTextStyle.merge(
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                        child: title,
                       ),
-                    DefaultTextStyle.merge(
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                      ),
-                      child: title,
-                    ),
-                    if (actions case List<Widget> actions) //
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Theme(
-                          data: Theme.of(context).copyWith(
-                            visualDensity: VisualDensity.compact,
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: actions,
+                      if (actions case List<Widget> actions) //
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Theme(
+                            data: Theme.of(context).copyWith(
+                              visualDensity: VisualDensity.compact,
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: actions,
+                            ),
                           ),
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 ),
                 if (bottom case Widget bottom) //
                   bottom,

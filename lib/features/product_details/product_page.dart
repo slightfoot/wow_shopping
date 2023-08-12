@@ -489,6 +489,8 @@ class _SliverProductSizeSelector extends StatelessWidget {
               child: AppButton(
                 onPressed: () {
                   // FIXME: add product to cart
+                  // FIXME: specify option for size
+                  context.cartRepo.addToCart(item);
                 },
                 label: 'Add to cart',
                 style: AppButtonStyle.highlighted,
@@ -505,7 +507,6 @@ class _SliverProductSizeSelector extends StatelessWidget {
 @immutable
 class _SliverProductInfoTileHeader extends StatelessWidget {
   const _SliverProductInfoTileHeader({
-    super.key,
     required this.section,
     required this.title,
   });
