@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_command/flutter_command.dart';
 
 class ApiException implements Exception {
@@ -56,5 +57,12 @@ class ApiErrorLocalFilter implements ErrorFilter {
       }
     }
     return ErrorReaction.globalHandler;
+  }
+}
+
+class InteractionManager {
+  ValueNotifier<String> lastMessage = ValueNotifier<String>('');
+  void showMessage(String message) {
+    lastMessage.value = message;
   }
 }

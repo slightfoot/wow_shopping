@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/app.dart';
 
-import 'app/di.dart';
+import 'setup.dart';
 
 void main() {
-  setupDi();
+  setup();
   runApp(const ShopWowApp(
     config: AppConfig(
       env: AppEnv.dev,

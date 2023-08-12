@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' hide TextDirection;
 import 'package:watch_it/watch_it.dart';
 import 'package:wow_shopping/app/config.dart';
-import 'package:wow_shopping/app/di.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
 import 'package:wow_shopping/features/splash/splash_screen.dart';
@@ -14,7 +13,7 @@ export 'package:wow_shopping/app/config.dart';
 
 const _appTitle = 'Shop Wow';
 
-class ShopWowApp extends StatefulWidget {
+class ShopWowApp extends StatefulWidget with WatchItStatefulWidgetMixin {
   const ShopWowApp({
     super.key,
     required this.config,
