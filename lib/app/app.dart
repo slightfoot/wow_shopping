@@ -3,9 +3,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' hide TextDirection;
+import 'package:watch_it/watch_it.dart';
 import 'package:wow_shopping/app/config.dart';
+import 'package:wow_shopping/app/di.dart';
 import 'package:wow_shopping/app/theme.dart';
-import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
 import 'package:wow_shopping/features/splash/splash_screen.dart';
 
@@ -30,23 +31,20 @@ class _ShopWowAppState extends State<ShopWowApp> {
 
   NavigatorState get navigatorState => _navigatorKey.currentState!;
 
-  late Future<Backend> _appLoader;
-
   @override
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     Intl.defaultLocale = PlatformDispatcher.instance.locale.toLanguageTag();
-    _appLoader = Backend.init();
   }
 
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: appOverlayDarkIcons,
-      child: FutureBuilder<Backend>(
-        future: _appLoader,
-        builder: (BuildContext context, AsyncSnapshot<Backend> snapshot) {
+      child: FutureBuilder<void>(
+        future: di.allReady(),
+        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
           if (snapshot.connectionState != ConnectionState.done) {
             return Theme(
               data: generateLightTheme(),
@@ -56,15 +54,12 @@ class _ShopWowAppState extends State<ShopWowApp> {
               ),
             );
           } else {
-            return BackendInheritedWidget(
-              backend: snapshot.requireData,
-              child: MaterialApp(
-                debugShowCheckedModeBanner: false,
-                navigatorKey: _navigatorKey,
-                title: _appTitle,
-                theme: generateLightTheme(),
-                home: const MainScreen(),
-              ),
+            return MaterialApp(
+              debugShowCheckedModeBanner: false,
+              navigatorKey: _navigatorKey,
+              title: _appTitle,
+              theme: generateLightTheme(),
+              home: const MainScreen(),
             );
           }
         },

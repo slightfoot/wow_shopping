@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:watch_it/watch_it.dart';
 import 'package:wow_shopping/shared/lists/list_data_source.dart';
 
-class FeedView<TItem> extends StatelessWidget with WatchItMixin {
-  const FeedView({
+class ListDataView<TItem> extends StatelessWidget with WatchItMixin {
+  const ListDataView({
     super.key,
     required this.listSource,
     required this.itemBuilder,

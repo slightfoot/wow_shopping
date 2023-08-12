@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:watch_it/watch_it.dart';
 import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/app/theme.dart';
-import 'package:wow_shopping/backend/backend.dart';
-import 'package:wow_shopping/backend/models/product_item.dart';
+import 'package:wow_shopping/backend/wishlist_repo_.dart';
 import 'package:wow_shopping/features/wishlist/widgets/wishlist_item.dart';
 import 'package:wow_shopping/shared/widgets/app_button.dart';
 import 'package:wow_shopping/shared/widgets/common.dart';
@@ -50,7 +50,7 @@ class _WishlistPageState extends State<WishlistPage> {
   void _removeSelected() {
     setState(() {
       for (final selected in _selectedItems) {
-        wishlistRepo.removeToWishlist(selected);
+        di<WishlistRepo>().removeToWishlist(selected);
       }
       _selectedItems.clear();
     });
@@ -166,8 +166,8 @@ class WishlistConsumer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<ProductProxy>>(
-      initialData: context.wishlistRepo.currentWishlistItems,
-      stream: context.wishlistRepo.streamWishlistItems,
+      initialData: di<WishlistRepo>().currentWishlistItems,
+      stream: di<WishlistRepo>().streamWishlistItems,
       builder:
           (BuildContext context, AsyncSnapshot<List<ProductProxy>> snapshot) {
         return builder(context, snapshot.requireData);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:watch_it/watch_it.dart';
 import 'package:wow_shopping/app/theme.dart';
-import 'package:wow_shopping/backend/backend.dart';
-import 'package:wow_shopping/backend/models/product_item.dart';
+import 'package:wow_shopping/backend/product_repo_.dart';
 import 'package:wow_shopping/features/products/models/product_proxy.dart';
 import 'package:wow_shopping/features/products/widgets/product_card.dart';
 import 'package:wow_shopping/features/products/widgets/wishlist_button.dart';
@@ -99,7 +99,7 @@ class ProductPage extends StatelessWidget {
             const _SliverDivider(),
             //
             _SliverSimilarItems(
-              similarItems: context.productsRepo.cachedItems,
+              similarItems: di<ProductsRepo>().cachedItems,
             ),
             //
             const SliverSafeArea(
