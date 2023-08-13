@@ -29,6 +29,10 @@ class CartItem {
     quantity: 0,
   );
 
+  CartItem addQuantity(){
+    return CartItem(product: product, deliveryDate: deliveryDate, deliveryFee: deliveryFee, option: option, quantity: quantity + 1);
+  }
+
   factory CartItem.fromJson(Map json) => _$CartItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$CartItemToJson(this);
