@@ -49,19 +49,19 @@ class SliverExpansionTileHost extends StatefulWidget {
 }
 
 class _SliverExpansionTileHostState extends State<SliverExpansionTileHost> {
-  late final _controller = SliverExpansionTileController(
-    widget.initialExpanded,
-  );
-  var _sections = <String>{};
+  late SliverExpansionTileController _controller;
+  late Set<String> _sections;
 
   @override
   void initState() {
     super.initState();
+    _controller = SliverExpansionTileController(widget.initialExpanded);
     _controller.addListener(_controllerUpdated);
+    _controllerUpdated();
   }
 
   void _controllerUpdated() {
-    setState(() => _sections = Set.of(_controller._expandedSections));
+    setState(() => _sections = _controller._expandedSections.toSet());
   }
 
   @override

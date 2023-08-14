@@ -28,23 +28,22 @@ class SliverTopSellingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TopSellingBloc, TopSellingState>(
-      builder: (context, state) {
-        return switch (state) {
-          TopSellingInitial() =>
-            const SliverToBoxAdapter(child: SizedBox.shrink()),
-          TopSellingLoading() => const SliverFillRemaining(
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
+      builder: (context, state) => switch (state) {
+        TopSellingInitial() => const SliverToBoxAdapter(
+            child: SizedBox.shrink(),
+          ),
+        TopSellingLoading() => const SliverFillRemaining(
+            child: Center(
+              child: CircularProgressIndicator(),
             ),
-          TopSellingFailure() => const SliverFillRemaining(
-              child: Center(
-                child: Text('Error!'),
-              ),
+          ),
+        TopSellingFailure() => const SliverFillRemaining(
+            child: Center(
+              child: Text('Error!'),
             ),
-          TopSellingLoaded(products: final products) =>
-            TopSellingContent(products: products),
-        };
+          ),
+        TopSellingLoaded(products: final products) =>
+          TopSellingContent(products: products),
       },
     );
   }

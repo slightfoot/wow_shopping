@@ -12,19 +12,12 @@ import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
 @immutable
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
+class HomePage extends StatelessWidget {
   void _onCategoryItemPressed(CategoryItem value) {
     // FIXME: implement filter or deep link?
   }
 
-  void _onPromoPressed(PromoModel promo) {
+  void _onPromoPressed(BuildContext context, {required PromoModel promo}) {
     // FIXME: demo of gotoSection
     if (promo.asset == Assets.promo1) {
       context.read<MainCubit>().gotoSection(NavItem.wishlist);
@@ -73,7 +66,10 @@ class _HomePageState extends State<HomePage> {
                         PromoModel(asset: Assets.promo1),
                         PromoModel(asset: Assets.promo2),
                       ],
-                      onPromoPressed: _onPromoPressed,
+                      onPromoPressed: (promo) => _onPromoPressed(
+                        context,
+                        promo: promo,
+                      ),
                     ),
                   ),
                   const SliverTopSelling(),
