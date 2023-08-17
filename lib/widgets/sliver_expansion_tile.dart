@@ -108,6 +108,35 @@ class _InheritedSliverExpansionTile extends InheritedModel<String> {
   }
 }
 
+class SliverExpansionTile extends StatelessWidget {
+  const SliverExpansionTile({
+    super.key,
+    required this.section,
+    required this.headerBuilder,
+    required this.contentBuilder,
+  });
+
+  final String section;
+  final Widget Function(BuildContext context, String section, bool expanded) headerBuilder;
+  final WidgetBuilder contentBuilder;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverMainAxisGroup(
+      slivers: [
+        SliverExpansionTileHeader(
+          section: section,
+          builder: headerBuilder,
+        ),
+        SliverExpansionTileContent(
+          section: section,
+          sliverBuilder: contentBuilder,
+        ),
+      ],
+    );
+  }
+}
+
 @immutable
 class SliverExpansionTileHeader extends StatelessWidget {
   const SliverExpansionTileHeader({

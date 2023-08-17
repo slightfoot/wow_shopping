@@ -48,13 +48,14 @@ class _CategoriesPageState extends State<CategoriesPage> {
             ),
             Expanded(
               child: SliverExpansionTileHost(
-                child: CustomScrollView(
-                  slivers: [
-                    for (final item in CategoryItem.values) ...[
-                      SliverCategoryHeader(item: item),
-                      SliverCategoryContent(item: item),
+                child: ClipRect(
+                  child: CustomScrollView(
+                    clipBehavior: Clip.hardEdge,
+                    slivers: [
+                      for (final item in CategoryItem.values) //
+                        SliverCategoryGroup(item: item),
                     ],
-                  ],
+                  ),
                 ),
               ),
             ),
@@ -65,9 +66,8 @@ class _CategoriesPageState extends State<CategoriesPage> {
   }
 }
 
-@immutable
-class SliverCategoryHeader extends StatelessWidget {
-  const SliverCategoryHeader({
+class SliverCategoryGroup extends StatelessWidget {
+  const SliverCategoryGroup({
     super.key,
     required this.item,
   });
@@ -76,9 +76,9 @@ class SliverCategoryHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverExpansionTileHeader(
+    return SliverExpansionTile(
       section: item.name,
-      builder: (BuildContext context, String section, bool expanded) {
+      headerBuilder: (BuildContext context, String section, bool expanded) {
         return Padding(
           padding: horizontalPadding24 + verticalPadding16,
           child: Row(
@@ -93,24 +93,7 @@ class SliverCategoryHeader extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-@immutable
-class SliverCategoryContent extends StatelessWidget {
-  const SliverCategoryContent({
-    super.key,
-    required this.item,
-  });
-
-  final CategoryItem item;
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverExpansionTileContent(
-      section: item.name,
-      sliverBuilder: (BuildContext context) {
+      contentBuilder: (BuildContext context) {
         return SliverPadding(
           padding: horizontalPadding8,
           sliver: SliverGrid(
