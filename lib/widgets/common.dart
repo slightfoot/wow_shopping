@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'
     show EdgeInsets, EdgeInsetsDirectional, SizedBox, SliverToBoxAdapter;
 
@@ -22,6 +23,51 @@ const verticalMargin16 = SizedBox(height: 16.0);
 const verticalMargin24 = SizedBox(height: 24.0);
 const verticalMargin32 = SizedBox(height: 32.0);
 const verticalMargin48 = SizedBox(height: 48.0);
+
+// Sliver Margins
+
+const sliverMainAxisHorizontalMargin4 = SliverToBoxAdapter(child: SizedBox(width: 4.0));
+const sliverMainAxisHorizontalMargin8 = SliverToBoxAdapter(child: SizedBox(width: 8.0));
+const sliverMainAxisHorizontalMargin12 = SliverToBoxAdapter(child: SizedBox(width: 12.0));
+const sliverMainAxisHorizontalMargin16 = SliverToBoxAdapter(child: SizedBox(width: 16.0));
+const sliverMainAxisHorizontalMargin24 = SliverToBoxAdapter(child: SizedBox(width: 24.0));
+const sliverMainAxisHorizontalMargin32 = SliverToBoxAdapter(child: SizedBox(width: 32.0));
+const sliverMainAxisHorizontalMargin48 = SliverToBoxAdapter(child: SizedBox(width: 48.0));
+
+const sliverMainAxisVerticalMargin4 = SliverToBoxAdapter(child: SizedBox(height: 4.0));
+const sliverMainAxisVerticalMargin8 = SliverToBoxAdapter(child: SizedBox(height: 8.0));
+const sliverMainAxisVerticalMargin12 = SliverToBoxAdapter(child: SizedBox(height: 12.0));
+const sliverMainAxisVerticalMargin16 = SliverToBoxAdapter(child: SizedBox(height: 16.0));
+const sliverMainAxisVerticalMargin24 = SliverToBoxAdapter(child: SizedBox(height: 24.0));
+const sliverMainAxisVerticalMargin32 = SliverToBoxAdapter(child: SizedBox(height: 32.0));
+const sliverMainAxisVerticalMargin48 = SliverToBoxAdapter(child: SizedBox(height: 48.0));
+
+const sliverCrossAxisHorizontalMargin4 = SliverCrossAxisMargin(extent: 4.0);
+const sliverCrossAxisHorizontalMargin8 = SliverCrossAxisMargin(extent: 8.0);
+const sliverCrossAxisHorizontalMargin12 = SliverCrossAxisMargin(extent: 12.0);
+const sliverCrossAxisHorizontalMargin16 = SliverCrossAxisMargin(extent: 16.0);
+const sliverCrossAxisHorizontalMargin24 = SliverCrossAxisMargin(extent: 24.0);
+const sliverCrossAxisHorizontalMargin32 = SliverCrossAxisMargin(extent: 32.0);
+const sliverCrossAxisHorizontalMargin48 = SliverCrossAxisMargin(extent: 48.0);
+
+const sliverCrossAxisVerticalMargin4 = SliverCrossAxisMargin(extent: 4.0);
+const sliverCrossAxisVerticalMargin8 = SliverCrossAxisMargin(extent: 8.0);
+const sliverCrossAxisVerticalMargin12 = SliverCrossAxisMargin(extent: 12.0);
+const sliverCrossAxisVerticalMargin16 = SliverCrossAxisMargin(extent: 16.0);
+const sliverCrossAxisVerticalMargin24 = SliverCrossAxisMargin(extent: 24.0);
+const sliverCrossAxisVerticalMargin32 = SliverCrossAxisMargin(extent: 32.0);
+const sliverCrossAxisVerticalMargin48 = SliverCrossAxisMargin(extent: 48.0);
+
+class SliverCrossAxisMargin extends StatelessWidget {
+  const SliverCrossAxisMargin({super.key, required this.extent});
+
+  final double extent;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverConstrainedCrossAxis(maxExtent: extent, sliver: emptySliver);
+  }
+}
 
 // Paddings
 

@@ -5,6 +5,29 @@ import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/wishlist_button.dart';
 
+class SliverProductCard extends StatelessWidget {
+  const SliverProductCard({
+    super.key,
+    required this.item,
+    this.onPressed,
+  });
+
+  final ProductItem item;
+  final ValueChanged<ProductItem>? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: IntrinsicHeight(
+        child: ProductCard(
+          item: item,
+          onPressed: onPressed,
+        ),
+      ),
+    );
+  }
+}
+
 @immutable
 class ProductCard extends StatelessWidget {
   const ProductCard({

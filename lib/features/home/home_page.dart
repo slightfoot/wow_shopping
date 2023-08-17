@@ -118,12 +118,11 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
           );
         } else {
           final data = snapshot.requireData;
-          return SliverToBoxAdapter(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding: horizontalPadding8,
+          return SliverMainAxisGroup(
+            slivers: [
+              SliverPadding(
+                padding: horizontalPadding8,
+                sliver: SliverToBoxAdapter(
                   child: ContentHeading(
                     title: 'Top Selling Items',
                     buttonLabel: 'Show All',
@@ -132,58 +131,62 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
                     },
                   ),
                 ),
-                verticalMargin8,
-                for (int index = 0; index < data.length; index += 2) ...[
-                  Builder(
-                    builder: (BuildContext context) {
-                      final item1 = data[index + 0];
-                      if (index + 1 < data.length) {
-                        final item2 = data[index + 1];
-                        return IntrinsicHeight(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              horizontalMargin12,
-                              Expanded(
-                                child: ProductCard(
-                                  key: Key('top-selling-${item1.id}'),
-                                  item: item1,
-                                ),
-                              ),
-                              horizontalMargin12,
-                              Expanded(
-                                child: ProductCard(
-                                  key: Key('top-selling-${item2.id}'),
-                                  item: item2,
-                                ),
-                              ),
-                              horizontalMargin12,
-                            ],
-                          ),
-                        );
-                      } else {
-                        return Row(
-                          children: [
-                            horizontalMargin12,
-                            Expanded(
-                              child: ProductCard(
-                                key: Key('top-selling-${item1.id}'),
-                                item: item1,
-                              ),
+              ),
+              sliverMainAxisVerticalMargin8,
+              for (int index = 0; index < data.length; index += 2) ...[
+                Builder(
+                  builder: (BuildContext context) {
+                    final item1 = data[index + 0];
+                    if (index + 1 < data.length) {
+                      final item2 = data[index + 1];
+                      return SliverCrossAxisGroup(
+                        slivers: [
+                          sliverCrossAxisHorizontalMargin12,
+                          SliverCrossAxisExpanded(
+                            flex: 2,
+                            sliver: SliverProductCard(
+                              key: Key('top-selling-${item1.id}'),
+                              item: item1,
                             ),
-                            horizontalMargin12,
-                            const Spacer(),
-                            horizontalMargin12,
-                          ],
-                        );
-                      }
-                    },
-                  ),
-                  verticalMargin12,
-                ],
-                verticalMargin48 + verticalMargin48,
+                          ),
+                          sliverCrossAxisHorizontalMargin12,
+                          SliverCrossAxisExpanded(
+                            flex: 2,
+                            sliver: SliverProductCard(
+                              key: Key('top-selling-${item2.id}'),
+                              item: item2,
+                            ),
+                          ),
+                          sliverCrossAxisHorizontalMargin12,
+                        ],
+                      );
+                    } else {
+                      return SliverCrossAxisGroup(
+                        slivers: [
+                          sliverCrossAxisHorizontalMargin12,
+                          SliverCrossAxisExpanded(
+                            flex: 1,
+                            sliver: SliverProductCard(
+                              key: Key('top-selling-${item1.id}'),
+                              item: item1,
+                            ),
+                          ),
+                          sliverCrossAxisHorizontalMargin12,
+                          const SliverCrossAxisExpanded(
+                            flex: 1,
+                            sliver: emptySliver,
+                          ),
+                          sliverCrossAxisHorizontalMargin12,
+                        ],
+                      );
+                    }
+                  },
+                ),
+                sliverMainAxisVerticalMargin12,
               ],
-            ),
+              sliverMainAxisVerticalMargin48,
+              sliverMainAxisVerticalMargin48,
+            ],
           );
         }
       },
