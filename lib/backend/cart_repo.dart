@@ -61,23 +61,36 @@ class CartRepo {
     return cartItemForProduct(item) != CartItem.none;
   }
 
+  List<CartItem> _editItemInList(ProductItem item){
+    var existing = _storage.items.where((el) => el.product.id == item.id).first.addQuantity();
+    var index = _storage.items.indexWhere((el) => el.product.id == item.id);
+    var tmpItems = [... _storage.items];
+    tmpItems.removeAt(index);
+    tmpItems.insert(index, existing);
+    return tmpItems;
+  }
+
   void addToCart(ProductItem item, {ProductOption option = ProductOption.none}) {
     if (cartContainsProduct(item)) {
-      // FIXME: increase quantity
-      return;
+      // FIXME: how to update the quantity of 2 different options ?
+      // in the cart we to be display as 2 different items, I guess. or we use option && el.product.id
+      // as keys to find the element
+      var newCartItems = _editItemInList(item);
+      _storage = _storage.copyWith(items: newCartItems);
+    } else {
+      _storage = _storage.copyWith(
+        items: {
+          ..._storage.items,
+          CartItem(
+            product: item,
+            option: option,
+            deliveryFee: Decimal.zero, // FIXME: where from?
+            deliveryDate: DateTime.now(), // FIXME: where from?
+            quantity: 1,
+          ),
+        },
+      );
     }
-    _storage = _storage.copyWith(
-      items: {
-        ..._storage.items,
-        CartItem(
-          product: item,
-          option: option,
-          deliveryFee: Decimal.zero, // FIXME: where from?
-          deliveryDate: DateTime.now(), // FIXME: where from?
-          quantity: 1,
-        ),
-      },
-    );
     _emitCart();
     _saveCart();
   }

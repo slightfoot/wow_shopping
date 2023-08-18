@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/app/theme.dart';
@@ -5,6 +6,7 @@ import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/models/cart_item.dart';
 import 'package:wow_shopping/utils/formatting.dart';
 import 'package:wow_shopping/widgets/app_button.dart';
+import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
@@ -115,6 +117,12 @@ class _CartItemView extends StatelessWidget {
 
   final CartItem item;
 
+  Decimal _totalPriceForQuantity() {
+    var countProduct = item.quantity;
+    var price = item.product.price;
+    return Decimal.fromInt((price.toDouble() * countProduct).toInt());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -130,7 +138,7 @@ class _CartItemView extends StatelessWidget {
               children: [
                 Text(item.product.title),
                 Text(
-                  formatCurrency(item.product.price),
+                  formatCurrency(_totalPriceForQuantity()),
                   style: const TextStyle(
                     fontWeight: FontWeight.w700,
                   ),
@@ -140,12 +148,24 @@ class _CartItemView extends StatelessWidget {
           ),
           Padding(
             padding: allPadding8 - topPadding8,
-            child: AppButton(
-              onPressed: () {
-                context.cartRepo.removeToCart(item.product.id);
-              },
-              iconAsset: Assets.iconRemove,
-              label: 'Remove',
+            child: Container(
+              decoration: BoxDecoration(border: Border.all()),
+              child: Row(
+                children: [
+                  //FIXME use the correct icons
+                  IconButton(
+                      onPressed: () {
+                        context.cartRepo.removeToCart(item.product.id);
+                      },
+                      icon: Icon(Icons.delete)),
+                  Text('${item.quantity}'),
+                  IconButton(
+                      onPressed: () {
+                        context.cartRepo.addToCart(item.product);
+                      },
+                      icon: Icon(Icons.add)),
+                ],
+              ),
             ),
           ),
         ],
