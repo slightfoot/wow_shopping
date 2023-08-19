@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wow_shopping/app/theme.dart';
+import 'package:wow_shopping/backend/product_repo.dart';
 import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/app_button.dart';
 import 'package:wow_shopping/widgets/common.dart';
@@ -7,10 +9,9 @@ import 'package:wow_shopping/widgets/content_heading.dart';
 import 'package:wow_shopping/widgets/product_card.dart';
 import 'package:wow_shopping/widgets/sliver_expansion_tile.dart';
 import 'package:wow_shopping/widgets/wishlist_button.dart';
-import 'package:wow_shopping/backend/backend.dart';
 
 @immutable
-class ProductPage extends StatelessWidget {
+class ProductPage extends ConsumerWidget {
   const ProductPage._({
     required this.item,
   });
@@ -47,7 +48,7 @@ class ProductPage extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Material(
       child: SliverExpansionTileHost(
         initialExpanded: const ['description'],
@@ -98,7 +99,7 @@ class ProductPage extends StatelessWidget {
             const _SliverDivider(),
             //
             _SliverSimilarItems(
-              similarItems: context.productsRepo.cachedItems,
+              similarItems: ref.read(productsRepoProvider).cachedItems,
             ),
             //
             const SliverSafeArea(

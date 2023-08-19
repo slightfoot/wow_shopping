@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/assets.dart';
-import 'package:wow_shopping/backend/backend.dart';
+import 'package:wow_shopping/backend/product_repo.dart';
 import 'package:wow_shopping/features/home/widgets/promo_carousel.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
 import 'package:wow_shopping/models/product_item.dart';
@@ -12,15 +13,17 @@ import 'package:wow_shopping/widgets/content_heading.dart';
 import 'package:wow_shopping/widgets/product_card.dart';
 import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
+import '../main/providers/bottom_navbar_provider.dart';
+
 @immutable
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   void _onCategoryItemPressed(CategoryItem value) {
     // FIXME: implement filter or deep link?
   }
@@ -28,9 +31,9 @@ class _HomePageState extends State<HomePage> {
   void _onPromoPressed(PromoModel promo) {
     // FIXME: demo of gotoSection
     if (promo.asset == Assets.promo1) {
-      MainScreen.of(context).gotoSection(NavItem.wishlist);
+      ref.read(bottomNavbarProvider.notifier).gotoSection(NavItem.wishlist);
     } else if (promo.asset == Assets.promo2) {
-      MainScreen.of(context).gotoSection(NavItem.cart);
+     ref.read(bottomNavbarProvider.notifier).gotoSection(NavItem.cart);
     }
   }
 
@@ -89,20 +92,21 @@ class _HomePageState extends State<HomePage> {
 }
 
 @immutable
-class SliverTopSelling extends StatefulWidget {
+class SliverTopSelling extends ConsumerStatefulWidget {
   const SliverTopSelling({super.key});
 
   @override
-  State<SliverTopSelling> createState() => _SliverTopSellingState();
+  ConsumerState<SliverTopSelling> createState() => _SliverTopSellingState();
 }
 
-class _SliverTopSellingState extends State<SliverTopSelling> {
+class _SliverTopSellingState extends ConsumerState<SliverTopSelling> {
   late Future<List<ProductItem>> _futureTopSelling;
 
   @override
   void initState() {
     super.initState();
-    _futureTopSelling = productsRepo.fetchTopSelling();
+    
+    _futureTopSelling = ref.read(productsRepoProvider).fetchTopSelling();
   }
 
   @override

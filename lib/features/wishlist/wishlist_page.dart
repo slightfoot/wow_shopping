@@ -1,74 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/app/theme.dart';
-import 'package:wow_shopping/backend/backend.dart';
+import 'package:wow_shopping/backend/wishlist_repo.dart';
+import 'package:wow_shopping/features/wishlist/providers/selecte_item_notifier.dart';
 import 'package:wow_shopping/features/wishlist/widgets/wishlist_item.dart';
-import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/app_button.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
 @immutable
-class WishlistPage extends StatefulWidget {
+class WishlistPage extends ConsumerStatefulWidget {
   const WishlistPage({super.key});
 
   @override
-  State<WishlistPage> createState() => _WishlistPageState();
+  ConsumerState<WishlistPage> createState() => _WishlistPageState();
 }
 
-class _WishlistPageState extends State<WishlistPage> {
-  var _wishlistItems = <ProductItem>[];
-  final _selectedItems = <String>{};
-
-  bool isSelected(ProductItem item) {
-    return _selectedItems.contains(item.id);
-  }
-
-  void setSelected(ProductItem item, bool selected) {
-    setState(() {
-      if (selected) {
-        _selectedItems.add(item.id);
-      } else {
-        _selectedItems.remove(item.id);
-      }
-    });
-  }
-
-  void toggleSelectAll() {
-    final allIds = _wishlistItems.map((el) => el.id).toList();
-    setState(() {
-      if (_selectedItems.containsAll(allIds)) {
-        _selectedItems.clear();
-      } else {
-        _selectedItems.addAll(allIds);
-      }
-    });
-  }
-
-  void _removeSelected() {
-    setState(() {
-      for (final selected in _selectedItems) {
-        wishlistRepo.removeToWishlist(selected);
-      }
-      _selectedItems.clear();
-    });
-  }
+class _WishlistPageState extends ConsumerState<WishlistPage> {
+  // var _wishlistItems = <ProductItem>[];
+  // final _selectedItems = <String>{};
 
   @override
   Widget build(BuildContext context) {
+    final selectecItems = ref.watch(selectedItemsProvider);
+    final wishList = ref.watch(wishlistRepoProvider);
     return SizedBox.expand(
       child: Material(
-        child: WishlistConsumer(
-          builder: (BuildContext context, List<ProductItem> wishlist) {
-            _wishlistItems = wishlist;
-            return Column(
+        child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 TopNavBar(
                   title: const Text('Wishlist'),
                   actions: [
                     TextButton(
-                      onPressed: toggleSelectAll,
+                      onPressed: (){
+                        ref.read(selectedItemsProvider.notifier).toggleSelectAll();
+                      },
                       style: TextButton.styleFrom(
                         foregroundColor: Colors.white,
                       ),
@@ -82,9 +50,9 @@ class _WishlistPageState extends State<WishlistPage> {
                     removeTop: true,
                     child: ListView.builder(
                       padding: verticalPadding12,
-                      itemCount: _wishlistItems.length,
+                      itemCount: wishList.currentWishlistItems.length,
                       itemBuilder: (BuildContext context, int index) {
-                        final item = _wishlistItems[index];
+                        final item = wishList.currentWishlistItems[index];
                         return Padding(
                           padding: verticalPadding12,
                           child: WishlistItem(
@@ -92,8 +60,8 @@ class _WishlistPageState extends State<WishlistPage> {
                             onPressed: (item) {
                               // FIXME: navigate to product details
                             },
-                            selected: isSelected(item),
-                            onToggleSelection: setSelected,
+                            selected: selectecItems.contains(item.id),
+                            onToggleSelection: ref.read(selectedItemsProvider.notifier).setSelected, 
                           ),
                         );
                       },
@@ -106,7 +74,7 @@ class _WishlistPageState extends State<WishlistPage> {
                   alignment: Alignment.topCenter,
                   child: Align(
                     alignment: Alignment.topCenter,
-                    heightFactor: _selectedItems.isEmpty ? 0.0 : 1.0,
+                    heightFactor: selectecItems.isEmpty ? 0.0 : 1.0,
                     child: DecoratedBox(
                       decoration: const BoxDecoration(
                         color: appLightGreyColor,
@@ -120,7 +88,7 @@ class _WishlistPageState extends State<WishlistPage> {
                           children: [
                             Expanded(
                               child: AppButton(
-                                onPressed: _removeSelected,
+                                onPressed: ref.read(selectedItemsProvider.notifier).removeSelected,
                                 label: 'Remove',
                                 iconAsset: Assets.iconRemove,
                               ),
@@ -143,31 +111,31 @@ class _WishlistPageState extends State<WishlistPage> {
                   ),
                 ),
               ],
-            );
-          },
-        ),
+            )
       ),
     );
   }
 }
 
-@immutable
-class WishlistConsumer extends StatelessWidget {
-  const WishlistConsumer({
-    super.key,
-    required this.builder,
-  });
+// @immutable
+// class WishlistConsumer extends ConsumerWidget {
+//   const WishlistConsumer({
+//     super.key,
+//     required this.builder,
+//   });
 
-  final Widget Function(BuildContext context, List<ProductItem> wishlist) builder;
+//   final Widget Function(BuildContext context, List<ProductItem> wishlist)
+//       builder;
 
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<List<ProductItem>>(
-      initialData: context.wishlistRepo.currentWishlistItems,
-      stream: context.wishlistRepo.streamWishlistItems,
-      builder: (BuildContext context, AsyncSnapshot<List<ProductItem>> snapshot) {
-        return builder(context, snapshot.requireData);
-      },
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     return StreamBuilder<List<ProductItem>>(
+//       initialData: ref.read(wishlistRepoProvider).currentWishlistItems,
+//       stream: ref.read(wishlistRepoProvider).streamWishlistItems,
+//       builder:
+//           (BuildContext context, AsyncSnapshot<List<ProductItem>> snapshot) {
+//         return builder(context, snapshot.requireData);
+//       },
+//     );
+//   }
+// }

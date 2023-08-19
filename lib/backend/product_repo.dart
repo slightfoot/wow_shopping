@@ -1,19 +1,24 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/models/product_item.dart';
 
-class ProductsRepo {
-  ProductsRepo(this._products);
+final productsRepoProvider = Provider<ProductsRepo>((ref) {
+  return ProductsRepo();
+});
 
-  final List<ProductItem> _products;
+class ProductsRepo {
+  ProductsRepo();
+
+  late final List<ProductItem> _products;
 
   // TODO: Cache products
 
   List<ProductItem> get cachedItems => List.of(_products);
 
-  static Future<ProductsRepo> create() async {
+  Future<void> create() async {
     try {
       final data = json.decode(
         await rootBundle.loadString(Assets.productsData),
@@ -22,7 +27,7 @@ class ProductsRepo {
           .cast<Map>()
           .map(ProductItem.fromJson)
           .toList();
-      return ProductsRepo(products);
+      _products = products;
     } catch (error, stackTrace) {
       // FIXME: implement logging
       print('$error\n$stackTrace');
@@ -31,7 +36,7 @@ class ProductsRepo {
   }
 
   Future<List<ProductItem>> fetchTopSelling() async {
-    //await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
     return List.unmodifiable(_products); // TODO: filter to top-selling only
   }
 
