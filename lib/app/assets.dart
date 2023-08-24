@@ -13,6 +13,7 @@ final class Assets {
   static const splashBottom = '$_images/splash_bottom.webp';
 
   // General Icons
+  static const iconAdd = '$_icons/icon_add.svg';
   static const iconBuy = '$_icons/icon_buy.svg';
   static const iconCheckEmpty = '$_icons/icon_check_empty.svg';
   static const iconCheckFilled = '$_icons/icon_check_filled.svg';
@@ -23,6 +24,7 @@ final class Assets {
   static const iconFilter = '$_icons/icon_filter.svg';
   static const iconHeartEmpty = '$_icons/icon_heart_empty.svg';
   static const iconHeartFilled = '$_icons/icon_heart_filled.svg';
+  static const iconMinus = '$_icons/icon_minus.svg';
   static const iconRemove = '$_icons/icon_remove.svg';
   static const iconSearch = '$_icons/icon_search.svg';
   static const iconStart = '$_icons/icon_start.svg';

@@ -9,3 +9,8 @@ String formatCurrency(Decimal value) {
   format.minimumFractionDigits = 2;
   return '\$${format.format(DecimalIntl(value))}';
 }
+
+String formatShortDate(DateTime dateTime) {
+  final format = DateFormat.MMMd();
+  return format.format(dateTime);
+}

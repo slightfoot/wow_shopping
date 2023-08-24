@@ -29,6 +29,24 @@ class CartItem {
     quantity: 0,
   );
 
+  Decimal get total => product.price * Decimal.fromInt(quantity);
+
+  CartItem copyWith({
+    ProductItem? product,
+    DateTime? deliveryDate,
+    Decimal? deliveryFee,
+    ProductOption? option,
+    int? quantity,
+  }) {
+    return CartItem(
+      product: product ?? this.product,
+      deliveryDate: deliveryDate ?? this.deliveryDate,
+      deliveryFee: deliveryFee ?? this.deliveryFee,
+      option: option ?? this.option,
+      quantity: quantity ?? this.quantity,
+    );
+  }
+
   factory CartItem.fromJson(Map json) => _$CartItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$CartItemToJson(this);
