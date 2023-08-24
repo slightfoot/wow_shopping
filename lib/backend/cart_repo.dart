@@ -52,6 +52,14 @@ class CartRepo {
 
   Stream<List<CartItem>> get streamCartItems => _cartController.stream;
 
+  Decimal get currentCartTotal => _calculateCartTotal(currentCartItems);
+
+  Stream<Decimal> get streamCartTotal => streamCartItems.map(_calculateCartTotal);
+
+  Decimal _calculateCartTotal(List<CartItem> items) {
+    return items.fold<Decimal>(Decimal.zero, (prev, el) => prev + el.total);
+  }
+
   CartItem cartItemForProduct(ProductItem item) {
     return _storage.items //
         .firstWhere((el) => el.product.id == item.id, orElse: () => CartItem.none);

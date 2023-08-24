@@ -5,6 +5,7 @@ import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/wishlist/widgets/wishlist_item.dart';
 import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/app_button.dart';
+import 'package:wow_shopping/widgets/app_panel.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
@@ -107,37 +108,29 @@ class _WishlistPageState extends State<WishlistPage> {
                   child: Align(
                     alignment: Alignment.topCenter,
                     heightFactor: _selectedItems.isEmpty ? 0.0 : 1.0,
-                    child: DecoratedBox(
-                      decoration: const BoxDecoration(
-                        color: appLightGreyColor,
-                        border: Border(
-                          top: BorderSide(color: appDividerColor, width: 2.0),
-                        ),
-                      ),
-                      child: Padding(
-                        padding: allPadding24,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: AppButton(
-                                onPressed: _removeSelected,
-                                label: 'Remove',
-                                iconAsset: Assets.iconRemove,
-                              ),
+                    child: AppPanel(
+                      padding: allPadding24,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: AppButton(
+                              onPressed: _removeSelected,
+                              label: 'Remove',
+                              iconAsset: Assets.iconRemove,
                             ),
-                            horizontalMargin16,
-                            Expanded(
-                              child: AppButton(
-                                onPressed: () {
-                                  // FIXME: implement Buy Now button
-                                },
-                                label: 'Buy now',
-                                iconAsset: Assets.iconBuy,
-                                style: AppButtonStyle.highlighted,
-                              ),
+                          ),
+                          horizontalMargin16,
+                          Expanded(
+                            child: AppButton(
+                              onPressed: () {
+                                // FIXME: implement Buy Now button
+                              },
+                              label: 'Buy now',
+                              iconAsset: Assets.iconBuy,
+                              style: AppButtonStyle.highlighted,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

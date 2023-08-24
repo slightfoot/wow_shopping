@@ -6,6 +6,7 @@ import 'package:flutter/services.dart' show SystemUiOverlayStyle;
 const _appOrangeColor = Color(0xFFEC722A);
 const _appLightOrangeColor = Color(0xFFF39A24);
 const _appAppBarColor = Color(0xFF242529);
+const appGreyColor = Color(0xFF555555);
 const appLightGreyColor = Color(0xFFF0F0F0);
 
 const appDividerColor = Color(0xFFE6E6E6);
