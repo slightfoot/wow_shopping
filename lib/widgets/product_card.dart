@@ -4,6 +4,7 @@ import 'package:wow_shopping/features/product_details/product_page.dart';
 import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/min_lines.dart';
+import 'package:wow_shopping/widgets/product_image.dart';
 import 'package:wow_shopping/widgets/wishlist_button.dart';
 
 class SliverProductCard extends StatelessWidget {
@@ -63,10 +64,7 @@ class ProductCard extends StatelessWidget {
                 alignment: Alignment.topRight,
                 children: [
                   Positioned.fill(
-                    child: Ink.image(
-                      image: AssetImage(item.primaryPhoto),
-                      fit: BoxFit.cover,
-                    ),
+                    child: ProductImage(item: item),
                   ),
                   WishlistButton(item: item),
                 ],

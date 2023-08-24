@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart'
-    show EdgeInsets, EdgeInsetsDirectional, SizedBox, SliverToBoxAdapter;
+import 'package:flutter/material.dart';
 
 const emptyWidget = SizedBox();
 const emptyWidgetWide = SizedBox(width: double.infinity);

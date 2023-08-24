@@ -41,8 +41,6 @@ class ProductItem {
     options: [],
   );
 
-  String get primaryPhoto => photos[0];
-
   String get formattedPrice => formatCurrency(price);
 
   String get formattedPriceWithTax => formatCurrency(priceWithTax);

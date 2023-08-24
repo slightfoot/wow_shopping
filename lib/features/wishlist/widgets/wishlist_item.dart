@@ -4,6 +4,7 @@ import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/common.dart';
+import 'package:wow_shopping/widgets/product_image.dart';
 
 @immutable
 class WishlistItem extends StatelessWidget {
@@ -41,10 +42,7 @@ class WishlistItem extends StatelessWidget {
                   alignment: Alignment.topCenter,
                   child: AspectRatio(
                     aspectRatio: 1.0,
-                    child: Ink.image(
-                      image: AssetImage(item.primaryPhoto),
-                      fit: BoxFit.cover,
-                    ),
+                    child: ProductImage(item: item),
                   ),
                 ),
               ),
