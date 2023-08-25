@@ -66,45 +66,33 @@ class _CartPageState extends State<CartPage> {
                   child: child,
                 );
               },
-              child: Stack(
+              child: Column(
                 children: [
-                  CustomScrollView(
-                    slivers: [
-                      SliverToBoxAdapter(
-                        child: TopNavBar(
-                          title: Builder(
-                            builder: (BuildContext context) {
-                              if (items.isEmpty) {
-                                return const Text('No items in your cart');
-                              } else {
-                                return Text('${items.length} items in your cart');
-                              }
-                            },
+                  Expanded(
+                    child: CustomScrollView(
+                      slivers: [
+                        SliverTopNavBar(
+                          title: items.isEmpty
+                              ? const Text('No items in your cart')
+                              : Text('${items.length} items in your cart'),
+                          pinned: true,
+                          floating: true,
+                        ),
+                        const SliverToBoxAdapter(
+                          child: _DeliveryAddressCta(
+                              // FIXME: onChangeAddress ?
+                              ),
+                        ),
+                        for (final item in items) //
+                          SliverCartItemView(
+                            key: Key(item.product.id),
+                            item: item,
                           ),
-                        ),
-                      ),
-                      const SliverToBoxAdapter(
-                        child: _DeliveryAddressCta(
-                            // FIXME: onChangeAddress ?
-                            ),
-                      ),
-                      for (final item in items) //
-                        SliverCartItemView(
-                          key: Key(item.product.id),
-                          item: item,
-                        ),
-                      SliverToBoxAdapter(
-                        child: SizedBox(height: _checkoutPanelHeight),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    left: 0.0,
-                    right: 0.0,
-                    bottom: 0.0,
-                    child: CheckoutPanel(
-                      key: _checkoutPanelKey,
+                      ],
                     ),
+                  ),
+                  CheckoutPanel(
+                    key: _checkoutPanelKey,
                   ),
                 ],
               ),
