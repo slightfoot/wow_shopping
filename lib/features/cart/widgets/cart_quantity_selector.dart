@@ -24,7 +24,7 @@ class _CartQuantitySelectorState extends State<CartQuantitySelector> {
   late TextEditingController _quantityController;
   late FocusNode _quantityFocus;
 
-  int get quantity => int.tryParse(_quantityController.text) ?? 0;
+  int get quantity => int.tryParse(_quantityController.text.trim()) ?? 0;
 
   @override
   void initState() {
@@ -45,7 +45,9 @@ class _CartQuantitySelectorState extends State<CartQuantitySelector> {
   }
 
   void _onQuantityChanged() {
-    context.cartRepo.updateQuantity(widget.item.product.id, quantity);
+    if (_quantityController.text.trim().isNotEmpty) {
+      context.cartRepo.updateQuantity(widget.item.product.id, quantity);
+    }
   }
 
   void _onMinusPressed() {
@@ -63,12 +65,10 @@ class _CartQuantitySelectorState extends State<CartQuantitySelector> {
 
   void _updateQuantity(int value) {
     final text = value.toString();
-    final selection = _quantityController.selection;
     _quantityController.value = _quantityController.value.copyWith(
       text: text,
-      selection: selection.copyWith(
-        baseOffset: math.min(selection.baseOffset, text.length),
-        extentOffset: math.min(selection.extentOffset, text.length),
+      selection: TextSelection.fromPosition(
+        TextPosition(offset: text.length),
       ),
     );
   }
@@ -101,9 +101,8 @@ class _CartQuantitySelectorState extends State<CartQuantitySelector> {
             children: [
               InkWell(
                 onTap: _onMinusPressed,
-                focusNode: _quantityFocus,
                 child: Padding(
-                  padding: leftPadding12 + verticalPadding4 + verticalPadding2,
+                  padding: leftPadding12 + rightPadding8 + verticalPadding4 + verticalPadding2,
                   child: ValueListenableBuilder(
                     valueListenable: _quantityController,
                     builder: (BuildContext context, TextEditingValue value, Widget? child) {
@@ -147,9 +146,8 @@ class _CartQuantitySelectorState extends State<CartQuantitySelector> {
               ),
               InkWell(
                 onTap: _onAddPressed,
-                focusNode: _quantityFocus,
                 child: Padding(
-                  padding: rightPadding12 + verticalPadding4 + verticalPadding2,
+                  padding: leftPadding8 + rightPadding12 + verticalPadding4 + verticalPadding2,
                   child: AppIcon(
                     iconAsset: Assets.iconAdd,
                     color: appTheme.appColor,
