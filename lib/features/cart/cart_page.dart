@@ -1,13 +1,11 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/backend/backend.dart';
+import 'package:wow_shopping/features/cart/checkout_page.dart';
 import 'package:wow_shopping/features/cart/widgets/cart_item.dart';
 import 'package:wow_shopping/features/cart/widgets/cart_page_layout.dart';
+import 'package:wow_shopping/features/cart/widgets/checkout_panel.dart';
 import 'package:wow_shopping/models/cart_item.dart';
-import 'package:wow_shopping/utils/formatting.dart';
 import 'package:wow_shopping/widgets/app_button.dart';
-import 'package:wow_shopping/widgets/app_panel.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
@@ -29,7 +27,12 @@ class _CartPageState extends State<CartPage> {
         final items = snapshot.requireData;
         return Material(
           child: CartPageLayout(
-            checkoutPanel: const CheckoutPanel(),
+            checkoutPanel: CheckoutPanel(
+              onPressed: () {
+                Navigator.of(context).push(CheckoutPage.route());
+              },
+              label: 'Checkout',
+            ),
             content: CustomScrollView(
               slivers: [
                 SliverTopNavBar(
@@ -105,64 +108,6 @@ class _DeliveryAddressCta extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class CheckoutPanel extends StatelessWidget {
-  const CheckoutPanel({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder<Decimal>(
-      initialData: context.cartRepo.currentCartTotal,
-      stream: context.cartRepo.streamCartTotal,
-      builder: (BuildContext context, AsyncSnapshot<Decimal> snapshot) {
-        final total = snapshot.requireData;
-        return AppPanel(
-          padding: horizontalPadding24 + topPadding12 + bottomPadding24,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              DefaultTextStyle.merge(
-                style: const TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w700,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text('Order amount:'),
-                    Text(formatCurrency(total)),
-                  ],
-                ),
-              ),
-              DefaultTextStyle.merge(
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  color: appGreyColor,
-                ),
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Your total amount of discount:'),
-                    Text('-'),
-                  ],
-                ),
-              ),
-              verticalMargin12,
-              AppButton(
-                onPressed: () {
-                  // FIXME: goto checkout
-                },
-                style: AppButtonStyle.highlighted,
-                label: 'Checkout',
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 }

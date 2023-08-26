@@ -14,12 +14,10 @@ class AppPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: appLightGreyColor,
-        border: Border(
-          top: BorderSide(color: appDividerColor, width: 2.0),
-        ),
+    return Material(
+      color: appLightGreyColor,
+      shape: const Border(
+        top: BorderSide(color: appDividerColor, width: 2.0),
       ),
       child: Padding(
         padding: padding,
