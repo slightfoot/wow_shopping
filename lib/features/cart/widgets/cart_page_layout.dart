@@ -21,15 +21,26 @@ class RenderCartPageLayout extends RenderBox
         WidgetsBindingObserver,
         ContainerRenderObjectMixin<RenderBox, CartPageLayoutParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, CartPageLayoutParentData> {
+  double viewHeight = 0.0;
+  double bottomInset = 0.0;
+
   @override
   void attach(PipelineOwner owner) {
     super.attach(owner);
     WidgetsBinding.instance.addObserver(this);
+    didChangeMetrics();
   }
 
   @override
   void didChangeMetrics() {
-    markNeedsLayout();
+    final view = WidgetsBinding.instance.platformDispatcher.implicitView!;
+    final newViewHeight = (view.physicalSize / view.devicePixelRatio).height;
+    final newBottomInset = view.viewInsets.bottom / view.devicePixelRatio;
+    if (viewHeight != newViewHeight || bottomInset != newBottomInset) {
+      viewHeight = newViewHeight;
+      bottomInset = newBottomInset;
+      markNeedsLayout();
+    }
   }
 
   @override
@@ -56,9 +67,6 @@ class RenderCartPageLayout extends RenderBox
 
     checkoutPanelBox.layout(BoxConstraints.tightFor(width: width), parentUsesSize: true);
 
-    final view = WidgetsBinding.instance.platformDispatcher.implicitView!;
-    final viewHeight = (view.physicalSize / view.devicePixelRatio).height;
-    final bottomInset = view.viewInsets.bottom / view.devicePixelRatio;
     final bottom = localToGlobal(Offset(0.0, height));
     final inset = math.max(0.0, bottomInset - (viewHeight - bottom.dy));
     final offset = height - inset - checkoutPanelBox.size.height;
