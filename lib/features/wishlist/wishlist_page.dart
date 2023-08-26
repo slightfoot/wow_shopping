@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/assets.dart';
-import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/wishlist/widgets/wishlist_item.dart';
 import 'package:wow_shopping/models/product_item.dart';

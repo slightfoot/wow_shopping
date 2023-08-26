@@ -1,16 +1,13 @@
-import 'dart:math' as math;
-
 import 'package:decimal/decimal.dart';
-import 'package:flutter/foundation.dart' show PlatformDispatcher;
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/cart/widgets/cart_item.dart';
+import 'package:wow_shopping/features/cart/widgets/cart_page_layout.dart';
 import 'package:wow_shopping/models/cart_item.dart';
 import 'package:wow_shopping/utils/formatting.dart';
 import 'package:wow_shopping/widgets/app_button.dart';
 import 'package:wow_shopping/widgets/app_panel.dart';
-import 'package:wow_shopping/widgets/child_builder.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
@@ -23,29 +20,6 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  final _cartPageKey = GlobalKey();
-  final _checkoutPanelKey = GlobalKey();
-  double _cartBottomInset = 0;
-  double _checkoutPanelHeight = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final view = PlatformDispatcher.instance.implicitView!;
-      final cartBox = _cartPageKey.currentContext!.findRenderObject() as RenderBox;
-      final bottom = cartBox.localToGlobal(Offset(0.0, cartBox.size.height));
-      final screenHeight = (view.physicalSize / view.devicePixelRatio).height;
-      _cartBottomInset = screenHeight - bottom.dy;
-      final panelBox = _checkoutPanelKey.currentContext!.findRenderObject() as RenderBox;
-      if (mounted) {
-        setState(() {
-          _checkoutPanelHeight = panelBox.size.height;
-        });
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<CartItem>>(
@@ -53,49 +27,29 @@ class _CartPageState extends State<CartPage> {
       stream: cartRepo.streamCartItems,
       builder: (BuildContext context, AsyncSnapshot<List<CartItem>> snapshot) {
         final items = snapshot.requireData;
-        return SizedBox.expand(
-          child: Material(
-            key: _cartPageKey,
-            child: ChildBuilder(
-              builder: (BuildContext context, Widget child) {
-                final keyboardHeight = MediaQuery.viewInsetsOf(context).bottom;
-                return Padding(
-                  padding: EdgeInsets.only(
-                    bottom: math.max(0.0, keyboardHeight - _cartBottomInset),
+        return Material(
+          child: CartPageLayout(
+            checkoutPanel: const CheckoutPanel(),
+            content: CustomScrollView(
+              slivers: [
+                SliverTopNavBar(
+                  title: items.isEmpty
+                      ? const Text('No items in your cart')
+                      : Text('${items.length} items in your cart'),
+                  pinned: true,
+                  floating: true,
+                ),
+                const SliverToBoxAdapter(
+                  child: _DeliveryAddressCta(
+                      // FIXME: onChangeAddress ?
+                      ),
+                ),
+                for (final item in items) //
+                  SliverCartItemView(
+                    key: Key(item.product.id),
+                    item: item,
                   ),
-                  child: child,
-                );
-              },
-              child: Column(
-                children: [
-                  Expanded(
-                    child: CustomScrollView(
-                      slivers: [
-                        SliverTopNavBar(
-                          title: items.isEmpty
-                              ? const Text('No items in your cart')
-                              : Text('${items.length} items in your cart'),
-                          pinned: true,
-                          floating: true,
-                        ),
-                        const SliverToBoxAdapter(
-                          child: _DeliveryAddressCta(
-                              // FIXME: onChangeAddress ?
-                              ),
-                        ),
-                        for (final item in items) //
-                          SliverCartItemView(
-                            key: Key(item.product.id),
-                            item: item,
-                          ),
-                      ],
-                    ),
-                  ),
-                  CheckoutPanel(
-                    key: _checkoutPanelKey,
-                  ),
-                ],
-              ),
+              ],
             ),
           ),
         );
