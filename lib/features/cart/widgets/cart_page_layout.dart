@@ -11,53 +11,31 @@ class CartPageLayout extends MultiChildRenderObjectWidget {
   }) : super(children: [content, checkoutPanel]);
 
   @override
-  RenderObject createRenderObject(BuildContext context) {
-    return RenderCartPageLayout(
-      viewInsets: MediaQuery.viewInsetsOf(context),
-      viewSize: MediaQuery.sizeOf(context),
-    );
-  }
-
-  @override
-  void updateRenderObject(BuildContext context, covariant RenderCartPageLayout renderObject) {
-    renderObject
-      ..viewInsets = MediaQuery.viewInsetsOf(context)
-      ..viewSize = MediaQuery.sizeOf(context);
-  }
+  RenderObject createRenderObject(BuildContext context) => RenderCartPageLayout();
 }
 
 class CartPageLayoutParentData extends ContainerBoxParentData<RenderBox> {}
 
 class RenderCartPageLayout extends RenderBox
     with
+        WidgetsBindingObserver,
         ContainerRenderObjectMixin<RenderBox, CartPageLayoutParentData>,
         RenderBoxContainerDefaultsMixin<RenderBox, CartPageLayoutParentData> {
-  RenderCartPageLayout({
-    required EdgeInsets viewInsets,
-    required Size viewSize,
-  })  : _viewInsets = viewInsets,
-        _viewSize = viewSize;
-
-  late EdgeInsets _viewInsets;
-
-  EdgeInsets get viewInsets => _viewInsets;
-
-  set viewInsets(EdgeInsets value) {
-    if (value != _viewInsets) {
-      _viewInsets = value;
-      markNeedsLayout();
-    }
+  @override
+  void attach(PipelineOwner owner) {
+    super.attach(owner);
+    WidgetsBinding.instance.addObserver(this);
   }
 
-  late Size _viewSize;
+  @override
+  void didChangeMetrics() {
+    markNeedsLayout();
+  }
 
-  Size get viewSize => _viewSize;
-
-  set viewSize(Size value) {
-    if (value != _viewSize) {
-      _viewSize = value;
-      markNeedsLayout();
-    }
+  @override
+  void detach() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.detach();
   }
 
   @override
@@ -78,8 +56,11 @@ class RenderCartPageLayout extends RenderBox
 
     checkoutPanelBox.layout(BoxConstraints.tightFor(width: width), parentUsesSize: true);
 
+    final view = WidgetsBinding.instance.platformDispatcher.implicitView!;
+    final viewHeight = (view.physicalSize / view.devicePixelRatio).height;
+    final bottomInset = view.viewInsets.bottom / view.devicePixelRatio;
     final bottom = localToGlobal(Offset(0.0, height));
-    final inset = math.max(0.0, _viewInsets.bottom - (_viewSize.height - bottom.dy));
+    final inset = math.max(0.0, bottomInset - (viewHeight - bottom.dy));
     final offset = height - inset - checkoutPanelBox.size.height;
 
     (checkoutPanelBox.parentData! as BoxParentData).offset = Offset(0.0, offset);
