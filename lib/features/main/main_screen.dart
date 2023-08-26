@@ -1,6 +1,8 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
-import 'package:wow_shopping/features/connection_monitor/connection_monitor.dart';
 import 'package:wow_shopping/features/main/widgets/bottom_nav_bar.dart';
+import 'package:wow_shopping/widgets/child_builder.dart';
 
 export 'package:wow_shopping/models/nav_item.dart';
 
@@ -27,23 +29,37 @@ class MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return SizedBox.expand(
       child: Material(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Stack(
+          fit: StackFit.expand,
           children: [
-            Expanded(
-              child: ConnectionMonitor(
-                child: IndexedStack(
-                  index: _selected.index,
-                  children: [
-                    for (final item in NavItem.values) //
-                      item.builder(),
-                  ],
-                ),
+            ChildBuilder(
+              builder: (context, child) {
+                final data = MediaQuery.of(context);
+                return MediaQuery(
+                  data: data.copyWith(
+                    viewInsets: EdgeInsets.only(
+                      bottom: math.max(data.viewInsets.bottom, 64.0),
+                    ),
+                  ),
+                  child: child,
+                );
+              },
+              child: IndexedStack(
+                index: _selected.index,
+                children: [
+                  for (final item in NavItem.values) //
+                    item.builder(),
+                ],
               ),
             ),
-            BottomNavBar(
-              onNavItemPressed: gotoSection,
-              selected: _selected,
+            Positioned(
+              bottom: 0.0,
+              left: 0.0,
+              right: 0.0,
+              child: BottomNavBar(
+                onNavItemPressed: gotoSection,
+                selected: _selected,
+              ),
             ),
           ],
         ),

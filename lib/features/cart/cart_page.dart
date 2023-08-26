@@ -28,27 +28,35 @@ class _CartPageState extends State<CartPage> {
       builder: (BuildContext context, AsyncSnapshot<List<CartItem>> snapshot) {
         final items = snapshot.requireData;
         return Material(
-          child: CartPageLayout(
-            checkoutPanel: const CheckoutPanel(),
-            content: CustomScrollView(
-              slivers: [
-                SliverTopNavBar(
-                  title: items.isEmpty
-                      ? const Text('No items in your cart')
-                      : Text('${items.length} items in your cart'),
-                  pinned: true,
-                  floating: true,
-                ),
-                const SliverToBoxAdapter(
-                  child: _DeliveryAddressCta(
-                      // FIXME: onChangeAddress ?
+          child: Padding(
+            padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverTopNavBar(
+                        title: items.isEmpty
+                            ? const Text('No items in your cart')
+                            : Text('${items.length} items in your cart'),
+                        pinned: true,
+                        floating: true,
                       ),
-                ),
-                for (final item in items) //
-                  SliverCartItemView(
-                    key: Key(item.product.id),
-                    item: item,
+                      const SliverToBoxAdapter(
+                        child: _DeliveryAddressCta(
+                            // FIXME: onChangeAddress ?
+                            ),
+                      ),
+                      for (final item in items) //
+                        SliverCartItemView(
+                          key: Key(item.product.id),
+                          item: item,
+                        ),
+                    ],
                   ),
+                ),
+                const CheckoutPanel(),
               ],
             ),
           ),
