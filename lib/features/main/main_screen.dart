@@ -6,7 +6,22 @@ export 'package:wow_shopping/models/nav_item.dart';
 
 @immutable
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen._();
+
+  static Route<void> route() {
+    return PageRouteBuilder(
+      pageBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+      ) {
+        return FadeTransition(
+          opacity: animation,
+          child: const MainScreen._(),
+        );
+      },
+    );
+  }
 
   static MainScreenState of(BuildContext context) {
     return context.findAncestorStateOfType<MainScreenState>()!;

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wow_shopping/backend/backend.dart';
+import 'package:wow_shopping/widgets/app_button.dart';
+import 'package:wow_shopping/widgets/common.dart';
 
 @immutable
 class AccountPage extends StatefulWidget {
@@ -11,13 +14,19 @@ class AccountPage extends StatefulWidget {
 class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
-    return const SizedBox.expand(
+    return SizedBox.expand(
       child: Material(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text('Account'),
+            const Text('Account'),
+            verticalMargin48,
+            verticalMargin48,
+            AppButton(
+              onPressed: () => authRepo.logout(),
+              label: 'Logout',
+            ),
           ],
         ),
       ),

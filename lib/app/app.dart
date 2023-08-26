@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -7,8 +8,10 @@ import 'package:intl/intl.dart' hide TextDirection;
 import 'package:wow_shopping/app/config.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/backend/backend.dart';
+import 'package:wow_shopping/features/login/login_screen.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
 import 'package:wow_shopping/features/splash/splash_screen.dart';
+import 'package:wow_shopping/models/user.dart';
 
 export 'package:wow_shopping/app/config.dart';
 
@@ -33,6 +36,9 @@ class _ShopWowAppState extends State<ShopWowApp> {
 
   late Future<Backend> _appLoader;
 
+  StreamSubscription<bool>? _subIsLoggedIn;
+  bool _isLoggedIn = false;
+
   @override
   void initState() {
     super.initState();
@@ -43,7 +49,28 @@ class _ShopWowAppState extends State<ShopWowApp> {
 
   Future<Backend> _loadApp() async {
     await initializeDateFormatting();
-    return Backend.init();
+    final backend = await Backend.init();
+    _subIsLoggedIn = backend
+        .authRepo //
+        .streamIsLoggedIn
+        .listen(_onLoginStateChanged);
+    return backend;
+  }
+
+  @override
+  void dispose() {
+    _subIsLoggedIn?.cancel();
+    super.dispose();
+  }
+
+  void _onLoginStateChanged(bool newIsLoggedIn) {
+    if (_isLoggedIn && !newIsLoggedIn) {
+      _isLoggedIn = newIsLoggedIn;
+      navigatorState.pushAndRemoveUntil(LoginScreen.route(), (route) => false);
+    } else if (!_isLoggedIn && newIsLoggedIn) {
+      _isLoggedIn = newIsLoggedIn;
+      navigatorState.pushAndRemoveUntil(MainScreen.route(), (route) => false);
+    }
   }
 
   @override
@@ -69,7 +96,16 @@ class _ShopWowAppState extends State<ShopWowApp> {
                 navigatorKey: _navigatorKey,
                 title: _appTitle,
                 theme: generateLightTheme(),
-                home: const MainScreen(),
+                onGenerateRoute: (RouteSettings settings) {
+                  if (settings.name == Navigator.defaultRouteName) {
+                    if (!_isLoggedIn) {
+                      return LoginScreen.route();
+                    }
+                    return MainScreen.route();
+                  } else {
+                    return null; // Page not found
+                  }
+                },
               ),
             );
           }
