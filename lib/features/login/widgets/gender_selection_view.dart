@@ -34,6 +34,7 @@ class GenderSelectionView extends StatelessWidget {
               style: AppButtonStyle.highlighted,
               iconAsset: Assets.iconContinue,
               onPressed: () => onContinue(selectedGender),
+              labelAlignment: TextAlign.center,
             ),
           ),
         ),

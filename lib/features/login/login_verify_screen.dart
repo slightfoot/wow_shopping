@@ -105,6 +105,7 @@ class VerifyScreen extends StatelessWidget {
                         style: AppButtonStyle.highlighted,
                         iconAsset: Assets.iconContinue,
                         onPressed: onContinue,
+                        labelAlignment: TextAlign.center,
                       ),
                       verticalMargin24,
                       const TimeOutWidget(duration: Duration(seconds: 20)),

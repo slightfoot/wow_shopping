@@ -66,6 +66,7 @@ class LoginToYourAccountWidget extends StatelessWidget {
                   style: AppButtonStyle.highlighted,
                   iconAsset: Assets.iconContinue,
                   onPressed: onContinue,
+                  labelAlignment: TextAlign.center,
                 ),
                 verticalMargin16,
                 const Text(
