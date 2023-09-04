@@ -97,14 +97,14 @@ class _ShopWowAppState extends State<ShopWowApp> {
                 title: _appTitle,
                 theme: generateLightTheme(),
                 onGenerateRoute: (RouteSettings settings) {
-                  if (settings.name == Navigator.defaultRouteName) {
-                    if (!_isLoggedIn) {
-                      return LoginScreen.route();
-                    }
-                    return MainScreen.route();
-                  } else {
-                    return null; // Page not found
-                  }
+                  // if (settings.name == Navigator.defaultRouteName) {
+                    // if (!_isLoggedIn) {
+                  return LoginScreen.route();
+                  //   }
+                  // return MainScreen.route();
+                  // } else {
+                  //   return null; // Page not found
+                  // }
                 },
               ),
             );
