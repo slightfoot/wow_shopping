@@ -16,39 +16,37 @@ class ConnectionMonitor extends StatefulWidget {
 }
 
 class _ConnectionMonitorState extends State<ConnectionMonitor> {
-  final connectivity = Connectivity();
-  late final checkConnectivity = connectivity.checkConnectivity();
-  late final onConnectivityChanged = connectivity.onConnectivityChanged;
+  late final _connectivity = _connectivityStream();
+
+  Stream<ConnectivityResult> _connectivityStream() async* {
+    final connectivity = Connectivity();
+    yield await connectivity.checkConnectivity();
+    yield* connectivity.onConnectivityChanged;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: checkConnectivity,
+    return StreamBuilder(
+      stream: _connectivity,
       builder: (BuildContext context, AsyncSnapshot<ConnectivityResult> snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return emptyWidget;
+        if (snapshot.connectionState != ConnectionState.active) {
+          return widget.child;
         }
-        return StreamBuilder(
-          initialData: snapshot.requireData,
-          stream: onConnectivityChanged,
-          builder: (BuildContext context, AsyncSnapshot<ConnectivityResult> snapshot) {
-            final result = snapshot.requireData;
-            return _ConnectivityBannerHost(
-              isConnected: result != ConnectivityResult.none,
-              banner: Material(
-                color: Colors.red,
-                child: Padding(
-                  padding: verticalPadding4 + horizontalPadding12,
-                  child: const Text(
-                    'Please check your internet connection',
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
+        final result = snapshot.requireData;
+        return _ConnectivityBannerHost(
+          isConnected: result != ConnectivityResult.none,
+          banner: Material(
+            color: Colors.red,
+            child: Padding(
+              padding: verticalPadding4 + horizontalPadding12,
+              child: const Text(
+                'Please check your internet connection',
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
               ),
-              child: widget.child,
-            );
-          },
+            ),
+          ),
+          child: widget.child,
         );
       },
     );
