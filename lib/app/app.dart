@@ -11,7 +11,6 @@ import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/login/login_screen.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
 import 'package:wow_shopping/features/splash/splash_screen.dart';
-import 'package:wow_shopping/models/user.dart';
 
 export 'package:wow_shopping/app/config.dart';
 
@@ -32,7 +31,7 @@ class ShopWowApp extends StatefulWidget {
 class _ShopWowAppState extends State<ShopWowApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
-  NavigatorState get navigatorState => _navigatorKey.currentState!;
+  NavigatorState? get navigatorState => _navigatorKey.currentState;
 
   late Future<Backend> _appLoader;
 
@@ -67,10 +66,10 @@ class _ShopWowAppState extends State<ShopWowApp> {
     scheduleMicrotask(() {
       if (_isLoggedIn && !newIsLoggedIn) {
         _isLoggedIn = newIsLoggedIn;
-        navigatorState.pushAndRemoveUntil(LoginScreen.route(), (route) => false);
+        navigatorState?.pushAndRemoveUntil(LoginScreen.route(), (route) => false);
       } else if (!_isLoggedIn && newIsLoggedIn) {
         _isLoggedIn = newIsLoggedIn;
-        navigatorState.pushAndRemoveUntil(MainScreen.route(), (route) => false);
+        navigatorState?.pushAndRemoveUntil(MainScreen.route(), (route) => false);
       }
     });
   }
