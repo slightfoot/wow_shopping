@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/models/category_item.dart';
+import 'package:wow_shopping/utils/svg.dart';
 import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
@@ -14,6 +16,12 @@ class CategoryNavList extends StatelessWidget {
 
   final CategoryItem? selected;
   final ValueChanged<CategoryItem> onCategoryItemPressed;
+
+  static Future<void> precacheImages() async {
+    await Future.wait([
+      for (final item in CategoryItem.values) SvgPicture.asset(item.iconAsset).precache(),
+    ]);
+  }
 
   @override
   Widget build(BuildContext context) {

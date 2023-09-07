@@ -5,6 +5,7 @@ import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/home/widgets/promo_carousel.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
 import 'package:wow_shopping/models/product_item.dart';
+import 'package:wow_shopping/utils/svg.dart';
 import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/category_nav_list.dart';
 import 'package:wow_shopping/widgets/common.dart';
@@ -15,6 +16,15 @@ import 'package:wow_shopping/widgets/top_nav_bar.dart';
 @immutable
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  static Future<void> precacheImages() async {
+    await Future.wait([
+      SvgPicture.asset(Assets.logo).precache(),
+      SvgPicture.asset(Assets.iconFilter).precache(),
+      SvgPicture.asset(Assets.iconSearch).precache(),
+      CategoryNavList.precacheImages(),
+    ]);
+  }
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -108,9 +118,10 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<ProductItem>>(
+      initialData: productsRepo.currentTopSelling(),
       future: _futureTopSelling,
       builder: (BuildContext context, AsyncSnapshot<List<ProductItem>> snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
+        if (snapshot.hasData == false) {
           return const SliverFillRemaining(
             child: Center(
               child: CircularProgressIndicator(),

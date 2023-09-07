@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
@@ -30,9 +31,13 @@ class ProductsRepo {
     }
   }
 
+  List<ProductItem> currentTopSelling() {
+    return UnmodifiableListView(_products);
+  }
+
   Future<List<ProductItem>> fetchTopSelling() async {
     //await Future.delayed(const Duration(seconds: 3));
-    return List.unmodifiable(_products); // TODO: filter to top-selling only
+    return UnmodifiableListView(_products); // TODO: filter to top-selling only
   }
 
   /// Find product from the top level products cache

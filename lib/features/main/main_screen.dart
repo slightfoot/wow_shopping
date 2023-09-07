@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/features/connection_monitor/connection_monitor.dart';
+import 'package:wow_shopping/features/home/home_page.dart';
 import 'package:wow_shopping/features/main/widgets/bottom_nav_bar.dart';
 
 export 'package:wow_shopping/models/nav_item.dart';
@@ -21,6 +22,11 @@ class MainScreen extends StatefulWidget {
         );
       },
     );
+  }
+
+  static Future<void> precacheImages() async {
+    await HomePage.precacheImages();
+    await BottomNavBar.precacheImages();
   }
 
   static MainScreenState of(BuildContext context) {

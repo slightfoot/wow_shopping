@@ -53,6 +53,9 @@ class _ShopWowAppState extends State<ShopWowApp> {
         .authRepo //
         .streamIsLoggedIn
         .listen(_onLoginStateChanged);
+    if (mounted) {
+      await MainScreen.precacheImages();
+    }
     return backend;
   }
 

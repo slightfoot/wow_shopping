@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/models/nav_item.dart';
+import 'package:wow_shopping/utils/svg.dart';
 import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
@@ -13,6 +15,12 @@ class BottomNavBar extends StatelessWidget {
     required this.onNavItemPressed,
     required this.selected,
   });
+
+  static Future<void> precacheImages() async {
+    await Future.wait(NavItem.values.map(
+      (el) => SvgPicture.asset(el.navIconAsset).precache(),
+    ));
+  }
 
   final ValueChanged<NavItem> onNavItemPressed;
   final NavItem selected;
