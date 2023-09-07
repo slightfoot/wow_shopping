@@ -8,7 +8,7 @@ import 'package:wow_shopping/models/cart_storage.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:path/path.dart' as path;
 import 'package:wow_shopping/models/product_item.dart';
-import 'package:wow_shopping/backend/wishlist_repo.dart';
+import 'package:wow_shopping/features/wishlist/wishlist_repo.dart';
 
 /// FIXME: Very similar to the [WishlistRepo] and should be refactored out and simplified
 class CartRepo {

@@ -3,10 +3,10 @@ import 'package:wow_shopping/backend/api_service.dart';
 import 'package:wow_shopping/backend/auth_repo.dart';
 import 'package:wow_shopping/backend/cart_repo.dart';
 import 'package:wow_shopping/backend/product_repo.dart';
-import 'package:wow_shopping/backend/wishlist_repo.dart';
+import 'package:wow_shopping/features/wishlist/wishlist_repo.dart';
 
 export 'package:wow_shopping/backend/product_repo.dart';
-export 'package:wow_shopping/backend/wishlist_repo.dart';
+export 'package:wow_shopping/features/wishlist/wishlist_repo.dart';
 
 extension BackendBuildContext on BuildContext {
   Backend get backend => BackendInheritedWidget.of(this, listen: false);

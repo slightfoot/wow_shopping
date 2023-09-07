@@ -59,8 +59,11 @@ class _WishlistPageState extends State<WishlistPage> {
     return SizedBox.expand(
       child: Material(
         child: WishlistConsumer(
-          builder: (BuildContext context, List<ProductItem> wishlist) {
-            _wishlistItems = wishlist;
+          builder: (BuildContext context, WishlistState state) {
+            if (state is! WishlistStateActive) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            _wishlistItems = state.items;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -150,14 +153,14 @@ class WishlistConsumer extends StatelessWidget {
     required this.builder,
   });
 
-  final Widget Function(BuildContext context, List<ProductItem> wishlist) builder;
+  final Widget Function(BuildContext context, WishlistState state) builder;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<ProductItem>>(
-      initialData: context.wishlistRepo.currentWishlistItems,
-      stream: context.wishlistRepo.streamWishlistItems,
-      builder: (BuildContext context, AsyncSnapshot<List<ProductItem>> snapshot) {
+    return StreamBuilder<WishlistState>(
+      initialData: context.wishlistRepo.currentState,
+      stream: context.wishlistRepo.streamState,
+      builder: (BuildContext context, AsyncSnapshot<WishlistState> snapshot) {
         return builder(context, snapshot.requireData);
       },
     );

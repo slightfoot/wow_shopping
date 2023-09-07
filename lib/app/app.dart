@@ -64,13 +64,15 @@ class _ShopWowAppState extends State<ShopWowApp> {
   }
 
   void _onLoginStateChanged(bool newIsLoggedIn) {
-    if (_isLoggedIn && !newIsLoggedIn) {
-      _isLoggedIn = newIsLoggedIn;
-      navigatorState.pushAndRemoveUntil(LoginScreen.route(), (route) => false);
-    } else if (!_isLoggedIn && newIsLoggedIn) {
-      _isLoggedIn = newIsLoggedIn;
-      navigatorState.pushAndRemoveUntil(MainScreen.route(), (route) => false);
-    }
+    scheduleMicrotask(() {
+      if (_isLoggedIn && !newIsLoggedIn) {
+        _isLoggedIn = newIsLoggedIn;
+        navigatorState.pushAndRemoveUntil(LoginScreen.route(), (route) => false);
+      } else if (!_isLoggedIn && newIsLoggedIn) {
+        _isLoggedIn = newIsLoggedIn;
+        navigatorState.pushAndRemoveUntil(MainScreen.route(), (route) => false);
+      }
+    });
   }
 
   @override
