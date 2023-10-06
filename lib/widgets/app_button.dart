@@ -15,12 +15,14 @@ class AppButton extends StatelessWidget {
     super.key,
     this.onPressed,
     required this.label,
+    this.labelAlignment,
     this.iconAsset,
     this.style = AppButtonStyle.regular,
   });
 
   final VoidCallback? onPressed;
   final String label;
+  final TextAlign? labelAlignment;
   final String? iconAsset;
   final AppButtonStyle style;
 
@@ -59,9 +61,10 @@ class AppButton extends StatelessWidget {
                   Expanded(
                     child: Text(
                       label,
-                      textAlign: iconAsset != null //
-                          ? TextAlign.start
-                          : TextAlign.center,
+                      textAlign: labelAlignment ??
+                          (iconAsset != null //
+                              ? TextAlign.start
+                              : TextAlign.center),
                       style: switch (style) {
                         AppButtonStyle.outlined => TextStyle(
                             fontSize: 16.0,

@@ -1,10 +1,12 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:wow_shopping/backend/auth_repo.dart';
-import 'package:wow_shopping/backend/backend.dart';
-import 'package:wow_shopping/widgets/app_button.dart';
-import 'package:wow_shopping/widgets/common.dart';
+import 'login_option_screen.dart';
+import 'login_page_wrapper.dart';
+
+import '../../app/theme.dart';
+import '../../backend/backend.dart';
+
+import 'widgets/gender_selection_view.dart';
+import 'login_bloc/login_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen._();
@@ -33,79 +35,24 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Center(
-        child: StreamBuilder<LoginState>(
-          initialData: _logic.currentState,
-          stream: _logic.streamState,
-          builder: (BuildContext context, AsyncSnapshot<LoginState> snapshot) {
-            final state = snapshot.requireData;
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                AppButton(
-                  onPressed: state.isLoading ? null : _logic.onLoginPressed,
-                  label: 'Login',
-                ),
-                verticalMargin16,
-                if (state.isLoading) //
-                  const CircularProgressIndicator(),
-                if (state.hasError) //
-                  Text(state.lastError),
-              ],
-            );
-          },
-        ),
-      ),
-    );
-  }
-}
+    final appTheme = AppTheme.of(context);
 
-class LoginLogic {
-  LoginLogic(this._authRepo) {
-    _stateController = StreamController<LoginState>.broadcast(
-      onListen: () => _emitState(_state),
+    return StreamBuilder<LoginState>(
+      initialData: _logic.currentState,
+      stream: _logic.streamState,
+      builder: (BuildContext context, AsyncSnapshot<LoginState> snapshot) {
+        final state = snapshot.requireData;
+        //todo: redirect to home if logged in
+        return LogInPageWrapper(
+          child: GenderSelectionView(onContinue: _onContinue),
+        );
+      },
     );
   }
 
-  final AuthRepo _authRepo;
-  late StreamController<LoginState> _stateController;
-  var _state = LoginState.initial();
-
-  LoginState get currentState => _state;
-
-  Stream<LoginState> get streamState => _stateController.stream;
-
-  void _emitState(LoginState value) {
-    _state = value;
-    _stateController.add(value);
+  _onContinue(String? p1) {
+    Navigator.of(context).push(
+      LoginToYourAccountWidget.route(p1),
+    );
   }
-
-  Future<void> onLoginPressed() async {
-    _emitState(LoginState.loading());
-    try {
-      await _authRepo.login('username', 'password');
-    } catch (error) {
-      _emitState(LoginState.error(error));
-    }
-  }
-}
-
-class LoginState {
-  LoginState.initial()
-      : isLoading = false,
-        lastError = '';
-
-  LoginState.loading()
-      : isLoading = true,
-        lastError = '';
-
-  LoginState.error(dynamic error)
-      : isLoading = false,
-        lastError = error.toString();
-
-  final bool isLoading;
-  final String lastError;
-
-  bool get hasError => lastError.isNotEmpty;
 }
