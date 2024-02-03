@@ -32,7 +32,7 @@ class MinLines extends StatelessWidget {
       text: TextSpan(style: effectiveTextStyle, text: 'M'),
       textDirection: Directionality.of(context),
       locale: Localizations.localeOf(context),
-      textScaleFactor: MediaQuery.textScaleFactorOf(context),
+      textScaler: MediaQuery.textScalerOf(context),
       textWidthBasis: defaultTextStyle.textWidthBasis,
       textHeightBehavior:
           defaultTextStyle.textHeightBehavior ?? DefaultTextHeightBehavior.maybeOf(context),

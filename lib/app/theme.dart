@@ -11,6 +11,7 @@ const appLightGreyColor = Color(0xFFF0F0F0);
 
 const appDividerColor = Color(0xFFE6E6E6);
 
+const appButtonBorder = RoundedRectangleBorder(borderRadius: appButtonRadius);
 const appButtonRadius = BorderRadius.all(Radius.circular(6.0));
 
 const appHorizontalGradientHighlight = LinearGradient(

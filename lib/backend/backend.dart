@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wow_shopping/backend/api_service.dart';
 import 'package:wow_shopping/backend/auth_repo.dart';
 import 'package:wow_shopping/backend/cart_repo.dart';
+import 'package:wow_shopping/backend/category_repo.dart';
 import 'package:wow_shopping/backend/product_repo.dart';
 import 'package:wow_shopping/features/wishlist/wishlist_repo.dart';
 
@@ -13,6 +14,8 @@ extension BackendBuildContext on BuildContext {
 
   AuthRepo get authRepo => backend.authRepo;
 
+  CategoryRepo get categoryRepo => backend.categoryRepo;
+
   ProductsRepo get productsRepo => backend.productsRepo;
 
   WishlistRepo get wishlistRepo => backend.wishlistRepo;
@@ -22,6 +25,8 @@ extension BackendBuildContext on BuildContext {
 
 extension BackendState<T extends StatefulWidget> on State<T> {
   AuthRepo get authRepo => context.authRepo;
+
+  CategoryRepo get categoryRepo => context.categoryRepo;
 
   ProductsRepo get productsRepo => context.productsRepo;
 
@@ -33,12 +38,14 @@ extension BackendState<T extends StatefulWidget> on State<T> {
 class Backend {
   Backend._(
     this.authRepo,
+    this.categoryRepo,
     this.productsRepo,
     this.wishlistRepo,
     this.cartRepo,
   );
 
   final AuthRepo authRepo;
+  final CategoryRepo categoryRepo;
   final ProductsRepo productsRepo;
   final WishlistRepo wishlistRepo;
   final CartRepo cartRepo;
@@ -47,12 +54,14 @@ class Backend {
     late AuthRepo authRepo;
     final apiService = ApiService(() async => authRepo.token);
     authRepo = await AuthRepo.create(apiService);
+    final categoryRepo = await CategoryRepo.create();
     final productsRepo = await ProductsRepo.create();
     final wishlistRepo = await WishlistRepo.create(productsRepo);
     final cartRepo = await CartRepo.create();
     authRepo.retrieveUser();
     return Backend._(
       authRepo,
+      categoryRepo,
       productsRepo,
       wishlistRepo,
       cartRepo,
@@ -63,10 +72,10 @@ class Backend {
 @immutable
 class BackendInheritedWidget extends InheritedWidget {
   const BackendInheritedWidget({
-    Key? key,
+    super.key,
     required this.backend,
-    required Widget child,
-  }) : super(key: key, child: child);
+    required super.child,
+  });
 
   final Backend backend;
 

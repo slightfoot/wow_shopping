@@ -124,6 +124,7 @@ const leftPadding24 = EdgeInsets.only(left: 24.0);
 const leftPadding32 = EdgeInsets.only(left: 32.0);
 const leftPadding48 = EdgeInsets.only(left: 48.0);
 
+const rightPadding2 = EdgeInsets.only(right: 2.0);
 const rightPadding4 = EdgeInsets.only(right: 4.0);
 const rightPadding8 = EdgeInsets.only(right: 8.0);
 const rightPadding12 = EdgeInsets.only(right: 12.0);

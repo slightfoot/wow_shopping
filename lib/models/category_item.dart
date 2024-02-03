@@ -1,26 +1,32 @@
+import 'package:collection/collection.dart';
 import 'package:wow_shopping/app/assets.dart';
 
 enum CategoryItem {
-  global('Global', Assets.categoryGlobal),
-  fashion('Fashion', Assets.categoryFashion),
-  phoneTablet('Phones & Tablets', Assets.categoryPhoneTablet),
-  electronics('Electronics', Assets.categoryElectronics),
-  computing('Computing', Assets.categoryComputing),
-  homeOffice('Home Office', Assets.categoryHomeOffice),
-  healthBeauty('Health Beauty', Assets.categoryHealthBeauty),
-  grocery('Grocery', Assets.categoryGrocery),
-  baby('Baby Products', Assets.categoryBaby),
-  kettles('Kettles', Assets.categoryKettles),
-  smartWatches('Smart Watches', Assets.categorySmartWatches),
-  flashDrives('Flash Drives', Assets.categoryFlashDrives),
-  wallMounts('Wall Mounts', Assets.categoryWallMounts),
-  kitchen('Kitchen', Assets.categoryKitchen),
-  audio('Speaker Systems', Assets.categoryAudio),
-  other('Other', Assets.categoryOther),
+  global(0, 'Global', Assets.categoryGlobal),
+  fashion(1, 'Fashion', Assets.categoryFashion),
+  phoneTablet(2, 'Phones & Tablets', Assets.categoryPhoneTablet),
+  electronics(3, 'Electronics', Assets.categoryElectronics),
+  computing(4, 'Computing', Assets.categoryComputing),
+  homeOffice(5, 'Home Office', Assets.categoryHomeOffice),
+  healthBeauty(6, 'Health Beauty', Assets.categoryHealthBeauty),
+  grocery(7, 'Grocery', Assets.categoryGrocery),
+  baby(8, 'Baby Products', Assets.categoryBaby),
+  kettles(9, 'Kettles', Assets.categoryKettles),
+  smartWatches(10, 'Smart Watches', Assets.categorySmartWatches),
+  flashDrives(11, 'Flash Drives', Assets.categoryFlashDrives),
+  wallMounts(12, 'Wall Mounts', Assets.categoryWallMounts),
+  kitchen(13, 'Kitchen', Assets.categoryKitchen),
+  audio(14, 'Speaker Systems', Assets.categoryAudio),
+  other(15, 'Other', Assets.categoryOther),
   ;
 
-  const CategoryItem(this.title, this.iconAsset);
+  const CategoryItem(this.id, this.title, this.iconAsset);
 
+  final int id;
   final String title;
   final String iconAsset;
+
+  static CategoryItem? fromId(int id) {
+    return CategoryItem.values.firstWhereOrNull((el) => el.id == id);
+  }
 }

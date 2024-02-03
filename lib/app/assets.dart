@@ -60,4 +60,5 @@ final class Assets {
 
   // Example Products
   static const productsData = '$_assets/products/products.json';
+  static const featuredCategoriesData = '$_assets/products/featured_categories.json';
 }

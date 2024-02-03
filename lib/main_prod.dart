@@ -5,6 +5,7 @@ void main() {
   runApp(const ShopWowApp(
     config: AppConfig(
       env: AppEnv.prod,
+      baseApiUrl: 'https://example.com/api/'
     ),
   ));
 }
