@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/theme.dart';
+import 'package:wow_shopping/features/main/widgets/cart_popup_notification.dart';
 import 'package:wow_shopping/models/nav_item.dart';
 import 'package:wow_shopping/utils/svg.dart';
 import 'package:wow_shopping/widgets/app_icon.dart';
+import 'package:wow_shopping/widgets/child_builder.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
 export 'package:wow_shopping/models/nav_item.dart';
@@ -39,10 +41,21 @@ class BottomNavBar extends StatelessWidget {
             children: [
               for (final item in NavItem.values) //
                 Expanded(
-                  child: BottomNavButton(
-                    onPressed: onNavItemPressed,
-                    item: item,
-                    selected: selected,
+                  child: ChildBuilder(
+                    builder: (BuildContext context, Widget child) {
+                      if (item == NavItem.cart) {
+                        return CompositedTransformTarget(
+                          link: CartPopupCountHost.layerLinkOf(context),
+                          child: child,
+                        );
+                      }
+                      return child;
+                    },
+                    child: BottomNavButton(
+                      onPressed: onNavItemPressed,
+                      item: item,
+                      selected: selected,
+                    ),
                   ),
                 ),
             ],
