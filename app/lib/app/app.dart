@@ -48,7 +48,7 @@ class _ShopWowAppState extends State<ShopWowApp> {
 
   Future<Backend> _loadApp() async {
     await initializeDateFormatting();
-    final backend = await Backend.init();
+    final backend = await Backend.init(widget.config);
     _subIsLoggedIn = backend
         .authRepo //
         .streamIsLoggedIn

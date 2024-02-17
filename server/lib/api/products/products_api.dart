@@ -53,11 +53,11 @@ class ProductsApi {
   }
 
   Future<Response> _postProducts(Request request) async {
-    return jsonResponse(_products);
+    return jsonResponse({'products': _products});
   }
 
   Future<Response> _postTopSelling(Request request) async {
-    return jsonResponse(_products);
+    return jsonResponse({'products': _products});
   }
 
   Future<Response> _postFeaturedCategories(Request request) async {

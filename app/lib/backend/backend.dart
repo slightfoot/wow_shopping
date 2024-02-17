@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wow_shopping/app/config.dart';
 import 'package:wow_shopping/backend/api_service.dart';
 import 'package:wow_shopping/backend/auth_repo.dart';
 import 'package:wow_shopping/backend/cart_repo.dart';
@@ -21,6 +22,8 @@ extension BackendBuildContext on BuildContext {
   WishlistRepo get wishlistRepo => backend.wishlistRepo;
 
   CartRepo get cartRepo => backend.cartRepo;
+
+  String resolveApiUrl(String path) => backend.resolveApiUrl(path);
 }
 
 extension BackendState<T extends StatefulWidget> on State<T> {
@@ -33,10 +36,13 @@ extension BackendState<T extends StatefulWidget> on State<T> {
   WishlistRepo get wishlistRepo => context.wishlistRepo;
 
   CartRepo get cartRepo => context.cartRepo;
+
+  String resolveApiUrl(String path) => context.resolveApiUrl(path);
 }
 
 class Backend {
   Backend._(
+    this.config,
     this.authRepo,
     this.categoryRepo,
     this.productsRepo,
@@ -44,28 +50,39 @@ class Backend {
     this.cartRepo,
   );
 
+  final AppConfig config;
   final AuthRepo authRepo;
   final CategoryRepo categoryRepo;
   final ProductsRepo productsRepo;
   final WishlistRepo wishlistRepo;
   final CartRepo cartRepo;
 
-  static Future<Backend> init() async {
+  static Future<Backend> init(AppConfig config) async {
     late AuthRepo authRepo;
-    final apiService = ApiService(() async => authRepo.token);
+    final apiService = ApiService(
+      config.baseApiUrl,
+      () async => authRepo.token,
+    );
     authRepo = await AuthRepo.create(apiService);
-    final categoryRepo = await CategoryRepo.create();
-    final productsRepo = await ProductsRepo.create();
+    final categoryRepo = await CategoryRepo.create(apiService, authRepo);
+    final productsRepo = await ProductsRepo.create(apiService, authRepo);
     final wishlistRepo = await WishlistRepo.create(productsRepo);
     final cartRepo = await CartRepo.create();
     authRepo.retrieveUser();
     return Backend._(
+      config,
       authRepo,
       categoryRepo,
       productsRepo,
       wishlistRepo,
       cartRepo,
     );
+  }
+
+  String resolveApiUrl(String path) {
+    return Uri.parse(config.baseApiUrl) //
+        .replace(path: path)
+        .toString();
   }
 }
 

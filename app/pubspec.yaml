@@ -13,6 +13,8 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_svg: ^2.0.7
+  flutter_image: ^4.1.11
+  http: ^1.2.0
   json_annotation: ^4.8.1
   intl: ^0.18.1
   path_provider: ^2.1.0
@@ -39,7 +41,6 @@ flutter:
     - assets/images/icons/
     - assets/images/nav/
     - assets/images/promos/
-    - assets/products/
 
 # run with: flutter pub run flutter_launcher_icons
 flutter_launcher_icons:

@@ -57,8 +57,4 @@ final class Assets {
   // Example Promos (should be on server)
   static const promo1 = '$_images/promos/promo_1.png';
   static const promo2 = '$_images/promos/promo_2.png';
-
-  // Example Products
-  static const productsData = '$_assets/products/products.json';
-  static const featuredCategoriesData = '$_assets/products/featured_categories.json';
 }

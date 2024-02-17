@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Server Development" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+    <option name="filePath" value="$PROJECT_DIR$/server/bin/main_dev.dart" />
+    <option name="workingDirectory" value="$PROJECT_DIR$/server" />
+    <method v="2" />
+  </configuration>
+</component>

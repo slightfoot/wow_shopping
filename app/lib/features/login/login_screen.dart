@@ -84,7 +84,7 @@ class LoginLogic {
   Future<void> onLoginPressed() async {
     _emitState(LoginState.loading());
     try {
-      await _authRepo.login('username', 'password');
+      await _authRepo.login('fred', 'password');
     } catch (error) {
       _emitState(LoginState.error(error));
     }

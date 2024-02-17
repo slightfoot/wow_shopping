@@ -27,7 +27,9 @@ class AuthRepo {
   bool get isLoggedIn => _currentUser != User.none;
 
   // FIXME: this should come from storage
-  String get token => '123';
+  String _accessToken = '';
+
+  String get token => _accessToken;
 
   static Future<AuthRepo> create(ApiService apiService) async {
     User currentUser;
@@ -69,8 +71,11 @@ class AuthRepo {
 
   Future<void> login(String username, String password) async {
     try {
-      _emitUser(await _apiService.login(username, password));
-    } catch (error) {
+      final response = await _apiService.login(username, password);
+      _accessToken = response.accessToken;
+      _emitUser(User.fromDto(response.user));
+    } catch (error, stackTrace) {
+      print('$error\n$stackTrace');
       // FIXME: show user error, change state? rethrow?
     }
   }
@@ -78,7 +83,8 @@ class AuthRepo {
   Future<void> logout() async {
     try {
       await _apiService.logout();
-    } catch (error) {
+    } catch (error, stackTrace) {
+      print('$error\n$stackTrace');
       // FIXME: failed to logout? report to server
     }
     _emitUser(User.none);

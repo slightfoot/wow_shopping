@@ -31,7 +31,7 @@ class AuthMiddleware {
         throw ApiException.permissionDenied();
       }
       // TODO: lookup user from [authToken]
-      final user = User(id: '1');
+      final user = User(id: '1', name: 'Fred');
 
       return await innerHandler(request.change(
         context: {

@@ -6,9 +6,11 @@ part 'user.g.dart';
 class User {
   const User({
     required this.id,
+    required this.name,
   });
 
   final String id;
+  final String name;
 
   static User fromJson(Map<String, dynamic> json) {
     return _$UserFromJson(json);

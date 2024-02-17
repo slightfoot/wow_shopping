@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -15,7 +16,14 @@ class User {
 
   static const none = User(id: '', name: '');
 
-  factory User.fromJson(Map json) => _$UserFromJson(json);
+  static User fromDto(UserDto dto) {
+    return User(
+      id: dto.id,
+      name: dto.name,
+    );
+  }
+
+  static User fromJson(Map json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 

@@ -102,7 +102,8 @@ class ProductPage extends StatelessWidget {
             const _SliverDivider(),
             //
             _SliverSimilarItems(
-              similarItems: context.productsRepo.cachedItems,
+              // TODO: should fetch similar items from API
+              similarItems: context.productsRepo.products,
             ),
             //
             const SliverSafeArea(

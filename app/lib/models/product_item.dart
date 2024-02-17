@@ -1,3 +1,4 @@
+import 'package:common/common.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -45,7 +46,23 @@ class ProductItem {
 
   String get formattedPriceWithTax => formatCurrency(priceWithTax);
 
-  factory ProductItem.fromJson(Map json) => _$ProductItemFromJson(json);
+  static ProductItem fromDto(ProductDto dto) {
+    return ProductItem(
+      id: dto.id,
+      category: dto.category,
+      title: dto.title,
+      subTitle: dto.subTitle,
+      price: Decimal.parse(dto.price),
+      priceWithTax: Decimal.parse(dto.priceWithTax),
+      photos: dto.photos,
+      description: dto.description,
+      options: dto.options //
+          .map(ProductOption.fromDto)
+          .toList(),
+    );
+  }
+
+  static ProductItem fromJson(Map json) => _$ProductItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductItemToJson(this);
 
@@ -65,7 +82,14 @@ class ProductOption {
 
   static const none = ProductOption(id: '', name: '');
 
-  factory ProductOption.fromJson(Map json) => _$ProductOptionFromJson(json);
+  static ProductOption fromDto(ProductOptionDto dto) {
+    return ProductOption(
+      id: dto.id,
+      name: dto.name,
+    );
+  }
+
+  static ProductOption fromJson(Map json) => _$ProductOptionFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductOptionToJson(this);
 

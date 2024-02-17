@@ -21,4 +21,8 @@ class ApiException implements Exception {
   factory ApiException.notFound(String message) {
     return ApiException(HttpStatus.notFound, message);
   }
+
+  factory ApiException.unauthorized(String message) {
+    return ApiException(HttpStatus.unauthorized, message);
+  }
 }

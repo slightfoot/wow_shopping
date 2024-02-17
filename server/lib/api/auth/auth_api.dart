@@ -28,9 +28,12 @@ class AuthApi {
       throw ApiException.badRequest('Missing password');
     }
     // TODO: look up user in database and check password hash?
+    if (body.username != 'fred' || body.password != 'password') {
+      throw ApiException.unauthorized('Incorrect username/password');
+    }
     return jsonResponse(LoginResponse(
-      id: '1',
       accessToken: 'abc123',
+      user: UserDto(id: '1', name: 'Fred'),
     ));
   }
 
