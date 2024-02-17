@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wow_shopping/app/theme.dart';
-import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/connection_monitor/connection_monitor.dart';
 import 'package:wow_shopping/features/home/home_page.dart';
 import 'package:wow_shopping/features/main/widgets/bottom_nav_bar.dart';
 import 'package:wow_shopping/features/main/widgets/cart_popup_notification.dart';
-import 'package:wow_shopping/widgets/common.dart';
 
 export 'package:wow_shopping/models/nav_item.dart';
 
