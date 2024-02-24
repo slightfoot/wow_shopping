@@ -5,6 +5,7 @@ import 'package:wow_shopping/features/wishlist/widgets/wishlist_item.dart';
 import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/app_button.dart';
 import 'package:wow_shopping/widgets/app_panel.dart';
+import 'package:wow_shopping/widgets/child_builder.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/top_nav_bar.dart';
 
@@ -83,23 +84,27 @@ class _WishlistPageState extends State<WishlistPage> {
                   child: MediaQuery.removeViewPadding(
                     context: context,
                     removeTop: true,
-                    child: ListView.builder(
-                      padding: verticalPadding12,
-                      itemCount: _wishlistItems.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final item = _wishlistItems[index];
-                        return Padding(
-                          padding: verticalPadding12,
-                          child: WishlistItem(
-                            item: item,
-                            onPressed: (item) {
-                              // FIXME: navigate to product details
-                            },
-                            selected: isSelected(item),
-                            onToggleSelection: setSelected,
-                          ),
-                        );
-                      },
+                    child: FractionallySizedBox(
+                      alignment: Alignment.topCenter,
+                      widthFactor: deviceType.isTablet ? 0.6 : 1.0,
+                      child: ListView.builder(
+                        padding: verticalPadding12,
+                        itemCount: _wishlistItems.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final item = _wishlistItems[index];
+                          return Padding(
+                            padding: verticalPadding12,
+                            child: WishlistItem(
+                              item: item,
+                              onPressed: (item) {
+                                // FIXME: navigate to product details
+                              },
+                              selected: isSelected(item),
+                              onToggleSelection: setSelected,
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -112,27 +117,42 @@ class _WishlistPageState extends State<WishlistPage> {
                     heightFactor: _selectedItems.isEmpty ? 0.0 : 1.0,
                     child: AppPanel(
                       padding: allPadding24,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: AppButton(
-                              onPressed: _removeSelected,
-                              label: 'Remove',
-                              iconAsset: Assets.iconRemove,
+                      child: ChildBuilder(
+                        builder: (BuildContext context, Widget? child) {
+                          if (deviceType.isPhone) {
+                            return child!;
+                          }
+                          return Row(
+                            children: [
+                              const Spacer(),
+                              IntrinsicWidth(
+                                child: child!,
+                              ),
+                            ],
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: AppButton(
+                                onPressed: _removeSelected,
+                                label: 'Remove',
+                                iconAsset: Assets.iconRemove,
+                              ),
                             ),
-                          ),
-                          horizontalMargin16,
-                          Expanded(
-                            child: AppButton(
-                              onPressed: () {
-                                // FIXME: implement Buy Now button
-                              },
-                              label: 'Buy now',
-                              iconAsset: Assets.iconBuy,
-                              style: AppButtonStyle.highlighted,
+                            horizontalMargin16,
+                            Expanded(
+                              child: AppButton(
+                                onPressed: () {
+                                  // FIXME: implement Buy Now button
+                                },
+                                label: 'Buy now',
+                                iconAsset: Assets.iconBuy,
+                                style: AppButtonStyle.highlighted,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

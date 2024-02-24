@@ -55,33 +55,35 @@ class CartPopupNotification extends StatelessWidget {
           link: CartPopupCountHost.layerLinkOf(context),
           targetAnchor: Alignment.center,
           followerAnchor: Alignment.bottomCenter,
-          child: Padding(
-            padding: bottomPadding16 + bottomPadding4,
-            child: DecoratedBox(
-              decoration: ShapeDecoration(
-                shape: _PopupBorder(),
-                gradient: appHorizontalGradientHighlight,
-                shadows: <BoxShadow>[
-                  const BoxShadow(
-                    color: Colors.black54,
-                    spreadRadius: 0.0,
-                    blurRadius: 2.0,
-                  ),
-                  BoxShadow(
-                    color: appTheme.appColor.withOpacity(0.7),
-                    spreadRadius: -3.0,
-                    blurRadius: 12.0,
-                    //blurStyle: BlurStyle.solid,
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: verticalPadding8 + horizontalPadding16,
-                child: Text(
-                  '$cartItemsCount items',
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
+          child: IgnorePointer(
+            child: Padding(
+              padding: bottomPadding16 + bottomPadding4,
+              child: DecoratedBox(
+                decoration: ShapeDecoration(
+                  shape: _PopupBorder(),
+                  gradient: appHorizontalGradientHighlight,
+                  shadows: <BoxShadow>[
+                    const BoxShadow(
+                      color: Colors.black54,
+                      spreadRadius: 0.0,
+                      blurRadius: 2.0,
+                    ),
+                    BoxShadow(
+                      color: appTheme.appColor.withOpacity(0.7),
+                      spreadRadius: -3.0,
+                      blurRadius: 12.0,
+                      //blurStyle: BlurStyle.solid,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: verticalPadding8 + horizontalPadding16,
+                  child: Text(
+                    '$cartItemsCount items',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),

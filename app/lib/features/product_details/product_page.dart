@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/theme.dart';
+import 'package:wow_shopping/features/main/main_screen.dart';
 import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/app_button.dart';
 import 'package:wow_shopping/widgets/common.dart';
@@ -12,7 +13,8 @@ import 'package:wow_shopping/backend/backend.dart';
 
 @immutable
 class ProductPage extends StatelessWidget {
-  const ProductPage._({
+  const ProductPage({
+    super.key,
     required this.item,
   });
 
@@ -40,7 +42,10 @@ class ProductPage extends StatelessWidget {
               curve: Curves.fastOutSlowIn,
               reverseCurve: Curves.easeInCubic,
             ),
-            child: ProductPage._(item: item),
+            child: ProductPage(
+              key: Key('product-${item.id}'),
+              item: item,
+            ),
           ),
         );
       },
@@ -173,7 +178,9 @@ class _AppBarDelegate extends SliverPersistentHeaderDelegate {
           padding: padding,
           child: Row(
             children: [
-              const BackButton(),
+              BackButton(
+                onPressed: () => context.mainScreen.goBack(),
+              ),
               Expanded(
                 child: Text(
                   item.subTitle,

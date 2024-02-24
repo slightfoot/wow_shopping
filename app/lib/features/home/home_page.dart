@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wow_shopping/app/assets.dart';
+import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/home/widgets/promo_carousel.dart';
 import 'package:wow_shopping/features/home/widgets/sliver_featured_categories.dart';
 import 'package:wow_shopping/features/home/widgets/sliver_top_selling.dart';
@@ -36,9 +37,9 @@ class _HomePageState extends State<HomePage> {
   void _onPromoPressed(PromoModel promo) {
     // FIXME: demo of gotoSection
     if (promo.asset == Assets.promo1) {
-      MainScreen.of(context).gotoSection(NavItem.wishlist);
+      context.mainScreen.gotoSection(NavItem.wishlist);
     } else if (promo.asset == Assets.promo2) {
-      MainScreen.of(context).gotoSection(NavItem.cart);
+      context.mainScreen.gotoSection(NavItem.cart);
     }
   }
 
@@ -48,28 +49,39 @@ class _HomePageState extends State<HomePage> {
       child: Material(
         child: Column(
           children: [
-            TopNavBar(
-              title: Padding(
-                padding: verticalPadding8,
-                child: SvgPicture.asset(Assets.logo),
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    // FIXME: implement filter
-                  },
-                  icon: const AppIcon(iconAsset: Assets.iconFilter),
-                ),
-                IconButton(
-                  onPressed: () {
-                    // FIXME: implement search
-                  },
-                  icon: const AppIcon(iconAsset: Assets.iconSearch),
-                ),
-              ],
-              bottom: CategoryNavList(
-                onCategoryItemPressed: _onCategoryItemPressed,
-              ),
+            DeviceTypeBuilder(
+              builder: (
+                BuildContext context,
+                DeviceTypeOrientationState state,
+                Widget? child,
+              ) {
+                if (state.isTablet && state.isLandscape) {
+                  return emptyWidget;
+                }
+                return TopNavBar(
+                  title: Padding(
+                    padding: verticalPadding8,
+                    child: SvgPicture.asset(Assets.logo),
+                  ),
+                  actions: [
+                    IconButton(
+                      onPressed: () {
+                        // FIXME: implement filter
+                      },
+                      icon: const AppIcon(iconAsset: Assets.iconFilter),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        // FIXME: implement search
+                      },
+                      icon: const AppIcon(iconAsset: Assets.iconSearch),
+                    ),
+                  ],
+                  bottom: CategoryNavList(
+                    onCategoryItemPressed: _onCategoryItemPressed,
+                  ),
+                );
+              },
             ),
             Expanded(
               child: CustomScrollView(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image/flutter_image.dart';
 import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/models/product_item.dart';
+import 'package:wow_shopping/widgets/common.dart';
 
 class ProductImage extends StatelessWidget {
   const ProductImage({
@@ -17,6 +18,9 @@ class ProductImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if(item.photos.isEmpty) {
+      return emptyWidget;
+    }
     final image = NetworkImageWithRetry(
       context.resolveApiUrl(item.photos[imageIndex]),
     );

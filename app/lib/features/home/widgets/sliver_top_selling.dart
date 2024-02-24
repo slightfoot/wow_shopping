@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/models/product_item.dart';
@@ -37,6 +36,7 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
           );
         } else {
           final data = snapshot.requireData;
+          final childAxisCount = deviceType.isTablet ? 4 : 2;
           return SliverMainAxisGroup(
             slivers: [
               SliverPadding(
@@ -52,54 +52,28 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
                 ),
               ),
               sliverMainAxisVerticalMargin8,
-              for (int index = 0; index < data.length; index += 2) ...[
-                Builder(
-                  builder: (BuildContext context) {
-                    final item1 = data[index + 0];
-                    if (index + 1 < data.length) {
-                      final item2 = data[index + 1];
-                      return SliverCrossAxisGroup(
-                        slivers: [
-                          sliverCrossAxisHorizontalMargin12,
-                          SliverCrossAxisExpanded(
-                            flex: 2,
-                            sliver: SliverProductCard(
-                              key: Key('top-selling-${item1.id}'),
-                              item: item1,
-                            ),
-                          ),
-                          sliverCrossAxisHorizontalMargin12,
-                          SliverCrossAxisExpanded(
-                            flex: 2,
-                            sliver: SliverProductCard(
-                              key: Key('top-selling-${item2.id}'),
-                              item: item2,
-                            ),
-                          ),
-                          sliverCrossAxisHorizontalMargin12,
-                        ],
-                      );
-                    } else {
-                      return SliverCrossAxisGroup(
-                        slivers: [
-                          sliverCrossAxisHorizontalMargin12,
-                          SliverCrossAxisExpanded(
-                            flex: 1,
-                            sliver: SliverProductCard(
-                              key: Key('top-selling-${item1.id}'),
-                              item: item1,
-                            ),
-                          ),
-                          sliverCrossAxisHorizontalMargin12,
-                          const SliverCrossAxisExpanded(
-                            flex: 1,
-                            sliver: emptySliver,
-                          ),
-                          sliverCrossAxisHorizontalMargin12,
-                        ],
-                      );
-                    }
-                  },
+              for (int index = 0; index < data.length; index += childAxisCount) ...[
+                SliverCrossAxisGroup(
+                  slivers: [
+                    sliverCrossAxisHorizontalMargin12,
+                    for (int crossIndex = 0; crossIndex < childAxisCount; crossIndex++) ...[
+                      SliverCrossAxisExpanded(
+                        flex: 1,
+                        sliver: Builder(builder: (context) {
+                          final itemIndex = index + crossIndex;
+                          if (itemIndex >= data.length) {
+                            return emptySliver;
+                          }
+                          final item = data[itemIndex];
+                          return SliverProductCard(
+                            key: Key('top-selling-${item.id}'),
+                            item: item,
+                          );
+                        }),
+                      ),
+                      sliverCrossAxisHorizontalMargin12,
+                    ],
+                  ],
                 ),
                 sliverMainAxisVerticalMargin12,
               ],

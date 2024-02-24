@@ -99,7 +99,9 @@ class AuthRepo {
     _saveTimer?.cancel();
     _saveTimer = Timer(const Duration(seconds: 1), () async {
       if (_currentUser == User.none) {
-        await _file.delete();
+        if(_file.existsSync()) {
+          await _file.delete();
+        }
       } else {
         await _file.writeAsString(json.encode(_currentUser.toJson()));
       }

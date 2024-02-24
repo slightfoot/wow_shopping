@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/config.dart';
+import 'package:wow_shopping/app/device_type.dart';
 import 'package:wow_shopping/backend/api_service.dart';
 import 'package:wow_shopping/backend/auth_repo.dart';
 import 'package:wow_shopping/backend/cart_repo.dart';
@@ -7,11 +8,14 @@ import 'package:wow_shopping/backend/category_repo.dart';
 import 'package:wow_shopping/backend/product_repo.dart';
 import 'package:wow_shopping/features/wishlist/wishlist_repo.dart';
 
+export 'package:wow_shopping/app/device_type.dart' hide DeviceOrientation;
 export 'package:wow_shopping/backend/product_repo.dart';
 export 'package:wow_shopping/features/wishlist/wishlist_repo.dart';
 
 extension BackendBuildContext on BuildContext {
   Backend get backend => BackendInheritedWidget.of(this, listen: false);
+
+  DeviceTypeOrientationNotifier get deviceType => backend.deviceType;
 
   AuthRepo get authRepo => backend.authRepo;
 
@@ -29,6 +33,8 @@ extension BackendBuildContext on BuildContext {
 extension BackendState<T extends StatefulWidget> on State<T> {
   AuthRepo get authRepo => context.authRepo;
 
+  DeviceTypeOrientationNotifier get deviceType => context.deviceType;
+
   CategoryRepo get categoryRepo => context.categoryRepo;
 
   ProductsRepo get productsRepo => context.productsRepo;
@@ -43,6 +49,7 @@ extension BackendState<T extends StatefulWidget> on State<T> {
 class Backend {
   Backend._(
     this.config,
+    this.deviceType,
     this.authRepo,
     this.categoryRepo,
     this.productsRepo,
@@ -51,13 +58,14 @@ class Backend {
   );
 
   final AppConfig config;
+  final DeviceTypeOrientationNotifier deviceType;
   final AuthRepo authRepo;
   final CategoryRepo categoryRepo;
   final ProductsRepo productsRepo;
   final WishlistRepo wishlistRepo;
   final CartRepo cartRepo;
 
-  static Future<Backend> init(AppConfig config) async {
+  static Future<Backend> init(AppConfig config, DeviceTypeOrientationNotifier deviceType) async {
     late AuthRepo authRepo;
     final apiService = ApiService(
       config.baseApiUrl,
@@ -71,6 +79,7 @@ class Backend {
     authRepo.retrieveUser();
     return Backend._(
       config,
+      deviceType,
       authRepo,
       categoryRepo,
       productsRepo,

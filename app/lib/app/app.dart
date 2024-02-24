@@ -31,6 +31,8 @@ class ShopWowApp extends StatefulWidget {
 class _ShopWowAppState extends State<ShopWowApp> {
   final _navigatorKey = GlobalKey<NavigatorState>();
 
+  final _deviceTypeNotifier = DeviceTypeOrientationNotifier();
+
   NavigatorState? get navigatorState => _navigatorKey.currentState;
 
   late Future<Backend> _appLoader;
@@ -41,14 +43,20 @@ class _ShopWowAppState extends State<ShopWowApp> {
   @override
   void initState() {
     super.initState();
+    _deviceTypeNotifier.init();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    SystemChrome.setPreferredOrientations(
+      _deviceTypeNotifier.isPhone //
+          ? [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]
+          : DeviceOrientation.values,
+    );
     Intl.defaultLocale = PlatformDispatcher.instance.locale.toLanguageTag();
     _appLoader = _loadApp();
   }
 
   Future<Backend> _loadApp() async {
     await initializeDateFormatting();
-    final backend = await Backend.init(widget.config);
+    final backend = await Backend.init(widget.config, _deviceTypeNotifier);
     _subIsLoggedIn = backend
         .authRepo //
         .streamIsLoggedIn
@@ -61,6 +69,7 @@ class _ShopWowAppState extends State<ShopWowApp> {
 
   @override
   void dispose() {
+    _deviceTypeNotifier.dispose();
     _subIsLoggedIn?.cancel();
     super.dispose();
   }

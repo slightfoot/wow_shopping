@@ -31,7 +31,7 @@ class SliverFeaturedCategories extends StatelessWidget {
                   ),
                   verticalMargin16,
                   AspectRatio(
-                    aspectRatio: 3.5,
+                    aspectRatio: context.deviceType.isTablet ? 5.5 : 3.5,
                     child: ListView.builder(
                       padding: horizontalPadding16,
                       scrollDirection: Axis.horizontal,

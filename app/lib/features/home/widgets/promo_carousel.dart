@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
 class PromoModel {
@@ -23,7 +24,15 @@ class PromoCarousel extends StatefulWidget {
 }
 
 class _PromoCarouselState extends State<PromoCarousel> {
-  final _controller = PageController(viewportFraction: 0.8);
+  late final PageController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = PageController(
+      viewportFraction: deviceType.isTablet ? 0.3 : 0.8,
+    );
+  }
 
   @override
   void dispose() {

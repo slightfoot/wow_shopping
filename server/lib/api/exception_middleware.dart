@@ -23,9 +23,8 @@ class ExceptionMiddleware {
           message = error.message;
           code = error.code;
           statusCode = error.statusCode;
-        } else {
-          print('$error\n$stackTrace');
         }
+        print('$error\n$stackTrace');
         return jsonResponse(
           statusCode: statusCode,
           {
