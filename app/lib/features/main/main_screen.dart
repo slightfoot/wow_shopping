@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/connection_monitor/connection_monitor.dart';
 import 'package:wow_shopping/features/home/home_page.dart';
+import 'package:wow_shopping/features/main/main_navigation.dart';
 import 'package:wow_shopping/features/main/widgets/bottom_nav_bar.dart';
 import 'package:wow_shopping/features/main/widgets/cart_popup_notification.dart';
 import 'package:wow_shopping/features/main/widgets/side_nav_bar.dart';
@@ -34,19 +35,11 @@ class MainScreen extends StatefulWidget {
     await BottomNavBar.precacheImages();
   }
 
-  static MainScreenState _of(BuildContext context) {
-    return context.findAncestorStateOfType<MainScreenState>()!;
-  }
-
   @override
-  State<MainScreen> createState() => MainScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-extension BuildContextNavigationExtension on BuildContext {
-  MainScreenState get mainScreen => MainScreen._of(this);
-}
-
-class MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> implements MainNavigation {
   final _contentKey = GlobalKey(debugLabel: 'content');
 
   NavItem _selected = NavItem.home;
@@ -55,10 +48,12 @@ class MainScreenState extends State<MainScreen> {
   bool _detailsOpen = false;
   Widget? _detailsPanel;
 
+  @override
   void gotoSection(NavItem item) {
     setState(() => _selected = item);
   }
 
+  @override
   Future<void> openProduct(ProductItem item) async {
     if (_horizontalNavigationStyle!) {
       setState(() {
@@ -70,11 +65,12 @@ class MainScreenState extends State<MainScreen> {
       });
     } else {
       await Navigator.of(context).push(
-        ProductPage.route(item),
+        ProductPage.route(item, mainNavigation: this),
       );
     }
   }
 
+  @override
   void goBack() {
     if (_detailsOpen) {
       setState(() => _detailsOpen = false);
@@ -85,38 +81,44 @@ class MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CartPopupCountHost(
-      child: SizedBox.expand(
-        child: Material(
-          child: ConnectionMonitor(
-            child: Stack(
-              children: [
-                DeviceTypeBuilder(
-                  builder: (BuildContext context, DeviceTypeOrientationState state, Widget? child) {
-                    _horizontalNavigationStyle = (state.isTablet && state.isLandscape);
-                    if (_horizontalNavigationStyle!) {
-                      return _TabletLayout(
-                        opened: _detailsOpen,
-                        panel: _detailsPanel,
-                        child: child!,
-                      );
-                    } else {
-                      return _VerticalLayout(
-                        child: child!,
-                      );
-                    }
-                  },
-                  child: IndexedStack(
-                    key: _contentKey,
-                    index: _selected.index,
-                    children: [
-                      for (final item in NavItem.values) //
-                        item.builder(),
-                    ],
+    return MainNavHost(
+      mainNavigation: this,
+      child: CartPopupCountHost(
+        child: SizedBox.expand(
+          child: Material(
+            child: ConnectionMonitor(
+              child: Stack(
+                children: [
+                  DeviceTypeBuilder(
+                    builder:
+                        (BuildContext context, DeviceTypeOrientationState state, Widget? child) {
+                      _horizontalNavigationStyle = (state.isTablet && state.isLandscape);
+                      if (_horizontalNavigationStyle!) {
+                        return _TabletLayout(
+                          selected: _selected,
+                          opened: _detailsOpen,
+                          panel: _detailsPanel,
+                          child: child!,
+                        );
+                      } else {
+                        return _VerticalLayout(
+                          selected: _selected,
+                          child: child!,
+                        );
+                      }
+                    },
+                    child: IndexedStack(
+                      key: _contentKey,
+                      index: _selected.index,
+                      children: [
+                        for (final item in NavItem.values) //
+                          item.builder(),
+                      ],
+                    ),
                   ),
-                ),
-                const CartPopupNotification(),
-              ],
+                  const CartPopupNotification(),
+                ],
+              ),
             ),
           ),
         ),
@@ -127,11 +129,13 @@ class MainScreenState extends State<MainScreen> {
 
 class _TabletLayout extends StatefulWidget {
   const _TabletLayout({
+    required this.selected,
     required this.opened,
     required this.panel,
     required this.child,
   });
 
+  final NavItem selected;
   final bool opened;
   final Widget? panel;
   final Widget child;
@@ -149,8 +153,8 @@ class _TabletLayoutState extends State<_TabletLayout> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             SideNavBar(
-              onNavItemPressed: context.mainScreen.gotoSection,
-              selected: context.mainScreen._selected,
+              onNavItemPressed: context.mainNav.gotoSection,
+              selected: widget.selected,
             ),
             Expanded(
               child: Stack(
@@ -193,9 +197,11 @@ class _TabletLayoutState extends State<_TabletLayout> {
 
 class _VerticalLayout extends StatelessWidget {
   const _VerticalLayout({
+    required this.selected,
     required this.child,
   });
 
+  final NavItem selected;
   final Widget child;
 
   @override
@@ -203,12 +209,10 @@ class _VerticalLayout extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Expanded(
-          child: child
-        ),
+        Expanded(child: child),
         BottomNavBar(
-          onNavItemPressed: context.mainScreen.gotoSection,
-          selected: context.mainScreen._selected,
+          onNavItemPressed: context.mainNav.gotoSection,
+          selected: selected,
         ),
       ],
     );

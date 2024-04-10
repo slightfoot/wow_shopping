@@ -56,6 +56,18 @@ class CartRepo {
 
   Stream<Decimal> get streamCartTotal => streamCartItems.map(_calculateCartTotal);
 
+  int _countItemInList(List<CartItem> items, ProductItem item) {
+    return items.where((el) => el.product.id == item.id).length;
+  }
+
+  int countCartItemForProduct(ProductItem item) {
+    return _countItemInList(currentCartItems, item);
+  }
+
+  Stream<int> streamCountCarItemForProduct(ProductItem item) {
+    return streamCartItems.map((items) => _countItemInList(items, item));
+  }
+
   Decimal _calculateCartTotal(List<CartItem> items) {
     return items.fold<Decimal>(Decimal.zero, (prev, el) => prev + el.total);
   }

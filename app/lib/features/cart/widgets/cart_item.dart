@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/theme.dart';
 import 'package:wow_shopping/features/cart/widgets/cart_quantity_selector.dart';
+import 'package:wow_shopping/features/main/main_navigation.dart';
 import 'package:wow_shopping/models/cart_item.dart';
 import 'package:wow_shopping/utils/formatting.dart';
 import 'package:wow_shopping/widgets/common.dart';
@@ -23,58 +24,74 @@ class SliverCartItemView extends StatelessWidget {
           top: BorderSide(color: appDividerColor, width: 1.5),
         ),
       ),
-      sliver: SliverPadding(
-        padding: bottomPadding12 + horizontalPadding12,
-        sliver: SliverToBoxAdapter(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              verticalMargin12,
-              Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: ProductImage(
-                      inkEnabled: false,
-                      item: item.product,
-                    ),
-                  ),
-                  horizontalMargin16,
-                  Expanded(
-                    flex: 8,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+      sliver: SliverToBoxAdapter(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            InkWell(
+              onTap: () {
+                context.mainNav.openProduct(item.product);
+              },
+              child: Padding(
+                padding: horizontalPadding12,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    verticalMargin12,
+                    Row(
                       children: [
-                        Text(
-                          item.product.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.0,
+                        Expanded(
+                          flex: 3,
+                          child: AspectRatio(
+                            aspectRatio: 1.0,
+                            child: ProductImage(
+                              inkEnabled: true,
+                              item: item.product,
+                            ),
                           ),
                         ),
-                        verticalMargin4,
-                        Text('Deliver by ${formatShortDate(item.deliveryDate)}'),
-                        verticalMargin12,
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: CartQuantitySelector(item: item),
+                        horizontalMargin16,
+                        Expanded(
+                          flex: 8,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Text(
+                                item.product.title,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.0,
+                                ),
+                              ),
+                              verticalMargin4,
+                              Text('Deliver by ${formatShortDate(item.deliveryDate)}'),
+                              verticalMargin12,
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: CartQuantitySelector(item: item),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              verticalMargin8,
-              const SizedBox(
-                height: 1.0,
-                child: ColoredBox(
-                  color: appDividerColor,
+                    verticalMargin8,
+                  ],
                 ),
               ),
-              verticalMargin8,
-              DefaultTextStyle.merge(
+            ),
+            const SizedBox(
+              height: 1.0,
+              child: ColoredBox(
+                color: appDividerColor,
+              ),
+            ),
+            verticalMargin8,
+            Padding(
+              padding: horizontalPadding12,
+              child: DefaultTextStyle.merge(
                 style: const TextStyle(
                   fontSize: 16.0,
                   height: 2.25,
@@ -124,8 +141,9 @@ class SliverCartItemView extends StatelessWidget {
                   ],
                 ),
               ),
-            ],
-          ),
+            ),
+            verticalMargin12,
+          ],
         ),
       ),
     );

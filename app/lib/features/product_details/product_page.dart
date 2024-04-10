@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/app/theme.dart';
-import 'package:wow_shopping/features/main/main_screen.dart';
+import 'package:wow_shopping/features/main/main_navigation.dart';
+import 'package:wow_shopping/models/nav_item.dart';
 import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/app_button.dart';
 import 'package:wow_shopping/widgets/common.dart';
@@ -20,13 +22,33 @@ class ProductPage extends StatelessWidget {
 
   final ProductItem item;
 
-  static Route<void> route(ProductItem item) {
+  static Route<void> route(
+    ProductItem item, {
+    required MainNavigation mainNavigation,
+  }) {
     return PageRouteBuilder(
       settings: RouteSettings(name: '/products/${item.id}'),
       transitionDuration: const Duration(milliseconds: 300),
       reverseTransitionDuration: const Duration(milliseconds: 250),
       pageBuilder: (BuildContext context, Animation<double> animation,
           Animation<double> secondaryAnimation) {
+        return MainNavHost(
+          mainNavigation: _ProductPageNavigation(
+            mainNavigation: mainNavigation,
+            context: context,
+          ),
+          child: ProductPage(
+            key: Key('product-${item.id}'),
+            item: item,
+          ),
+        );
+      },
+      transitionsBuilder: (
+        BuildContext context,
+        Animation<double> animation,
+        Animation<double> secondaryAnimation,
+        Widget child,
+      ) {
         return SlideTransition(
           position: Tween(
             begin: const Offset(0.66, 0.0),
@@ -42,10 +64,7 @@ class ProductPage extends StatelessWidget {
               curve: Curves.fastOutSlowIn,
               reverseCurve: Curves.easeInCubic,
             ),
-            child: ProductPage(
-              key: Key('product-${item.id}'),
-              item: item,
-            ),
+            child: child,
           ),
         );
       },
@@ -122,6 +141,31 @@ class ProductPage extends StatelessWidget {
   }
 }
 
+class _ProductPageNavigation implements MainNavigation {
+  _ProductPageNavigation({
+    required this.mainNavigation,
+    required this.context,
+  });
+
+  final MainNavigation mainNavigation;
+  final BuildContext context;
+
+  @override
+  void gotoSection(NavItem item) {
+    goBack();
+    mainNavigation.gotoSection(item);
+  }
+
+  @override
+  Future<void> openProduct(ProductItem item) async {
+    goBack();
+    mainNavigation.openProduct(item);
+  }
+
+  @override
+  void goBack() => Navigator.of(context).pop();
+}
+
 @immutable
 class _SliverProductHeader extends StatelessWidget {
   const _SliverProductHeader({
@@ -179,7 +223,7 @@ class _AppBarDelegate extends SliverPersistentHeaderDelegate {
           child: Row(
             children: [
               BackButton(
-                onPressed: () => context.mainScreen.goBack(),
+                onPressed: () => context.mainNav.goBack(),
               ),
               Expanded(
                 child: Text(
@@ -503,14 +547,42 @@ class _SliverProductSizeSelector extends StatelessWidget {
             ),
             Padding(
               padding: horizontalPadding16,
-              child: AppButton(
-                onPressed: () {
-                  // FIXME: add product to cart
-                  // FIXME: specify option for size
-                  context.cartRepo.addToCart(item);
+              child: StreamBuilder<int>(
+                initialData: context.cartRepo.countCartItemForProduct(item),
+                stream: context.cartRepo.streamCountCarItemForProduct(item),
+                builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                  final cartItemCount = snapshot.requireData;
+                  return IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: AppButton(
+                            onPressed: () {
+                              // FIXME: add product to cart
+                              // FIXME: specify option for size
+                              context.cartRepo.addToCart(item);
+                            },
+                            label: 'Add to cart',
+                            style: AppButtonStyle.highlighted,
+                          ),
+                        ),
+                        if (cartItemCount > 0) ...[
+                          horizontalMargin12,
+                          AppButton(
+                            onPressed: () {
+                              context.cartRepo.removeToCart(item.id);
+                            },
+                            label: 'Remove ${item.title} from cart',
+                            iconAsset: Assets.iconRemove,
+                            style: AppButtonStyle.highlighted,
+                            showLabel: false,
+                          ),
+                        ],
+                      ],
+                    ),
+                  );
                 },
-                label: 'Add to cart',
-                style: AppButtonStyle.highlighted,
               ),
             ),
             verticalMargin16,

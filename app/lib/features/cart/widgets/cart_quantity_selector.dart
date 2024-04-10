@@ -85,7 +85,7 @@ class _CartQuantitySelectorState extends State<CartQuantitySelector> {
     final appTheme = AppTheme.of(context);
     return TextFieldTapRegion(
       child: Material(
-        type: MaterialType.transparency,
+        color: Colors.white,
         clipBehavior: Clip.hardEdge,
         shape: RoundedRectangleBorder(
           borderRadius: appButtonRadius,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/theme.dart';
-import 'package:wow_shopping/features/main/main_screen.dart';
+import 'package:wow_shopping/features/main/main_navigation.dart';
 import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/common.dart';
 import 'package:wow_shopping/widgets/min_lines.dart';
@@ -50,7 +50,7 @@ class ProductCard extends StatelessWidget {
       child: InkWell(
         onTap: onPressed != null //
             ? () => onPressed!(item)
-            : () => context.mainScreen.openProduct(item),
+            : () => context.mainNav.openProduct(item),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

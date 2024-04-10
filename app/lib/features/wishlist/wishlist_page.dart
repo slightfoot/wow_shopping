@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wow_shopping/app/assets.dart';
 import 'package:wow_shopping/backend/backend.dart';
+import 'package:wow_shopping/features/main/main_navigation.dart';
 import 'package:wow_shopping/features/wishlist/widgets/wishlist_item.dart';
 import 'package:wow_shopping/models/product_item.dart';
 import 'package:wow_shopping/widgets/app_button.dart';
@@ -19,18 +20,18 @@ class WishlistPage extends StatefulWidget {
 
 class _WishlistPageState extends State<WishlistPage> {
   var _wishlistItems = <ProductItem>[];
-  final _selectedItems = <String>{};
+  final _selectedItemsIds = <String>{};
 
   bool isSelected(ProductItem item) {
-    return _selectedItems.contains(item.id);
+    return _selectedItemsIds.contains(item.id);
   }
 
   void setSelected(ProductItem item, bool selected) {
     setState(() {
       if (selected) {
-        _selectedItems.add(item.id);
+        _selectedItemsIds.add(item.id);
       } else {
-        _selectedItems.remove(item.id);
+        _selectedItemsIds.remove(item.id);
       }
     });
   }
@@ -38,21 +39,30 @@ class _WishlistPageState extends State<WishlistPage> {
   void toggleSelectAll() {
     final allIds = _wishlistItems.map((el) => el.id).toList();
     setState(() {
-      if (_selectedItems.containsAll(allIds)) {
-        _selectedItems.clear();
+      if (_selectedItemsIds.containsAll(allIds)) {
+        _selectedItemsIds.clear();
       } else {
-        _selectedItems.addAll(allIds);
+        _selectedItemsIds.addAll(allIds);
       }
     });
   }
 
   void _removeSelected() {
     setState(() {
-      for (final selected in _selectedItems) {
+      for (final selected in _selectedItemsIds) {
         wishlistRepo.removeToWishlist(selected);
       }
-      _selectedItems.clear();
+      _selectedItemsIds.clear();
     });
+  }
+
+  void _buyNow() {
+    final selectedItems = _wishlistItems //
+        .where((el) => _selectedItemsIds.contains(el.id))
+        .toList();
+    for (final item in selectedItems) {
+      context.cartRepo.addToCart(item);
+    }
   }
 
   @override
@@ -97,7 +107,7 @@ class _WishlistPageState extends State<WishlistPage> {
                             child: WishlistItem(
                               item: item,
                               onPressed: (item) {
-                                // FIXME: navigate to product details
+                                context.mainNav.openProduct(item);
                               },
                               selected: isSelected(item),
                               onToggleSelection: setSelected,
@@ -114,7 +124,7 @@ class _WishlistPageState extends State<WishlistPage> {
                   alignment: Alignment.topCenter,
                   child: Align(
                     alignment: Alignment.topCenter,
-                    heightFactor: _selectedItems.isEmpty ? 0.0 : 1.0,
+                    heightFactor: _selectedItemsIds.isEmpty ? 0.0 : 1.0,
                     child: AppPanel(
                       padding: allPadding24,
                       child: ChildBuilder(
@@ -143,9 +153,7 @@ class _WishlistPageState extends State<WishlistPage> {
                             horizontalMargin16,
                             Expanded(
                               child: AppButton(
-                                onPressed: () {
-                                  // FIXME: implement Buy Now button
-                                },
+                                onPressed: _buyNow,
                                 label: 'Buy now',
                                 iconAsset: Assets.iconBuy,
                                 style: AppButtonStyle.highlighted,

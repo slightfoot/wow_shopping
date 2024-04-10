@@ -5,6 +5,7 @@ import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/features/home/widgets/promo_carousel.dart';
 import 'package:wow_shopping/features/home/widgets/sliver_featured_categories.dart';
 import 'package:wow_shopping/features/home/widgets/sliver_top_selling.dart';
+import 'package:wow_shopping/features/main/main_navigation.dart';
 import 'package:wow_shopping/features/main/main_screen.dart';
 import 'package:wow_shopping/utils/svg.dart';
 import 'package:wow_shopping/widgets/app_icon.dart';
@@ -37,9 +38,9 @@ class _HomePageState extends State<HomePage> {
   void _onPromoPressed(PromoModel promo) {
     // FIXME: demo of gotoSection
     if (promo.asset == Assets.promo1) {
-      context.mainScreen.gotoSection(NavItem.wishlist);
+      context.mainNav.gotoSection(NavItem.wishlist);
     } else if (promo.asset == Assets.promo2) {
-      context.mainScreen.gotoSection(NavItem.cart);
+      context.mainNav.gotoSection(NavItem.cart);
     }
   }
 
