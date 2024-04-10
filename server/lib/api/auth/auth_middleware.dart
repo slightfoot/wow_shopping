@@ -22,14 +22,13 @@ class AuthMiddleware {
       if (authHeaderRaw.toLowerCase().startsWith('bearer ') == false) {
         throw ApiException.badRequest('Bad authentication token');
       }
-      final authToken = authHeaderRaw.substring('bearer '.length);
-      if (authToken.isEmpty) {
-        throw ApiException.badRequest('Bad bearer token');
-      }
+
       // TODO: lookup/decode and validate our [authToken]
+      final authToken = authHeaderRaw.substring('bearer '.length);
       if (authToken != 'abc123') {
-        throw ApiException.permissionDenied();
+        throw ApiException.permissionDenied(message: 'Invalid authentication token');
       }
+
       // TODO: lookup user from [authToken]
       final user = User(id: '1', name: 'Fred');
 

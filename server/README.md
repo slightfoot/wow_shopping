@@ -1,49 +1,59 @@
-A server app built using [Shelf](https://pub.dev/packages/shelf),
-configured to enable running with [Docker](https://www.docker.com/).
+## WOW Shopping App Server
 
-This sample code handles HTTP GET requests to `/` and `/echo/<message>`
+This is HTTP server that hosts the application API. If you want to 
+run the application you must first start a server.
 
-# Running the sample
+### Running the server
 
-## Running with the Dart SDK
-
-You can run the example with the [Dart SDK](https://dart.dev/get-dart)
-like this:
-
-```
-$ dart run bin/server.dart
-Server listening on port 8080
+```shell
+dart run bin/main_dev.dart
 ```
 
-And then from a second terminal:
-```
-$ curl http://0.0.0.0:8080
-Hello, World!
-$ curl http://0.0.0.0:8080/echo/I_love_Dart
-I_love_Dart
+### Test the server is running
+
+From a second terminal:
+```shell
+curl http://0.0.0.0:8080/ping
 ```
 
-## Running with Docker
+### Building a Docker image
 
 If you have [Docker Desktop](https://www.docker.com/get-started) installed, you
 can build and run with the `docker` command:
 
-```
-$ docker build . -t myserver
-$ docker run -it -p 8080:8080 myserver
-Server listening on port 8080
+```shell
+docker build . -t myserver
 ```
 
-And then from a second terminal:
-```
-$ curl http://0.0.0.0:8080
-Hello, World!
-$ curl http://0.0.0.0:8080/echo/I_love_Dart
-I_love_Dart
+Test built image:
+
+```shell
+docker run -it -p 8080:8080 myserver
 ```
 
-You should see the logging printed in the first terminal:
+## Testing
+
+Run test suite with:
+```shell
+dart run test
 ```
-2021-05-06T15:47:04.620417  0:00:00.000158 GET     [200] /
-2021-05-06T15:47:08.392928  0:00:00.001216 GET     [200] /echo/I_love_Dart
+
+### Generating coverage reports
+
+#### Prerequisites
+
+To generate reports you'll need to install [coverage](https://pub.dev/packages/coverage) 
+and [lcov](https://github.com/linux-test-project/lcov).
+
+1. Coverage: `dart pub global activate coverage`
+
+2. LCOV `brew install lcov`
+
+#### Generating reports
+
+Get coverage report with:
+```shell
+dart pub global run coverage:test_with_coverage
+genhtml -o coverage coverage\lcov.info
+open coverage\index.html
 ```

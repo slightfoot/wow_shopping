@@ -25,4 +25,7 @@ class ApiException implements Exception {
   factory ApiException.unauthorized(String message) {
     return ApiException(HttpStatus.unauthorized, message);
   }
+
+  @override
+  String toString() => 'ApiException{$code, $message}';
 }

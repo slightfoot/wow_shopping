@@ -13,9 +13,11 @@ import 'package:shelf_router/shelf_router.dart';
 import 'package:shelf_static/shelf_static.dart' as shelf_static;
 
 class ServerApi {
-  ServerApi(this._deployment);
+  ServerApi(this._deployment, {int? port}) : _port = port;
 
   final Deployment _deployment;
+  final int? _port;
+
   late HttpServer _httpServer;
   late StreamSubscription _quitSignal;
   bool _initialized = false;
@@ -42,17 +44,21 @@ class ServerApi {
 
     _quitSignal = ProcessSignal.sigint.watch().listen((_) => stop());
 
-    final pipeline = Pipeline() //
-        .addMiddleware(logRequests())
+    var pipeline = Pipeline();
+    if (_deployment != Deployment.test) {
+      pipeline = pipeline.addMiddleware(logRequests());
+    }
+    final handler = pipeline //
         .addMiddleware(ExceptionMiddleware(_deployment))
         .addHandler(_router);
 
-    final port = int.parse(Platform.environment['PORT'] ?? '8080');
-    _httpServer = await shelf_io.serve(
-      pipeline,
-      InternetAddress.anyIPv4,
-      port,
-    );
+    // Use the port given, otherwise extract from process environment
+    // or default to 8080.
+    final port = _port ?? //
+        int.parse(Platform.environment['PORT'] ?? '8080');
+
+    _httpServer = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);
+
     print('Server listening on port ${_httpServer.port}');
     _initialized = true;
   }

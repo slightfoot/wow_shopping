@@ -24,7 +24,9 @@ class ExceptionMiddleware {
           code = error.code;
           statusCode = error.statusCode;
         }
-        print('$error\n$stackTrace');
+        if (_deployment != Deployment.test) {
+          print('$error\n$stackTrace');
+        }
         return jsonResponse(
           statusCode: statusCode,
           {
@@ -35,9 +37,7 @@ class ExceptionMiddleware {
               'error': '$error',
               if (stackTrace != StackTrace.empty) //
                 'stack_trace': [
-                  for (final frame in Trace
-                      .from(stackTrace)
-                      .frames) //
+                  for (final frame in Trace.from(stackTrace).frames) //
                     '$frame',
                 ],
             },
