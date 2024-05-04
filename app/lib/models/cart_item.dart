@@ -1,4 +1,5 @@
 import 'package:decimal/decimal.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wow_shopping/models/product_item.dart';
@@ -6,7 +7,7 @@ import 'package:wow_shopping/models/product_item.dart';
 part 'cart_item.g.dart';
 
 @JsonSerializable()
-class CartItem {
+class CartItem extends Equatable {
   const CartItem({
     required this.product,
     required this.deliveryDate,
@@ -53,4 +54,9 @@ class CartItem {
 
   @override
   String toString() => '${describeIdentity(this)}{${toJson()}}';
+
+  @override
+  List<Object?> get props {
+    return [product, deliveryDate, deliveryFee, option, quantity];
+  }
 }

@@ -1,11 +1,12 @@
 import 'package:common/common.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
 @JsonSerializable()
-class User {
+class User extends Equatable {
   const User({
     required this.id,
     required this.name,
@@ -29,4 +30,7 @@ class User {
 
   @override
   String toString() => '${describeIdentity(this)}{${toJson()}}';
+
+  @override
+  List<Object?> get props => [id, name];
 }

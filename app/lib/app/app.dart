@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -55,8 +56,15 @@ class _ShopWowAppState extends State<ShopWowApp> {
   }
 
   Future<Backend> _loadApp() async {
+    if(widget.config.env == AppEnv.dev) {
+      EquatableConfig.stringify = true;
+    }
     await initializeDateFormatting();
-    final backend = await Backend.init(widget.config, _deviceTypeNotifier);
+    final backend = await Backend.init(
+      widget.config,
+      _deviceTypeNotifier,
+    );
+    _isLoggedIn = backend.authRepo.isLoggedIn;
     _subIsLoggedIn = backend
         .authRepo //
         .streamIsLoggedIn

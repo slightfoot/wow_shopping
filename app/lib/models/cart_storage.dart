@@ -1,5 +1,6 @@
 import 'dart:collection';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:wow_shopping/models/cart_item.dart';
@@ -7,7 +8,7 @@ import 'package:wow_shopping/models/cart_item.dart';
 part 'cart_storage.g.dart';
 
 @JsonSerializable()
-class CartStorage {
+class CartStorage extends Equatable {
   const CartStorage({
     required this.items,
   });
@@ -30,4 +31,7 @@ class CartStorage {
 
   @override
   String toString() => '${describeIdentity(this)}{${toJson()}}';
+
+  @override
+  List<Object?> get props => [items];
 }
