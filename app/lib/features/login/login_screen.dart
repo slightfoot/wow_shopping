@@ -7,10 +7,13 @@ import 'package:wow_shopping/widgets/app_button.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen._();
+  const LoginScreen({super.key});
+
+  static const routeName = '/login';
 
   static Route<void> route() {
     return PageRouteBuilder(
+      settings: const RouteSettings(name: routeName),
       pageBuilder: (
         BuildContext context,
         Animation<double> animation,
@@ -18,7 +21,7 @@ class LoginScreen extends StatefulWidget {
       ) {
         return FadeTransition(
           opacity: animation,
-          child: const LoginScreen._(),
+          child: const LoginScreen(),
         );
       },
     );

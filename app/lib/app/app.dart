@@ -56,7 +56,7 @@ class _ShopWowAppState extends State<ShopWowApp> {
   }
 
   Future<Backend> _loadApp() async {
-    if(widget.config.env == AppEnv.dev) {
+    if (widget.config.env == AppEnv.dev) {
       EquatableConfig.stringify = true;
     }
     await initializeDateFormatting();
@@ -114,18 +114,16 @@ class _ShopWowAppState extends State<ShopWowApp> {
               backend: snapshot.requireData,
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
+                restorationScopeId: 'app',
                 navigatorKey: _navigatorKey,
                 title: _appTitle,
                 theme: generateLightTheme(),
-                onGenerateRoute: (RouteSettings settings) {
-                  if (settings.name == Navigator.defaultRouteName) {
-                    if (!_isLoggedIn) {
-                      return LoginScreen.route();
-                    }
-                    return MainScreen.route();
-                  } else {
-                    return null; // Page not found
-                  }
+                initialRoute: _isLoggedIn //
+                    ? MainScreen.routeName
+                    : LoginScreen.routeName,
+                routes: <String, WidgetBuilder>{
+                  LoginScreen.routeName: (_) => const LoginScreen(),
+                  MainScreen.routeName: (_) => const MainScreen(),
                 },
               ),
             );

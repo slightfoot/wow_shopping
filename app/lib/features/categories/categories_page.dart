@@ -14,8 +14,35 @@ class CategoriesPage extends StatefulWidget {
   State<CategoriesPage> createState() => _CategoriesPageState();
 }
 
-class _CategoriesPageState extends State<CategoriesPage> {
+class _CategoriesPageState extends State<CategoriesPage> with RestorationMixin {
+  late SliverExpansionTileController _tileController;
+
   var _selectedCategory = CategoryItem.global;
+
+  @override
+  String? get restorationId => 'categories_page';
+
+  final _expandedSections = RestorableStringList();
+
+  @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(_expandedSections, 'expanded_sections');
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _tileController = SliverExpansionTileController(_expandedSections.value);
+    _tileController.addListener(() {
+      _expandedSections.value = _tileController.expandedSections;
+    });
+  }
+
+  @override
+  void dispose() {
+    _tileController.dispose();
+    super.dispose();
+  }
 
   void _onCategoryItemPressed(CategoryItem value) {
     // FIXME: implement filter or deep link?
@@ -48,8 +75,10 @@ class _CategoriesPageState extends State<CategoriesPage> {
             ),
             Expanded(
               child: SliverExpansionTileHost(
+                controller: _tileController,
                 child: ClipRect(
                   child: CustomScrollView(
+                    restorationId: 'category_list',
                     clipBehavior: Clip.hardEdge,
                     slivers: [
                       for (final item in CategoryItem.values) //

@@ -14,7 +14,7 @@ import 'package:wow_shopping/widgets/wishlist_button.dart';
 import 'package:wow_shopping/backend/backend.dart';
 
 @immutable
-class ProductPage extends StatelessWidget {
+class ProductPage extends StatefulWidget {
   const ProductPage({
     super.key,
     required this.item,
@@ -72,26 +72,41 @@ class ProductPage extends StatelessWidget {
   }
 
   @override
+  State<ProductPage> createState() => _ProductPageState();
+}
+
+class _ProductPageState extends State<ProductPage> {
+  final _tileController = SliverExpansionTileController(
+    const ['description'],
+  );
+
+  @override
+  void dispose() {
+    _tileController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Material(
       child: SliverExpansionTileHost(
-        initialExpanded: const ['description'],
+        controller: _tileController,
         child: CustomScrollView(
           slivers: [
-            _SliverProductHeader(item: item),
-            _SliverProductTitle(item: item),
+            _SliverProductHeader(item: widget.item),
+            _SliverProductTitle(item: widget.item),
             _SliverProductPhotoGallery(
               initialImageIndex: 0,
-              item: item,
+              item: widget.item,
             ),
-            _SliverProductSizeSelector(item: item),
+            _SliverProductSizeSelector(item: widget.item),
             const _SliverProductInfoTileHeader(
               section: 'description',
               title: 'Description',
             ),
             _SliverProductInfoTileContent(
               section: 'description',
-              child: Text(item.description),
+              child: Text(widget.item.description),
             ),
             const _SliverDivider(),
             //

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:wow_shopping/app/assets.dart';
@@ -5,13 +7,15 @@ import 'package:wow_shopping/widgets/app_icon.dart';
 import 'package:wow_shopping/widgets/common.dart';
 
 class SliverExpansionTileController extends ChangeNotifier {
-  SliverExpansionTileController(List<String>? expandedSections) {
+  SliverExpansionTileController([List<String>? expandedSections]) {
     if (expandedSections != null) {
       _expandedSections.addAll(expandedSections);
     }
   }
 
   final _expandedSections = <String>[];
+
+  List<String> get expandedSections => List.unmodifiable(_expandedSections);
 
   bool isExpanded(String section) => _expandedSections.contains(section);
 
@@ -33,15 +37,29 @@ class SliverExpansionTileController extends ChangeNotifier {
   }
 }
 
+class RestorableStringList extends RestorableValue<List<String>> {
+  @override
+  List<String> createDefaultValue() => const [];
+
+  @override
+  void didUpdateValue(List<String>? oldValue) => notifyListeners();
+
+  @override
+  List<String> fromPrimitives(Object? data) => (data as List).cast();
+
+  @override
+  Object? toPrimitives() => value;
+}
+
 @immutable
 class SliverExpansionTileHost extends StatefulWidget {
   const SliverExpansionTileHost({
     super.key,
-    this.initialExpanded,
+    required this.controller,
     required this.child,
   });
 
-  final List<String>? initialExpanded;
+  final SliverExpansionTileController controller;
   final Widget child;
 
   @override
@@ -49,31 +67,40 @@ class SliverExpansionTileHost extends StatefulWidget {
 }
 
 class _SliverExpansionTileHostState extends State<SliverExpansionTileHost> {
-  late SliverExpansionTileController _controller;
   late Set<String> _sections;
 
   @override
   void initState() {
     super.initState();
-    _controller = SliverExpansionTileController(widget.initialExpanded);
-    _controller.addListener(_controllerUpdated);
+    widget.controller.addListener(_controllerUpdated);
     _controllerUpdated();
   }
 
+  @override
+  void didUpdateWidget(covariant SliverExpansionTileHost oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.controller != oldWidget.controller) {
+      oldWidget.controller.removeListener(_controllerUpdated);
+      widget.controller.addListener(_controllerUpdated);
+    }
+  }
+
   void _controllerUpdated() {
-    setState(() => _sections = _controller._expandedSections.toSet());
+    setState(() {
+      _sections = widget.controller.expandedSections.toSet();
+    });
   }
 
   @override
   void dispose() {
-    _controller.removeListener(_controllerUpdated);
+    widget.controller.removeListener(_controllerUpdated);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return _InheritedSliverExpansionTile(
-      controller: _controller,
+      controller: widget.controller,
       sections: _sections,
       child: widget.child,
     );

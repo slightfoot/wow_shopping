@@ -13,10 +13,13 @@ export 'package:wow_shopping/models/nav_item.dart';
 
 @immutable
 class MainScreen extends StatefulWidget {
-  const MainScreen._();
+  const MainScreen({super.key});
+
+  static const routeName = '/main';
 
   static Route<void> route() {
     return PageRouteBuilder(
+      settings: const RouteSettings(name: routeName),
       pageBuilder: (
         BuildContext context,
         Animation<double> animation,
@@ -24,7 +27,7 @@ class MainScreen extends StatefulWidget {
       ) {
         return FadeTransition(
           opacity: animation,
-          child: const MainScreen._(),
+          child: const MainScreen(),
         );
       },
     );
@@ -39,18 +42,29 @@ class MainScreen extends StatefulWidget {
   State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> implements MainNavigation {
+class _MainScreenState extends State<MainScreen> with RestorationMixin implements MainNavigation {
   final _contentKey = GlobalKey(debugLabel: 'content');
 
-  NavItem _selected = NavItem.home;
+  @override
+  String? get restorationId => 'main_screen';
+
+  final _selected = RestorableEnum<NavItem>(
+    NavItem.home,
+    values: NavItem.values,
+  );
 
   bool? _horizontalNavigationStyle;
   bool _detailsOpen = false;
   Widget? _detailsPanel;
 
   @override
+  void restoreState(RestorationBucket? oldBucket, bool initialRestore) {
+    registerForRestoration(_selected, 'selected');
+  }
+
+  @override
   void gotoSection(NavItem item) {
-    setState(() => _selected = item);
+    setState(() => _selected.value = item);
   }
 
   @override
@@ -80,6 +94,12 @@ class _MainScreenState extends State<MainScreen> implements MainNavigation {
   }
 
   @override
+  void dispose() {
+    _selected.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MainNavHost(
       mainNavigation: this,
@@ -95,21 +115,21 @@ class _MainScreenState extends State<MainScreen> implements MainNavigation {
                       _horizontalNavigationStyle = (state.isTablet && state.isLandscape);
                       if (_horizontalNavigationStyle!) {
                         return _TabletLayout(
-                          selected: _selected,
+                          selected: _selected.value,
                           opened: _detailsOpen,
                           panel: _detailsPanel,
                           child: child!,
                         );
                       } else {
                         return _VerticalLayout(
-                          selected: _selected,
+                          selected: _selected.value,
                           child: child!,
                         );
                       }
                     },
                     child: IndexedStack(
                       key: _contentKey,
-                      index: _selected.index,
+                      index: _selected.value.index,
                       children: [
                         for (final item in NavItem.values) //
                           item.builder(),

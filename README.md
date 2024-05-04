@@ -9,7 +9,7 @@ project. Built during DevCamp 2023 and 2024.
 ### Todo
 
 - [x] Auth State Persistence
-- [ ] State Restoration
+- [x] State Restoration
 - [ ] Use .env file for server address
 - [ ] Add Melos
 - [ ] Local/Push Notifications
