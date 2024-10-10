@@ -1,0 +1,16 @@
+name: wow_shopping
+repository: https://github.com/slightfoot/wow_shopping
+sdkPath: .fvm/flutter_sdk
+
+ide:
+  intellij:
+    moduleNamePrefix: ""
+
+packages:
+  - app
+  - common
+  - server
+
+scripts:
+  get: melos exec flutter pub get
+

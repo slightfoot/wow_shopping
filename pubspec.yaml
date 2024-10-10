@@ -1,0 +1,8 @@
+name: wow_shopping
+description: Wow Shopping
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+dev_dependencies:
+  melos: ^6.0.0
