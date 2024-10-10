@@ -38,9 +38,9 @@ class ProductItem extends Equatable {
     subTitle: '',
     price: Decimal.zero,
     priceWithTax: Decimal.zero,
-    photos: [],
+    photos: const [],
     description: '',
-    options: [],
+    options: const [],
   );
 
   String get formattedPrice => formatCurrency(price);

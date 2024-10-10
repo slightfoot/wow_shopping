@@ -20,8 +20,10 @@ class _ConnectionMonitorState extends State<ConnectionMonitor> {
 
   Stream<ConnectivityResult> _connectivityStream() async* {
     final connectivity = Connectivity();
-    yield await connectivity.checkConnectivity();
-    yield* connectivity.onConnectivityChanged;
+    yield (await connectivity.checkConnectivity()).last;
+    await for (final result in connectivity.onConnectivityChanged) {
+      yield result.last;
+    }
   }
 
   @override
