@@ -12,4 +12,6 @@ class AppConfig {
   final AppEnv env;
 
   final String baseApiUrl;
+
+  static const empty = AppConfig(env: AppEnv.dev, baseApiUrl: '');
 }

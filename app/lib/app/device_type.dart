@@ -1,6 +1,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wow_shopping/backend/backend.dart';
 
 enum DeviceType {
@@ -47,6 +48,11 @@ class DeviceTypeOrientationState {
     );
   }
 }
+
+final deviceTypeNotifierProvider =
+    ChangeNotifierProvider<DeviceTypeOrientationNotifier>(
+  (ref) => DeviceTypeOrientationNotifier(),
+);
 
 class DeviceTypeOrientationNotifier extends ChangeNotifier with WidgetsBindingObserver {
   DeviceTypeOrientationNotifier();

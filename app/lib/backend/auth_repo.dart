@@ -2,11 +2,17 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wow_shopping/backend/api_service.dart';
+import 'package:wow_shopping/backend/backend.dart';
 import 'package:wow_shopping/models/auth_state.dart';
 import 'package:wow_shopping/models/user.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:path/path.dart' as path;
+
+final loggedInProvider = StreamProvider((ref) {
+  return ref.read(backendProvider)!.authRepo.streamIsLoggedIn;
+});
 
 class AuthRepo {
   AuthRepo(this._apiService, this._file, this._authState);

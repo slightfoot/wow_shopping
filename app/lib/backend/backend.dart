@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wow_shopping/app/app.dart';
 import 'package:wow_shopping/app/config.dart';
 import 'package:wow_shopping/app/device_type.dart';
 import 'package:wow_shopping/backend/api_service.dart';
@@ -13,7 +15,10 @@ export 'package:wow_shopping/backend/product_repo.dart';
 export 'package:wow_shopping/features/wishlist/wishlist_repo.dart';
 
 extension BackendBuildContext on BuildContext {
-  Backend get backend => BackendInheritedWidget.of(this, listen: false);
+  Backend get backend {
+    return ProviderScope.containerOf(this, listen: false) //
+        .read(backendProvider)!;
+  }
 
   DeviceTypeOrientationNotifier get deviceType => backend.deviceType;
 
@@ -46,6 +51,8 @@ extension BackendState<T extends StatefulWidget> on State<T> {
   String resolveApiUrl(String path) => context.resolveApiUrl(path);
 }
 
+final backendProvider = Provider<Backend?>((ref) => null);
+
 class Backend {
   Backend._(
     this.config,
@@ -65,7 +72,10 @@ class Backend {
   final WishlistRepo wishlistRepo;
   final CartRepo cartRepo;
 
-  static Future<Backend> init(AppConfig config, DeviceTypeOrientationNotifier deviceType) async {
+  static Future<Backend> init(
+    AppConfig config,
+    DeviceTypeOrientationNotifier deviceType,
+  ) async {
     late AuthRepo authRepo;
     final apiService = ApiService(
       config.baseApiUrl,
@@ -92,29 +102,5 @@ class Backend {
     return Uri.parse(config.baseApiUrl) //
         .replace(path: path)
         .toString();
-  }
-}
-
-@immutable
-class BackendInheritedWidget extends InheritedWidget {
-  const BackendInheritedWidget({
-    super.key,
-    required this.backend,
-    required super.child,
-  });
-
-  final Backend backend;
-
-  static Backend of(BuildContext context, {bool listen = true}) {
-    if (listen) {
-      return context.dependOnInheritedWidgetOfExactType<BackendInheritedWidget>()!.backend;
-    } else {
-      return context.getInheritedWidgetOfExactType<BackendInheritedWidget>()!.backend;
-    }
-  }
-
-  @override
-  bool updateShouldNotify(BackendInheritedWidget oldWidget) {
-    return backend != oldWidget.backend;
   }
 }
