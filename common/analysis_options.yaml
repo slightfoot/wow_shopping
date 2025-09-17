@@ -1,6 +1,8 @@
 include: package:lints/recommended.yaml
 
-# Uncomment the following section to specify additional rules.
+formatter:
+  trailing_commas: preserve
+  page_width: 100
 
 # linter:
 #   rules:

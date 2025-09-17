@@ -7,7 +7,7 @@ String formatCurrency(Decimal value) {
   // FIXME: Can we replace this with correct currency formatter with Decimal
   final format = NumberFormat.decimalPattern('en-US');
   format.minimumFractionDigits = 2;
-  return '\$${format.format(DecimalIntl(value))}';
+  return '\$${DecimalFormatter(format).format(value)}';
 }
 
 String formatShortDate(DateTime dateTime) {
