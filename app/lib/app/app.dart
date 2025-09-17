@@ -65,14 +65,14 @@ class _ShopWowAppState extends State<ShopWowApp> {
       widget.config,
       _deviceTypeNotifier,
     );
+    if (mounted) {
+      await MainScreen.precacheImages();
+    }
     _isLoggedIn = backend.authRepo.isLoggedIn;
     _subIsLoggedIn = backend
         .authRepo //
         .streamIsLoggedIn
         .listen(_onLoginStateChanged);
-    if (mounted) {
-      await MainScreen.precacheImages();
-    }
     return backend;
   }
 
@@ -105,14 +105,18 @@ class _ShopWowAppState extends State<ShopWowApp> {
           if (snapshot.connectionState != ConnectionState.done) {
             return Theme(
               data: generateLightTheme(),
-              child: const Directionality(textDirection: TextDirection.ltr, child: SplashScreen()),
+              child: const Directionality(
+                textDirection: TextDirection.ltr,
+                child: SplashScreen(),
+              ),
             );
           } else {
             return BackendInheritedWidget(
               backend: snapshot.requireData,
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
-                restorationScopeId: 'app',
+                // FIXME: causes a ~2 second delay in start-up with black screen
+                //restorationScopeId: 'app',
                 navigatorKey: _navigatorKey,
                 title: _appTitle,
                 theme: generateLightTheme(),
