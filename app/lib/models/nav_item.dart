@@ -11,8 +11,7 @@ enum NavItem {
   categories(Assets.navCategories, 'Categories', CategoriesPage.new),
   cart(Assets.navCart, 'Cart', CartPage.new),
   wishlist(Assets.navWishlist, 'Wishlist', WishlistPage.new),
-  account(Assets.navAccount, 'Account', AccountPage.new),
-  ;
+  account(Assets.navAccount, 'Account', AccountPage.new);
 
   const NavItem(this.navIconAsset, this.navTitle, this.builder);
 

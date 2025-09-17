@@ -73,7 +73,8 @@ class CartRepo {
   }
 
   CartItem cartItemForProduct(ProductItem item) {
-    return _storage.items //
+    return _storage
+        .items //
         .firstWhere((el) => el.product.id == item.id, orElse: () => CartItem.none);
   }
 

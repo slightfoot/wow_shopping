@@ -8,16 +8,17 @@ class CheckoutPage extends StatefulWidget {
 
   static Route<void> route() {
     return PageRouteBuilder(
-      pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-      ) {
-        return FadeTransition(
-          opacity: animation,
-          child: const CheckoutPage._(),
-        );
-      },
+      pageBuilder:
+          (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) {
+            return FadeTransition(
+              opacity: animation,
+              child: const CheckoutPage._(),
+            );
+          },
     );
   }
 

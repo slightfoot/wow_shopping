@@ -37,10 +37,12 @@ class _WishlistButtonState extends State<WishlistButton> {
         return IconButton(
           onPressed: () => _onTogglePressed(!value),
           icon: AppIcon(
-            iconAsset: value //
+            iconAsset:
+                value //
                 ? Assets.iconHeartFilled
                 : Assets.iconHeartEmpty,
-            color: value //
+            color:
+                value //
                 ? AppTheme.of(context).appColor
                 : const Color(0xFFD0D0D0),
           ),

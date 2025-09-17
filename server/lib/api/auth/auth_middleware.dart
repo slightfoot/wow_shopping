@@ -32,11 +32,13 @@ class AuthMiddleware {
       // TODO: lookup user from [authToken]
       final user = User(id: '1', name: 'Fred');
 
-      return await innerHandler(request.change(
-        context: {
-          _authUser: user,
-        },
-      ));
+      return await innerHandler(
+        request.change(
+          context: {
+            _authUser: user,
+          },
+        ),
+      );
     };
   }
 }

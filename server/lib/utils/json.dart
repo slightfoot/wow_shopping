@@ -23,7 +23,7 @@ Future<T> jsonRequest<T>(Request request, T Function(Map<String, dynamic> body) 
 }
 
 Response jsonResponse(dynamic object, {int statusCode = HttpStatus.ok}) {
-  if(object is! Map && object is! List) {
+  if (object is! Map && object is! List) {
     object = object.toJson();
   }
   return Response(

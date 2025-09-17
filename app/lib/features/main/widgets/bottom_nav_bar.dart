@@ -20,9 +20,11 @@ class BottomNavBar extends StatelessWidget {
   });
 
   static Future<void> precacheImages() async {
-    await Future.wait(NavItem.values.map(
-      (el) => SvgPicture.asset(el.navIconAsset).precache(),
-    ));
+    await Future.wait(
+      NavItem.values.map(
+        (el) => SvgPicture.asset(el.navIconAsset).precache(),
+      ),
+    );
   }
 
   final ValueChanged<NavItem> onNavItemPressed;

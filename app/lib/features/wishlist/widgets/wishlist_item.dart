@@ -91,13 +91,16 @@ class WishlistItem extends StatelessWidget {
               ),
               if (selected case bool selected) //
                 InkResponse(
-                  onTap: onToggleSelection != null //
+                  onTap:
+                      onToggleSelection !=
+                          null //
                       ? () => onToggleSelection!.call(item, !selected)
                       : null,
                   child: Padding(
                     padding: allPadding24,
                     child: AppIcon(
-                      iconAsset: selected //
+                      iconAsset:
+                          selected //
                           ? Assets.iconCheckFilled
                           : Assets.iconCheckEmpty,
                     ),

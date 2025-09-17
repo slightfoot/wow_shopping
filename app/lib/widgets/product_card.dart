@@ -48,7 +48,9 @@ class ProductCard extends StatelessWidget {
       borderRadius: appButtonRadius,
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: onPressed != null //
+        onTap:
+            onPressed !=
+                null //
             ? () => onPressed!(item)
             : () => context.mainNav.openProduct(item),
         child: Column(
@@ -114,7 +116,7 @@ class ProductCard extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

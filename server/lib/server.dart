@@ -32,10 +32,11 @@ class ServerApi {
     )
     ..mount('/api/auth', AuthApi())
     ..mount(
-        '/api/products',
-        Pipeline() //
-            .addMiddleware(const AuthMiddleware())
-            .addHandler(ProductsApi()));
+      '/api/products',
+      Pipeline() //
+          .addMiddleware(const AuthMiddleware())
+          .addHandler(ProductsApi()),
+    );
 
   Future<void> start() async {
     if (_initialized) {
@@ -48,13 +49,15 @@ class ServerApi {
     if (_deployment != Deployment.test) {
       pipeline = pipeline.addMiddleware(logRequests());
     }
-    final handler = pipeline //
-        .addMiddleware(ExceptionMiddleware(_deployment))
-        .addHandler(_router);
+    final handler =
+        pipeline //
+            .addMiddleware(ExceptionMiddleware(_deployment))
+            .addHandler(_router);
 
     // Use the port given, otherwise extract from process environment
     // or default to 8080.
-    final port = _port ?? //
+    final port =
+        _port ?? //
         int.parse(Platform.environment['PORT'] ?? '8080');
 
     _httpServer = await shelf_io.serve(handler, InternetAddress.anyIPv4, port);

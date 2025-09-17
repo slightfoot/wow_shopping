@@ -23,8 +23,8 @@ class DeviceTypeOrientationState {
   });
 
   const DeviceTypeOrientationState.unknown()
-      : deviceType = DeviceType.unknown,
-        orientation = DeviceOrientation.unknown;
+    : deviceType = DeviceType.unknown,
+      orientation = DeviceOrientation.unknown;
 
   final DeviceType deviceType;
   final DeviceOrientation orientation;
@@ -78,7 +78,8 @@ class DeviceTypeOrientationNotifier extends ChangeNotifier with WidgetsBindingOb
 
     bool updated = false;
 
-    final deviceType = (size.shortestSide < 600) //
+    final deviceType =
+        (size.shortestSide < 600) //
         ? DeviceType.phone
         : DeviceType.tablet;
     if (deviceType != _state.deviceType) {
@@ -87,7 +88,8 @@ class DeviceTypeOrientationNotifier extends ChangeNotifier with WidgetsBindingOb
       updated = true;
     }
 
-    final orientation = (size.width < size.height) //
+    final orientation =
+        (size.width < size.height) //
         ? DeviceOrientation.portrait
         : DeviceOrientation.landscape;
     if (orientation != _state.orientation) {
@@ -119,7 +121,8 @@ class DeviceTypeBuilder extends StatelessWidget {
     BuildContext context,
     DeviceTypeOrientationState state,
     Widget? child,
-  ) builder;
+  )
+  builder;
 
   final Widget? child;
 

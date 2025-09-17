@@ -31,10 +31,12 @@ class AuthApi {
     if (body.username != 'fred' || body.password != 'password') {
       throw ApiException.unauthorized('Incorrect username/password');
     }
-    return jsonResponse(LoginResponse(
-      accessToken: 'abc123',
-      user: UserDto(id: '1', name: 'Fred'),
-    ));
+    return jsonResponse(
+      LoginResponse(
+        accessToken: 'abc123',
+        user: UserDto(id: '1', name: 'Fred'),
+      ),
+    );
   }
 
   Future<Response> _logout(Request request) async {

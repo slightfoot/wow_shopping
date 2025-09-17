@@ -17,8 +17,7 @@ enum CategoryItem {
   wallMounts(12, 'Wall Mounts', Assets.categoryWallMounts),
   kitchen(13, 'Kitchen', Assets.categoryKitchen),
   audio(14, 'Speaker Systems', Assets.categoryAudio),
-  other(15, 'Other', Assets.categoryOther),
-  ;
+  other(15, 'Other', Assets.categoryOther);
 
   const CategoryItem(this.id, this.title, this.iconAsset);
 

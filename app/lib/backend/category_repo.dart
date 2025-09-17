@@ -27,7 +27,7 @@ class CategoryRepo {
 
   void init() {
     _authSub = _authRepo.streamIsLoggedIn.listen((bool isLoggedIn) {
-      if(isLoggedIn) {
+      if (isLoggedIn) {
         _fetchFeaturedCategories();
       }
     });
@@ -36,7 +36,6 @@ class CategoryRepo {
   void dispose() {
     _authSub.cancel();
   }
-
 
   Future<void> _fetchFeaturedCategories() async {
     try {

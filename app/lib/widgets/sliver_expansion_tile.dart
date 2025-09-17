@@ -117,8 +117,10 @@ class _InheritedSliverExpansionTile extends InheritedModel<String> {
   final Set<String> sections;
 
   static SliverExpansionTileController of(BuildContext context, String section) {
-    return InheritedModel.inheritFrom<_InheritedSliverExpansionTile>(context, aspect: section)!
-        .controller;
+    return InheritedModel.inheritFrom<_InheritedSliverExpansionTile>(
+      context,
+      aspect: section,
+    )!.controller;
   }
 
   @override
@@ -128,7 +130,9 @@ class _InheritedSliverExpansionTile extends InheritedModel<String> {
 
   @override
   bool updateShouldNotifyDependent(
-      covariant _InheritedSliverExpansionTile oldWidget, Set<String> dependencies) {
+    covariant _InheritedSliverExpansionTile oldWidget,
+    Set<String> dependencies,
+  ) {
     return (sections.containsAll(dependencies) != oldWidget.sections.containsAll(dependencies));
   }
 }
@@ -204,7 +208,8 @@ class ExpansionTileChevron extends StatelessWidget {
     final controller = _InheritedSliverExpansionTile.of(context, section);
     final expanded = controller.isExpanded(section);
     return AppIcon(
-      iconAsset: expanded //
+      iconAsset:
+          expanded //
           ? Assets.iconChevronUp
           : Assets.iconChevronDown,
     );
@@ -363,10 +368,12 @@ class _RenderSliverExpansionTileContent extends RenderProxySliver {
     if (geometry!.maxPaintExtent < childGeometry.maxPaintExtent) {
       Rect rect;
       if (constraints.axis == Axis.vertical) {
-        rect = Offset(0.0, geometry!.paintOrigin) &
+        rect =
+            Offset(0.0, geometry!.paintOrigin) &
             Size(constraints.crossAxisExtent, geometry!.paintExtent);
       } else {
-        rect = Offset(geometry!.paintOrigin, 0.0) &
+        rect =
+            Offset(geometry!.paintOrigin, 0.0) &
             Size(geometry!.paintExtent, constraints.crossAxisExtent);
       }
       _clipRectLayer.layer = context.pushClipRect(

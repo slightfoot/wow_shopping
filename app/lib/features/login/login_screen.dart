@@ -14,16 +14,17 @@ class LoginScreen extends StatefulWidget {
   static Route<void> route() {
     return PageRouteBuilder(
       settings: const RouteSettings(name: routeName),
-      pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-      ) {
-        return FadeTransition(
-          opacity: animation,
-          child: const LoginScreen(),
-        );
-      },
+      pageBuilder:
+          (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) {
+            return FadeTransition(
+              opacity: animation,
+              child: const LoginScreen(),
+            );
+          },
     );
   }
 
@@ -95,17 +96,11 @@ class LoginLogic {
 }
 
 class LoginState {
-  LoginState.initial()
-      : isLoading = false,
-        lastError = '';
+  LoginState.initial() : isLoading = false, lastError = '';
 
-  LoginState.loading()
-      : isLoading = true,
-        lastError = '';
+  LoginState.loading() : isLoading = true, lastError = '';
 
-  LoginState.error(dynamic error)
-      : isLoading = false,
-        lastError = error.toString();
+  LoginState.error(dynamic error) : isLoading = false, lastError = error.toString();
 
   final bool isLoading;
   final String lastError;

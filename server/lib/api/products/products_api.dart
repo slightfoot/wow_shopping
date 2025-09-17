@@ -16,21 +16,23 @@ class ProductsApi {
 
   var _products = <ProductDto>[];
 
-  late final _router = Router() //
-    ..post('/all', _postProducts)
-    ..post('/product/<id>', _postProduct)
-    ..post('/top-selling', _postTopSelling)
-    ..post('/featured-categories', _postFeaturedCategories);
+  late final _router =
+      Router() //
+        ..post('/all', _postProducts)
+        ..post('/product/<id>', _postProduct)
+        ..post('/top-selling', _postTopSelling)
+        ..post('/featured-categories', _postFeaturedCategories);
 
   Future<void> _init() async {
     try {
       final data = json.decode(
         await File(Assets.productsData).readAsString(),
       );
-      _products = (data['products'] as List) //
-          .cast<Map<String, dynamic>>()
-          .map(ProductDto.fromJson)
-          .toList();
+      _products =
+          (data['products'] as List) //
+              .cast<Map<String, dynamic>>()
+              .map(ProductDto.fromJson)
+              .toList();
     } catch (error, stackTrace) {
       print('$error\n$stackTrace');
       rethrow;

@@ -59,17 +59,19 @@ class _SliverTopSellingState extends State<SliverTopSelling> {
                     for (int crossIndex = 0; crossIndex < childAxisCount; crossIndex++) ...[
                       SliverCrossAxisExpanded(
                         flex: 1,
-                        sliver: Builder(builder: (context) {
-                          final itemIndex = index + crossIndex;
-                          if (itemIndex >= data.length) {
-                            return emptySliver;
-                          }
-                          final item = data[itemIndex];
-                          return SliverProductCard(
-                            key: Key('top-selling-${item.id}'),
-                            item: item,
-                          );
-                        }),
+                        sliver: Builder(
+                          builder: (context) {
+                            final itemIndex = index + crossIndex;
+                            if (itemIndex >= data.length) {
+                              return emptySliver;
+                            }
+                            final item = data[itemIndex];
+                            return SliverProductCard(
+                              key: Key('top-selling-${item.id}'),
+                              item: item,
+                            );
+                          },
+                        ),
                       ),
                       sliverCrossAxisHorizontalMargin12,
                     ],

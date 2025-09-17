@@ -44,8 +44,8 @@ class _CartPageState extends State<CartPage> {
                 ),
                 const SliverToBoxAdapter(
                   child: _DeliveryAddressCta(
-                      // FIXME: onChangeAddress ?
-                      ),
+                    // FIXME: onChangeAddress ?
+                  ),
                 ),
                 for (final item in items) //
                   SliverCartItemView(

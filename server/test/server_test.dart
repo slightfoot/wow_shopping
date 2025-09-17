@@ -20,11 +20,14 @@ void main() {
   late ServerApi server;
 
   Future<R> ignorePrint<R>(R Function() body) async {
-    return await runZoned(body, zoneSpecification: ZoneSpecification(
-      print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
-        // ignore print
-      },
-    ));
+    return await runZoned(
+      body,
+      zoneSpecification: ZoneSpecification(
+        print: (Zone self, ZoneDelegate parent, Zone zone, String line) {
+          // ignore print
+        },
+      ),
+    );
   }
 
   setUp(() async {

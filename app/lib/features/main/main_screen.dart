@@ -20,16 +20,17 @@ class MainScreen extends StatefulWidget {
   static Route<void> route() {
     return PageRouteBuilder(
       settings: const RouteSettings(name: routeName),
-      pageBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-      ) {
-        return FadeTransition(
-          opacity: animation,
-          child: const MainScreen(),
-        );
-      },
+      pageBuilder:
+          (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) {
+            return FadeTransition(
+              opacity: animation,
+              child: const MainScreen(),
+            );
+          },
     );
   }
 
@@ -112,21 +113,21 @@ class _MainScreenState extends State<MainScreen> with RestorationMixin implement
                   DeviceTypeBuilder(
                     builder:
                         (BuildContext context, DeviceTypeOrientationState state, Widget? child) {
-                      _horizontalNavigationStyle = (state.isTablet && state.isLandscape);
-                      if (_horizontalNavigationStyle!) {
-                        return _TabletLayout(
-                          selected: _selected.value,
-                          opened: _detailsOpen,
-                          panel: _detailsPanel,
-                          child: child!,
-                        );
-                      } else {
-                        return _VerticalLayout(
-                          selected: _selected.value,
-                          child: child!,
-                        );
-                      }
-                    },
+                          _horizontalNavigationStyle = (state.isTablet && state.isLandscape);
+                          if (_horizontalNavigationStyle!) {
+                            return _TabletLayout(
+                              selected: _selected.value,
+                              opened: _detailsOpen,
+                              panel: _detailsPanel,
+                              child: child!,
+                            );
+                          } else {
+                            return _VerticalLayout(
+                              selected: _selected.value,
+                              child: child!,
+                            );
+                          }
+                        },
                     child: IndexedStack(
                       key: _contentKey,
                       index: _selected.value.index,

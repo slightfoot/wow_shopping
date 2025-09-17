@@ -51,38 +51,39 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           children: [
             DeviceTypeBuilder(
-              builder: (
-                BuildContext context,
-                DeviceTypeOrientationState state,
-                Widget? child,
-              ) {
-                if (state.isTablet && state.isLandscape) {
-                  return emptyWidget;
-                }
-                return TopNavBar(
-                  title: Padding(
-                    padding: verticalPadding8,
-                    child: SvgPicture.asset(Assets.logo),
-                  ),
-                  actions: [
-                    IconButton(
-                      onPressed: () {
-                        // FIXME: implement filter
-                      },
-                      icon: const AppIcon(iconAsset: Assets.iconFilter),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        // FIXME: implement search
-                      },
-                      icon: const AppIcon(iconAsset: Assets.iconSearch),
-                    ),
-                  ],
-                  bottom: CategoryNavList(
-                    onCategoryItemPressed: _onCategoryItemPressed,
-                  ),
-                );
-              },
+              builder:
+                  (
+                    BuildContext context,
+                    DeviceTypeOrientationState state,
+                    Widget? child,
+                  ) {
+                    if (state.isTablet && state.isLandscape) {
+                      return emptyWidget;
+                    }
+                    return TopNavBar(
+                      title: Padding(
+                        padding: verticalPadding8,
+                        child: SvgPicture.asset(Assets.logo),
+                      ),
+                      actions: [
+                        IconButton(
+                          onPressed: () {
+                            // FIXME: implement filter
+                          },
+                          icon: const AppIcon(iconAsset: Assets.iconFilter),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            // FIXME: implement search
+                          },
+                          icon: const AppIcon(iconAsset: Assets.iconSearch),
+                        ),
+                      ],
+                      bottom: CategoryNavList(
+                        onCategoryItemPressed: _onCategoryItemPressed,
+                      ),
+                    );
+                  },
             ),
             Expanded(
               child: CustomScrollView(

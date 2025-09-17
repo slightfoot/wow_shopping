@@ -47,7 +47,8 @@ class _ShopWowAppState extends State<ShopWowApp> {
     _deviceTypeNotifier.init();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     SystemChrome.setPreferredOrientations(
-      _deviceTypeNotifier.isPhone //
+      _deviceTypeNotifier
+              .isPhone //
           ? [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]
           : DeviceOrientation.values,
     );
@@ -104,10 +105,7 @@ class _ShopWowAppState extends State<ShopWowApp> {
           if (snapshot.connectionState != ConnectionState.done) {
             return Theme(
               data: generateLightTheme(),
-              child: const Directionality(
-                textDirection: TextDirection.ltr,
-                child: SplashScreen(),
-              ),
+              child: const Directionality(textDirection: TextDirection.ltr, child: SplashScreen()),
             );
           } else {
             return BackendInheritedWidget(
@@ -118,7 +116,8 @@ class _ShopWowAppState extends State<ShopWowApp> {
                 navigatorKey: _navigatorKey,
                 title: _appTitle,
                 theme: generateLightTheme(),
-                initialRoute: _isLoggedIn //
+                initialRoute:
+                    _isLoggedIn //
                     ? MainScreen.routeName
                     : LoginScreen.routeName,
                 routes: <String, WidgetBuilder>{

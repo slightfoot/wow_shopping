@@ -30,44 +30,52 @@ class ProductPage extends StatefulWidget {
       settings: RouteSettings(name: '/products/${item.id}'),
       transitionDuration: const Duration(milliseconds: 300),
       reverseTransitionDuration: const Duration(milliseconds: 250),
-      pageBuilder: (BuildContext context, Animation<double> animation,
-          Animation<double> secondaryAnimation) {
-        return MainNavHost(
-          mainNavigation: _ProductPageNavigation(
-            mainNavigation: mainNavigation,
-            context: context,
-          ),
-          child: ProductPage(
-            key: Key('product-${item.id}'),
-            item: item,
-          ),
-        );
-      },
-      transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-      ) {
-        return SlideTransition(
-          position: Tween(
-            begin: const Offset(0.66, 0.0),
-            end: Offset.zero,
-          ).animate(CurvedAnimation(
-            parent: animation,
-            curve: Curves.fastOutSlowIn,
-            reverseCurve: Curves.easeOutCubic,
-          )),
-          child: FadeTransition(
-            opacity: CurvedAnimation(
-              parent: animation,
-              curve: Curves.fastOutSlowIn,
-              reverseCurve: Curves.easeInCubic,
-            ),
-            child: child,
-          ),
-        );
-      },
+      pageBuilder:
+          (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+          ) {
+            return MainNavHost(
+              mainNavigation: _ProductPageNavigation(
+                mainNavigation: mainNavigation,
+                context: context,
+              ),
+              child: ProductPage(
+                key: Key('product-${item.id}'),
+                item: item,
+              ),
+            );
+          },
+      transitionsBuilder:
+          (
+            BuildContext context,
+            Animation<double> animation,
+            Animation<double> secondaryAnimation,
+            Widget child,
+          ) {
+            return SlideTransition(
+              position:
+                  Tween(
+                    begin: const Offset(0.66, 0.0),
+                    end: Offset.zero,
+                  ).animate(
+                    CurvedAnimation(
+                      parent: animation,
+                      curve: Curves.fastOutSlowIn,
+                      reverseCurve: Curves.easeOutCubic,
+                    ),
+                  ),
+              child: FadeTransition(
+                opacity: CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.fastOutSlowIn,
+                  reverseCurve: Curves.easeInCubic,
+                ),
+                child: child,
+              ),
+            );
+          },
     );
   }
 
@@ -368,7 +376,7 @@ class _SmallProductRating extends StatelessWidget {
           style: TextStyle(
             color: Colors.grey,
           ),
-        )
+        ),
       ],
     );
   }

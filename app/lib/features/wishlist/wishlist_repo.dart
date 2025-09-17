@@ -60,8 +60,8 @@ class WishlistRepo {
     return streamState //
         .whereType<WishlistStateActive>()
         .map((WishlistStateActive state) {
-      return state.items.any((product) => product.id == item.id);
-    });
+          return state.items.any((product) => product.id == item.id);
+        });
   }
 
   void addToWishlist(String productId) {

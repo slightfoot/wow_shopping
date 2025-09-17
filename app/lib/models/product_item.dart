@@ -57,7 +57,8 @@ class ProductItem extends Equatable {
       priceWithTax: Decimal.parse(dto.priceWithTax),
       photos: dto.photos,
       description: dto.description,
-      options: dto.options //
+      options: dto
+          .options //
           .map(ProductOption.fromDto)
           .toList(),
     );

@@ -79,7 +79,8 @@ class _CategoryItemView extends StatelessWidget {
               Text(
                 item.title,
                 style: TextStyle(
-                  color: selected //
+                  color:
+                      selected //
                       ? AppTheme.of(context).appColorLight
                       : Colors.white,
                   fontSize: 10.0,

@@ -22,7 +22,8 @@ class AuthRepo {
 
   User get currentUser => _authState.user;
 
-  Stream<bool> get streamIsLoggedIn => _userController.stream //
+  Stream<bool> get streamIsLoggedIn => _userController
+      .stream //
       .map((user) => user != User.none);
 
   bool get isLoggedIn => _authState.user != User.none;
@@ -75,10 +76,12 @@ class AuthRepo {
   Future<void> login(String username, String password) async {
     try {
       final response = await _apiService.login(username, password);
-      _updateAuthState(AuthState(
-        accessToken: response.accessToken,
-        user: User.fromDto(response.user),
-      ));
+      _updateAuthState(
+        AuthState(
+          accessToken: response.accessToken,
+          user: User.fromDto(response.user),
+        ),
+      );
     } catch (error, stackTrace) {
       print('$error\n$stackTrace');
       // FIXME: show user error, change state? rethrow?

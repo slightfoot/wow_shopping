@@ -7,11 +7,11 @@ part of 'auth_state.dart';
 // **************************************************************************
 
 AuthState _$AuthStateFromJson(Map json) => AuthState(
-      accessToken: json['access_token'] as String,
-      user: User.fromJson(json['user'] as Map),
-    );
+  accessToken: json['access_token'] as String,
+  user: User.fromJson(json['user'] as Map),
+);
 
 Map<String, dynamic> _$AuthStateToJson(AuthState instance) => <String, dynamic>{
-      'access_token': instance.accessToken,
-      'user': instance.user.toJson(),
-    };
+  'access_token': instance.accessToken,
+  'user': instance.user.toJson(),
+};

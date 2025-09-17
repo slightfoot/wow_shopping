@@ -18,7 +18,7 @@ class ProductImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(item.photos.isEmpty) {
+    if (item.photos.isEmpty) {
       return emptyWidget;
     }
     final image = NetworkImageWithRetry(

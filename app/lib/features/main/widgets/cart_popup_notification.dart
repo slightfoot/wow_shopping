@@ -13,7 +13,7 @@ class CartPopupCountHost extends StatefulWidget {
 
   static LayerLink layerLinkOf(BuildContext context) {
     final state = context.findAncestorStateOfType<_CartPopupCountHostState>();
-    if(state == null) {
+    if (state == null) {
       throw Exception('Missing ancestor CartPopupCountHost widget!');
     }
     return state._cartPopupLayerLink;
@@ -69,7 +69,7 @@ class CartPopupNotification extends StatelessWidget {
                       blurRadius: 2.0,
                     ),
                     BoxShadow(
-                      color: appTheme.appColor.withOpacity(0.7),
+                      color: appTheme.appColor.withValues(alpha: 0.7),
                       spreadRadius: -3.0,
                       blurRadius: 12.0,
                       //blurStyle: BlurStyle.solid,

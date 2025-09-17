@@ -41,16 +41,22 @@ class AppButton extends StatelessWidget {
           child: Ink(
             decoration: BoxDecoration(
               borderRadius: appButtonRadius,
-              color: style == AppButtonStyle.regular //
+              color:
+                  style ==
+                      AppButtonStyle
+                          .regular //
                   ? appTheme.appBarColor
                   : null,
               border: switch (style) {
                 AppButtonStyle.outlined => Border.all(
-                    color: appTheme.appColor,
-                  ),
+                  color: appTheme.appColor,
+                ),
                 _ => null,
               },
-              gradient: style == AppButtonStyle.highlighted //
+              gradient:
+                  style ==
+                      AppButtonStyle
+                          .highlighted //
                   ? appHorizontalGradientHighlight
                   : null,
             ),
@@ -64,20 +70,22 @@ class AppButton extends StatelessWidget {
                       Expanded(
                         child: Text(
                           label,
-                          textAlign: iconAsset != null //
+                          textAlign:
+                              iconAsset !=
+                                  null //
                               ? TextAlign.start
                               : TextAlign.center,
                           style: switch (style) {
                             AppButtonStyle.outlined => TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w700,
-                                color: appTheme.appColor,
-                              ),
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w700,
+                              color: appTheme.appColor,
+                            ),
                             _ => const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                              ),
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.white,
+                            ),
                           },
                         ),
                       ),

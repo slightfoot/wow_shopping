@@ -57,9 +57,10 @@ class _WishlistPageState extends State<WishlistPage> {
   }
 
   void _buyNow() {
-    final selectedItems = _wishlistItems //
-        .where((el) => _selectedItemsIds.contains(el.id))
-        .toList();
+    final selectedItems =
+        _wishlistItems //
+            .where((el) => _selectedItemsIds.contains(el.id))
+            .toList();
     for (final item in selectedItems) {
       context.cartRepo.addToCart(item);
     }
